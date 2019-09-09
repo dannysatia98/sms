@@ -617,13 +617,13 @@ $(document).ready(function () {
               }
               //SEM 1
               html += '<h5 class="ml-2 mt-3"><u>Semester 1</u></h5>';
-              html += '<textarea rows="4" name="d_s_komen_sis" class="form-control mb-2" placeholder="Saran Pada Sisipan" maxlength="150">';
+              html += '<textarea rows="4" name="d_s_komen_sis" class="form-control mb-2" placeholder="Saran Pada Sisipan" maxlength="300">';
               if (data[0].d_s_komen_sis) {
                 html += data[0].d_s_komen_sis;
               }
               html += '</textarea>';
 
-              html += '<textarea rows="4" name="d_s_komen_sem" class="form-control mb-2" placeholder="Saran Pada Semester" maxlength="150">';
+              html += '<textarea rows="4" name="d_s_komen_sem" class="form-control mb-2" placeholder="Saran Pada Semester" maxlength="300">';
               if (data[0].d_s_komen_sem) {
                 html += data[0].d_s_komen_sem;
               }
@@ -631,13 +631,13 @@ $(document).ready(function () {
 
               //SEM 2
               html += '<h5 class="ml-2 mt-3"><u>Semester 2</u></h5>';
-              html += '<textarea rows="4" name="d_s_komen_sis2" class="form-control mb-2" placeholder="Saran Pada Sisipan" maxlength="150">';
+              html += '<textarea rows="4" name="d_s_komen_sis2" class="form-control mb-2" placeholder="Saran Pada Sisipan" maxlength="300">';
               if (data[0].d_s_komen_sis2) {
                 html += data[0].d_s_komen_sis2;
               }
               html += '</textarea>';
 
-              html += '<textarea rows="4" name="d_s_komen_sem2" class="form-control mb-2" placeholder="Saran Pada Semester" maxlength="150">';
+              html += '<textarea rows="4" name="d_s_komen_sem2" class="form-control mb-2" placeholder="Saran Pada Semester" maxlength="300">';
               if (data[0].d_s_komen_sem2) {
                 html += data[0].d_s_komen_sem2;
               }

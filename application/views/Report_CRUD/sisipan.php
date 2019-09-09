@@ -211,7 +211,7 @@
 
               <div style='float: right; width: 60%; height: 50%;'>
                 <div style='margin-top: 30px; font-family: "Times New Roman", Times, serif; font-size:12px;'><b>SARAN WALI KELAS:</b></div>
-                <table class="rapot" style='font-family: "Times New Roman", Times, serif; font-size:20px; margin-bottom: 20px; margin-right: 20px; text-align:center;'>
+                <table class="rapot" style='font-family: "Times New Roman", Times, serif; font-size:20px; margin-bottom: 20px; margin-right: 20px; text-align:left;'>
                   <tbody>
                     <tr>
                       <td style="height:70px; padding: 0px 5px;" ><?php if($semester==1)echo $siswa[0]['d_s_komen_sis'];else echo $siswa[0]['d_s_komen_sis2']; ?></td>

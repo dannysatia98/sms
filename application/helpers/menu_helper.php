@@ -468,7 +468,7 @@ function returnRaportSemester2($d_s_id, $semester){
 
   $raport_semester2 = $ci->db->query(
     "SELECT * FROM (
-      SELECT mapel_id, mapel_kel_id, mapel_urutan, tes_d_s_id, mapel_nama, mapel_kel_nama,SUM(tes_ph1+tes_ph2+tes_ph3+tes_ph4+tes_ph5)/sum(tes_jum_ph) as NH, GROUP_CONCAT(topik_id) as topik_kumpulan
+      SELECT mapel_id, mapel_kel_id, mapel_urutan, tes_d_s_id, mapel_nama, mapel_kel_nama, SUM((tes_ph1+tes_ph2+tes_ph3+tes_ph4+tes_ph5)/tes_jum_ph)/COUNT(mapel_id) as NH, GROUP_CONCAT(topik_id) as topik_kumpulan
       FROM tes
       LEFT JOIN topik
       ON tes_topik_id = topik_id
@@ -483,7 +483,7 @@ function returnRaportSemester2($d_s_id, $semester){
       WHERE tes_d_s_id = $d_s_id AND topik_semester = $semester
       GROUP BY mapel_id ) AS forma
     LEFT JOIN (
-      SELECT mapel_id, (uj_mid1_kog+uj_fin1_kog) AS uj1, (uj_mid2_kog+uj_fin2_kog) AS uj2
+      SELECT mapel_id, uj_mid1_kog, uj_fin1_kog, uj_mid2_kog,uj_fin2_kog
       FROM uj
       LEFT JOIN mapel
       ON uj_mapel_id = mapel_id
@@ -501,8 +501,16 @@ function returnRaportSemester2($d_s_id, $semester){
 }
 
 
-function hitungNA($NH,$uj){
-  $NA = (2*$NH+$uj)/4;
+function hitungNA($NH,$ujmid,$ujfin){
+  $pembagi = 2;
+
+  if($ujmid >0){
+    $pembagi++;
+  }
+  if($ujfin >0){
+    $pembagi++;
+  }
+  $NA = (2*$NH+$ujmid+$ujfin)/$pembagi;
   return $NA;
 }
 
@@ -526,7 +534,7 @@ function returnRaportSemester3($d_s_id, $semester){
 
   $raport_semester3 = $ci->db->query(
     "SELECT ket.mapel_id as m_id, mapel_kel_id, mapel_urutan, mapel_nama, mapel_kel_nama, GROUP_CONCAT(topik_id) as topik_kumpulan,
-    SUM(total_max/calJumKet(max_prak,max_produk,max_proyek,max_porto))/COUNT(ket.mapel_id) as NA_ket, uj1, uj2
+    SUM(total_max/calJumKet(max_prak,max_produk,max_proyek,max_porto))/COUNT(ket.mapel_id) as NA_ket, uj_mid1_psi, uj_fin1_psi, uj_mid2_psi, uj_fin2_psi
     FROM(
       SELECT mapel_id, mapel_kel_id, mapel_urutan, tes_d_s_id, mapel_nama, mapel_kel_nama, topik_id,
       tes_prak1, tes_prak2, tes_prak3,
@@ -555,7 +563,7 @@ function returnRaportSemester3($d_s_id, $semester){
       WHERE tes_d_s_id = $d_s_id AND topik_semester = $semester
     )as ket
     LEFT JOIN (
-    	SELECT mapel_id, (uj_mid1_psi+uj_fin1_psi) AS uj1, (uj_mid2_psi+uj_fin2_psi) AS uj2
+    	SELECT mapel_id, uj_mid1_psi, uj_fin1_psi, uj_mid2_psi, uj_fin2_psi
         FROM uj
         LEFT JOIN mapel
         ON uj_mapel_id = mapel_id
@@ -586,7 +594,7 @@ function returnRaportSemester4($d_s_id){
 }
 
 //DESKRIPSI KD PENGETAHUAN
-function returnMaxKDpeng($kd,$d_s_id){
+function returnMaxKDpeng($kd,$d_s_id,$final_pengetahuan){
   $ci =& get_instance();
   $kd_max = $ci->db->query(
     "SELECT topik_id, topik_nama, (tes_ph1 + tes_ph2 + tes_ph3 + tes_ph4 + tes_ph5)/tes_jum_ph as ph_rata
@@ -599,12 +607,13 @@ function returnMaxKDpeng($kd,$d_s_id){
   $kata = "";
   $ketemu = 0;
   foreach ($kd_max as $n) :
-    if($n['ph_rata'] >= 75 && $ketemu == 0){
-      //$kata = "Sudah sangat menguasai untuk ".$kd_max['topik_nama'].". ".$kd_max['ph_rata'];
-      $kata .= "Sudah sangat menguasai untuk ".$n['topik_nama']." ";
-      $ketemu = 1;
+    if($final_pengetahuan>=75){
+      if($n['ph_rata'] >= 75 && $ketemu == 0){
+        //$kata = "Sudah sangat menguasai untuk ".$kd_max['topik_nama'].". ".$kd_max['ph_rata'];
+        $kata .= "Sudah sangat menguasai untuk ".$n['topik_nama']." ";
+        $ketemu = 1;
+      }
     }
-
     if($n['ph_rata'] < 75){
       $kata .= "Perlu ditingkatkan lagi untuk ".$n['topik_nama']." ";
     }
@@ -613,7 +622,7 @@ function returnMaxKDpeng($kd,$d_s_id){
   return $kata;
 }
 
-function returnDescKet($kd,$d_s_id){
+function returnDescKet($kd,$d_s_id,$final_keterampilan){
   $ci =& get_instance();
   $kd_min = $ci->db->query(
     "SELECT *,
@@ -637,11 +646,12 @@ function returnDescKet($kd,$d_s_id){
   $kata = "";
   $ketemu = 0;
   foreach ($kd_min as $n) :
-    if($n['NA_ket']>=75 && $ketemu == 0){
-      $kata .= "Sudah sangat menguasai untuk ".$n['topik_nama']." ";
-      $ketemu = 1;
+    if ($final_keterampilan >= 75){
+      if($n['NA_ket']>=75 && $ketemu == 0){
+        $kata .= "Sudah sangat menguasai untuk ".$n['topik_nama']." ";
+        $ketemu = 1;
+      }
     }
-
     if($n['NA_ket']<75){
       $kata .= "Perlu ditingkatkan lagi untuk ".$n['topik_nama']." ";
     }

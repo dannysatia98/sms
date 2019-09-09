@@ -153,16 +153,20 @@
                     $t_nama_temp = "";
                     foreach($pengetahuan as $z) :
                       if($semester == 1){
-                        if($z['uj1']){
-                          $uj = $z['uj1'];
+                        if($z['uj_mid1_kog']){
+                          $ujmid = $z['uj_mid1_kog'];
+                          $ujfin = $z['uj_fin1_kog'];
                         }else{
-                          $uj = 0;
+                          $ujmid = 0;
+                          $ujfin = 0;
                         }
                       }else{
                         if($z['uj2']){
-                          $uj = $z['uj2'];
+                          $ujmid = $z['uj_mid2_kog'];
+                          $ujfin = $z['uj_fin2_kog'];
                         }else{
-                          $uj = 0;
+                          $ujmid = 0;
+                          $ujfin = 0;
                         }
                       }
                   ?>
@@ -179,10 +183,14 @@
                       ?>
                       <td class='nomor'><?= $nomor_pengetahuan ?></td>
                       <td style='padding: 0px 0px 0px 5px; margin: 0px;'><?= $z['mapel_nama'] ?></td>
-                      <td class='nomor'><?= round(hitungNA($z['NH'],$uj)) ?></td>
-                      <td class='nomor'><?= return_abjad_NH(hitungNA($z['NH'],$uj)) ?></td>
+                      <td class='nomor'><?php
+                                          $final_pengetahuan = round(hitungNA($z['NH'],$ujmid,$ujfin));
+                                          echo $final_pengetahuan;
+                                        ?>
+                      </td>
+                      <td class='nomor'><?= return_abjad_NH($final_pengetahuan) ?></td>
                       <td style='padding: 0px 0px 0px 5px;'>
-                        <?= returnMaxKDpeng($z['topik_kumpulan'],$detail_siswa['d_s_id']) ?>
+                        <?= returnMaxKDpeng($z['topik_kumpulan'],$detail_siswa['d_s_id'],$final_pengetahuan) ?>
                       </td>
                     </tr>
 
@@ -244,16 +252,20 @@
                     $t_nama_temp = "";
                     foreach($keterampilan as $z) :
                       if($semester == 1){
-                        if($z['uj1']){
-                          $uj = $z['uj1'];
+                        if($z['uj_mid1_psi']){
+                          $ujmidps = $z['uj_mid1_psi'];
+                          $ujfinps = $z['uj_fin1_psi'];
                         }else{
-                          $uj = 0;
+                          $ujmidps = 0;
+                          $ujfinps = 0;
                         }
                       }else{
                         if($z['uj2']){
-                          $uj = $z['uj2'];
+                          $ujmidps = $z['uj_mid2_psi'];
+                          $ujfinps = $z['uj_fin2_psi'];
                         }else{
-                          $uj = 0;
+                          $ujmidps = 0;
+                          $ujfinps = 0;
                         }
                       }
                   ?>
@@ -270,10 +282,15 @@
                       ?>
                       <td class='nomor'><?= $nomor_ket ?></td>
                       <td style='padding: 0px 0px 0px 5px; margin: 0px;'><?= $z['mapel_nama'] ?></td>
-                      <td class='nomor'><?= round(hitungNA($z['NA_ket'],$uj)) ?></td>
-                      <td class='nomor'><?= return_abjad_NH(hitungNA($z['NA_ket'],$uj)) ?></td>
+                      <td class='nomor'>
+                        <?php
+                            $final_keterampilan = round(hitungNA($z['NA_ket'],$ujmidps,$ujfinps));
+                            echo $final_keterampilan;
+                        ?>
+                      </td>
+                      <td class='nomor'><?= return_abjad_NH($final_keterampilan) ?></td>
                       <td style='padding: 0px 0px 0px 5px;'>
-                        <?= returnDescKet($z['topik_kumpulan'],$detail_siswa['d_s_id']) ?>
+                        <?= returnDescKet($z['topik_kumpulan'],$detail_siswa['d_s_id'],$final_keterampilan) ?>
                       </td>
                     </tr>
 
@@ -444,7 +461,7 @@
               <div style='font-family: "Times New Roman", Times, serif; font-size:12px; margin-bottom: 5px;'>
                 <label><b>G. Catatan Wali Kelas</b></label>
               </div>
-              <table class="rapot" style='font-family: "Times New Roman", Times, serif; font-size:20px; margin-bottom: 20px; text-align:center;'>
+              <table class="rapot" style='font-family: "Times New Roman", Times, serif; font-size:20px; margin-bottom: 20px; text-align:left;'>
                 <tbody>
                   <tr>
                     <td style="height:40px; padding: 0px 5px;" ><?= $komen ?></td>
