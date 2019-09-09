@@ -27,7 +27,7 @@
 
             ?>
               <hr style="height:5px; visibility:hidden;" />
-              <img src="<?= base_url('assets/img/profile/fratbw.png') ?>" height="100" style='position: absolute; z-index: 100; border-radius: 0%;'>
+              <img src="<?= base_url('assets/img/profile/frat-bw.png') ?>" height="95" style='position: absolute; z-index: 100; border-radius: 0%;'>
               <table class="center">
                 <tbody>
                   <tr style='text-align: center;'>

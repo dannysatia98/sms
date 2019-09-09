@@ -14,7 +14,7 @@
                   <div class="text-center">
                     <h1 class="h4 text-gray-900 mb-3">SMAK Frateran Surabaya</h1>
                     <hr>
-                    <img src="<?= base_url('assets/img/profile/frateran.png'); ?>" class="mb-4 img-fluid">
+                    <img src="<?= base_url('assets/img/profile/frateran.gif'); ?>" height="100px" class="mb-4 img-fluid">
                   </div>
 
                   <?= $this->session->flashdata('message'); ?>
