@@ -1,0 +1,122 @@
+
+table.center {
+    margin-left:auto;
+    margin-right:auto;
+}
+
+table.rapot_atas{
+    font-family: "Times New Roman", Times, serif;
+    font-size:12px;
+    border-collapse: collapse;
+    width: 100%;
+	  font-weight: 900;
+}
+
+
+table.rapot{
+    border: 1px solid black;
+    font-family:Cambria;
+    font-size:12px;
+}
+
+table.rapot {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.rapot th{
+    border: 1px solid black;
+    font-family: "Times New Roman", Times, serif;
+    font-size:12px;
+    height: 5px;
+    text-align:center;
+}
+.rapot td{
+    border: 1px solid black;
+    font-family: "Times New Roman", Times, serif;
+    font-size:12px;
+    height: 15px;
+}
+
+.alignleft {
+    font-weight:bold;
+    font-family: "Times New Roman", Times, serif;
+    font-size:13px;
+    float: left;
+}
+
+.alignleft_induk {
+    font-weight:bold;
+    font-family:Cambria, sans-serif;
+    font-size:13px;
+    float: left;
+    padding: 0px 0px 0px 5px;
+}
+.aligncenter {
+    font-weight:bold;
+    font-family: "Times New Roman", Times, serif;
+    font-size:13px;
+    float: right;
+}
+
+.alignleft_bawah {
+    font-family:Cambria, sans-serif;
+    font-size:13px;
+    float: left;
+    text-align:center;
+}
+
+.alignleft_bawah_induk {
+    font-family:Cambria, sans-serif;
+    font-size:13px;
+    float: left;
+    text-align:center;
+    padding: 0px 0px 0px 5px;
+}
+
+.alignright_bawah {
+    font-family:Cambria, sans-serif;
+    font-size:13px;
+    float: right;
+    text-align:center;
+}
+
+.aligncenter_bawah {
+    font-family:Cambria, sans-serif;
+    font-size:13px;
+    text-align:center;
+}
+.judul {
+    text-align:center;
+    font-weight:bold;
+    font-family:Cambria, sans-serif;
+    font-size:23px;
+}
+
+.sub_judul {
+    text-align:center;
+    font-weight:bold;
+    font-family:Cambria, sans-serif;
+    font-size:11px;
+}
+
+.kkm {
+    text-align:center;
+    font-weight:bold;
+}
+.biasa {
+    text-align:center;
+}
+
+.nomor {
+    text-align:center;
+}
+.grading {
+    text-align:center;
+    font-size:11px;
+}
+
+.cus_label {
+    font-family: "Times New Roman", Times, serif;
+    font-size:14px;
+}
