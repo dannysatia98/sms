@@ -8,14 +8,13 @@
           <div class="p-5 overflow-auto">
             <div class="text-center">
               <h4 class="h4 text-gray-900"><b><u><?= $kelas['sk_nama'] ?></u></b></h4>
-              <h4 class="h4 text-gray-900"><b><u>Sikap Spiritual <?= $kelas['kelas_nama'] ?></u></b></h4>
-              <h4 class="h4 text-gray-900"><i>Semester <?= $spirit['spirit_semester'].' '.$mapel['mapel_nama'] ?></i></h4>
+              <h4 class="h4 text-gray-900"><b><u>Sikap Spiritual <?= $kelas['kelas_nama'] ?> Semester <?= $semester ?></u></b></h4>
+              <h4 class="h4 text-gray-900"><i><?= $mapel['mapel_nama'] ?></i></h4>
 
               <div class="alert alert-info mb-2">
-                  <h4 class="h4 text-gray-900"><i><u>KD Sosial: </u></i></h4>
-                  <h6><i><?= $spirit['spirit_nama'] ?></i></h6>
+                  <h4 class="h4 text-gray-900"><i><u>KD Spiritual (Menghayati dan mengamalkan ajaran agama yang dianutnya): </u></i></h4>
                   <h6><b>1. Berdoa sebelum & sesudah kegiatan</b></h6>
-                  <h6><b>2. Menjalankan ibadah sesuai agamanya</b></h6>
+                  <h6><b>2. Menjalankan ibadah sesuai agama yang dianut</b></h6>
                   <h6><b>3. Memberi salam awal dan akhir kegiatan</b></h6>
                   <h6><b>4. Bersyukur atas nikmat dan karunia Tuhan Yang Maha Esa</b></h6>
                   <h6><b>5. Mensyukuri kemampuan manusia dalam mengendalikan diri</b></h6>
@@ -24,7 +23,7 @@
                   <h6><b>8. Menjaga lingkungan hidup di sekitar satuan pendidikan</b></h6>
                   <h6><b>9. Memelihara hubungan baik dengan sesama umat ciptaan Tuhan Yang Maha Esa</b></h6>
                   <h6><b>10. Bersyukur kepada Tuhan Yang Maha Esa sebagai bangsa Indonesia</b></h6>
-                  <h6><b>11. Menghormati orang lain yang menjalankan ibadah sesuai dengan agama yang dianut</b></h6>
+                  <h6><b>11. Menghormati orang lain yang menjalankan ibadah sesuai dengan agama yang dianutnya dan tidak merendahkan agama lain</b></h6>
               </div>
 
             </div>
@@ -76,7 +75,8 @@
               <form class="" action="<?= base_url('spraf_CRUD/save_new_student'); ?>" method="post">
                 <input type="hidden" value="<?= $kelas_id ?>" name="kelas_id">
                 <input type="hidden" value="<?= $mapel_id ?>" name="mapel_id">
-                <input type="hidden" value="<?= $spirit['spirit_id'] ?>" name="spirit_id">
+                <input type="hidden" value="<?= $semester ?>" name="semester">
+
                 <table class="table table-bordered table-hover table-sm mr-5">
                   <thead>
                     <tr>
@@ -118,17 +118,17 @@
                         </td>
 
                         <!-- NILAI HARIAN -->
-                        <td class='text-center'><?= cetak_opt_kosong("a[]"); ?></td>
-                        <td class='text-center'><?= cetak_opt_kosong("b[]"); ?></td>
-                        <td class='text-center'><?= cetak_opt_kosong("c[]"); ?></td>
-                        <td class='text-center'><?= cetak_opt_kosong("d[]"); ?></td>
-                        <td class='text-center'><?= cetak_opt_kosong("e[]"); ?></td>
-                        <td class='text-center'><?= cetak_opt_kosong("f[]"); ?></td>
-                        <td class='text-center'><?= cetak_opt_kosong("g[]"); ?></td>
-                        <td class='text-center'><?= cetak_opt_kosong("h[]"); ?></td>
-                        <td class='text-center'><?= cetak_opt_kosong("i[]"); ?></td>
-                        <td class='text-center'><?= cetak_opt_kosong("j[]"); ?></td>
-                        <td class='text-center'><?= cetak_opt_kosong("k[]"); ?></td>
+                        <td class='text-center'><?= cetak_opt_kosong("1[]"); ?></td>
+                        <td class='text-center'><?= cetak_opt_kosong("2[]"); ?></td>
+                        <td class='text-center'><?= cetak_opt_kosong("3[]"); ?></td>
+                        <td class='text-center'><?= cetak_opt_kosong("4[]"); ?></td>
+                        <td class='text-center'><?= cetak_opt_kosong("5[]"); ?></td>
+                        <td class='text-center'><?= cetak_opt_kosong("6[]"); ?></td>
+                        <td class='text-center'><?= cetak_opt_kosong("7[]"); ?></td>
+                        <td class='text-center'><?= cetak_opt_kosong("8[]"); ?></td>
+                        <td class='text-center'><?= cetak_opt_kosong("9[]"); ?></td>
+                        <td class='text-center'><?= cetak_opt_kosong("10[]"); ?></td>
+                        <td class='text-center'><?= cetak_opt_kosong("11[]"); ?></td>
 
                       </tr>
                     <?php endforeach ?>
@@ -154,7 +154,7 @@
             <form class="" action="<?= base_url('spraf_CRUD/save_update'); ?>" method="post">
               <input type="hidden" value="<?= $kelas_id ?>" name="kelas_id">
               <input type="hidden" value="<?= $mapel_id ?>" name="mapel_id">
-              <input type="hidden" value="<?= $spirit['spirit_id'] ?>" name="spirit_id">
+
               <table class="table table-bordered table-hover table-sm mr-5">
                 <thead>
                   <tr>
@@ -196,17 +196,17 @@
                       </td>
 
                       <!-- NILAI HARIAN -->
-                      <td class='text-center'><?= cetak_opt("a[]",$m['spraf_a']); ?></td>
-                      <td class='text-center'><?= cetak_opt("b[]",$m['spraf_b']); ?></td>
-                      <td class='text-center'><?= cetak_opt("c[]",$m['spraf_c']); ?></td>
-                      <td class='text-center'><?= cetak_opt("d[]",$m['spraf_d']); ?></td>
-                      <td class='text-center'><?= cetak_opt("e[]",$m['spraf_e']); ?></td>
-                      <td class='text-center'><?= cetak_opt("f[]",$m['spraf_f']); ?></td>
-                      <td class='text-center'><?= cetak_opt("g[]",$m['spraf_g']); ?></td>
-                      <td class='text-center'><?= cetak_opt("h[]",$m['spraf_h']); ?></td>
-                      <td class='text-center'><?= cetak_opt("i[]",$m['spraf_i']); ?></td>
-                      <td class='text-center'><?= cetak_opt("j[]",$m['spraf_j']); ?></td>
-                      <td class='text-center'><?= cetak_opt("k[]",$m['spraf_k']); ?></td>
+                      <td class='text-center'><?= cetak_opt("1[]",$m['spraf_1']); ?></td>
+                      <td class='text-center'><?= cetak_opt("2[]",$m['spraf_2']); ?></td>
+                      <td class='text-center'><?= cetak_opt("3[]",$m['spraf_3']); ?></td>
+                      <td class='text-center'><?= cetak_opt("4[]",$m['spraf_4']); ?></td>
+                      <td class='text-center'><?= cetak_opt("5[]",$m['spraf_5']); ?></td>
+                      <td class='text-center'><?= cetak_opt("6[]",$m['spraf_6']); ?></td>
+                      <td class='text-center'><?= cetak_opt("7[]",$m['spraf_7']); ?></td>
+                      <td class='text-center'><?= cetak_opt("8[]",$m['spraf_8']); ?></td>
+                      <td class='text-center'><?= cetak_opt("9[]",$m['spraf_9']); ?></td>
+                      <td class='text-center'><?= cetak_opt("10[]",$m['spraf_10']); ?></td>
+                      <td class='text-center'><?= cetak_opt("11[]",$m['spraf_11']); ?></td>
                     </tr>
                   <?php endforeach ?>
                 </tbody>

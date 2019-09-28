@@ -41,35 +41,6 @@ class sosaf_CRUD extends CI_Controller
     $kr_id = $data['kr']['kr_id'];
     $data['t_all'] = $this->_t->return_all();
 
-    //SELECT * from d_mpl WHERE d_mpl_kr_id = $data['kr']['kr_id']
-    // if($this->session->userdata('kr_jabatan_id')!=4){
-    //   $data['mapel_all'] = $this->db->query(
-    //     "SELECT t_nama, sk_nama, d_mpl_mapel_id, mapel_nama, kelas_id, kelas_nama
-    //     FROM d_mpl
-    //     LEFT JOIN mapel ON d_mpl_mapel_id = mapel_id
-    //     LEFT JOIN kelas ON d_mpl_kelas_id = kelas_id
-    //     LEFT JOIN t ON kelas_t_id = t_id
-    //     LEFT JOIN sk ON kelas_sk_id = sk_id
-    //     WHERE d_mpl_kr_id = $kr_id
-    //     ORDER BY t_id DESC, sk_nama, kelas_nama")->result_array();
-    //
-    //   if(empty($data['mapel_all'])){
-    //     $this->session->set_flashdata("message","<div class='alert alert-danger' role='alert'>You don't teach any class, contact curriculum for more information!</div>");
-    //     redirect('Profile');
-    //   }
-    // }
-    //
-    // if($this->session->userdata('kr_jabatan_id')==4){
-    //   $data['mapel_all'] = $this->db->query(
-    //     "SELECT t_nama, sk_nama, d_mpl_mapel_id, mapel_nama, kelas_id, kelas_nama
-    //     FROM d_mpl
-    //     LEFT JOIN mapel ON d_mpl_mapel_id = mapel_id
-    //     LEFT JOIN kelas ON d_mpl_kelas_id = kelas_id
-    //     LEFT JOIN t ON kelas_t_id = t_id
-    //     LEFT JOIN sk ON kelas_sk_id = sk_id
-    //     ORDER BY t_id DESC, sk_nama, kelas_nama")->result_array();
-    // }
-
     //var_dump($this->db->last_query());
     $this->load->view('templates/header',$data);
     $this->load->view('templates/sidebar',$data);
@@ -79,47 +50,17 @@ class sosaf_CRUD extends CI_Controller
 
   }
 
-  public function get_topik(){
-    if($this->input->post('id',TRUE)){
-
-      $mapel_id = $this->input->post('id',TRUE);
-      $kelas_id = $this->input->post('kelas_id',TRUE);
-
-      //temukan jenjang id pada kelas itu
-      $jenjang = $this->db->query(
-        "SELECT jenj_id
-        FROM kelas
-        LEFT JOIN jenj ON kelas_jenj_id = jenj_id
-        WHERE kelas_id = $kelas_id")->row_array();
-
-      //print_r($jenjang['jenj_id']);
-
-      $jenj_id = $jenjang['jenj_id'];
-      $data = $this->db->query(
-        "SELECT sosial_id, sosial_nama, sosial_semester
-        FROM sosial
-        LEFT JOIN jenj ON sosial_jenjang_id = jenj_id
-        LEFT JOIN mapel ON sosial_mapel_id = mapel_id
-        WHERE jenj_id = $jenj_id AND mapel_id = $mapel_id")->result();
-
-      //$data = $this->product_model->get_sub_category($category_id)->result();
-      echo json_encode($data);
-    }else{
-      $this->session->set_flashdata('message','<div class="alert alert-danger" role="alert">Access Denied!</div>');
-      redirect('Profile');
-    }
-  }
 
   public function input(){
 
-    if(!$this->input->post('sosial_id')){
+    if(!$this->input->post('mapel_id',TRUE) || !$this->input->post('kelas_id',TRUE)){
       $this->session->set_flashdata('message','<div class="alert alert-danger" role="alert">Do not access page directly!</div>');
       redirect('sosaf_CRUD');
     }
 
     $kelas_id = $this->input->post('kelas_id',TRUE);
-    $sosial_id = $this->input->post('sosial_id');
     $mapel_id = $this->input->post('mapel_id',TRUE);
+    $semester = $this->input->post('semester',TRUE);
 
     // cek apakah ada siswa di kelas
     $siswacount = $this->db->join('kelas', 'd_s_kelas_id = kelas_id', 'left')->where('d_s_kelas_id',$kelas_id)->from("d_s")->count_all_results();
@@ -132,10 +73,10 @@ class sosaf_CRUD extends CI_Controller
     $data['kr'] = $this->_kr->find_by_username($this->session->userdata('kr_username'));
     $data['kelas'] = $this->_kelas->find_kelas_nama($kelas_id);
     $data['mapel'] = $this->_mapel->find_mapel_nama($mapel_id);
-    $data['sosial'] = $this->_sosial->find_by_id($sosial_id);
 
     $data['kelas_id'] = $kelas_id;
     $data['mapel_id'] = $mapel_id;
+    $data['semester'] = $semester;
 
     if($this->input->post('cek_agama') == 1){
       $_gb = "sis_agama_id,";
@@ -146,7 +87,7 @@ class sosaf_CRUD extends CI_Controller
     $data['cek_agama'] = $this->input->post('cek_agama');
 
     //APAKAH SDH PERNAH ISI?
-    $soscount = $this->db->join('d_s', 'sosaf_d_s_id=d_s_id', 'left')->where('d_s_kelas_id',$kelas_id)->where('sosaf_sosial_id',$sosial_id)->from("sosaf")->count_all_results();
+    $soscount = $this->db->join('d_s', 'sosaf_d_s_id=d_s_id', 'left')->where('d_s_kelas_id',$kelas_id)->where('sosaf_mapel_id',$mapel_id)->where('sosaf_semester',$semester)->from("sosaf")->count_all_results();
     if($soscount == 0){
       $data['siswa_all'] = $this->db->query(
         "SELECT d_s_id, sis_agama_id, agama_nama, sis_nama_depan, sis_nama_bel, sis_no_induk
@@ -169,7 +110,7 @@ class sosaf_CRUD extends CI_Controller
         LEFT JOIN d_s ON sosaf_d_s_id = d_s_id
         LEFT JOIN sis ON sis_id = d_s_sis_id
         LEFT JOIN agama ON sis_agama_id = agama_id
-        WHERE d_s_kelas_id = $kelas_id AND sosaf_sosial_id = $sosial_id
+        WHERE d_s_kelas_id = $kelas_id AND sosaf_mapel_id = $mapel_id AND sosaf_semester = $semester
         ORDER BY $_gb sis_nama_depan, sis_no_induk")->result_array();
 
       //cari siswa yang ada di kelas tapi tidak mempunyai nilai
@@ -182,7 +123,7 @@ class sosaf_CRUD extends CI_Controller
         FROM sosaf
         LEFT JOIN d_s ON sosaf_d_s_id = d_s_id
         LEFT JOIN kelas ON d_s_kelas_id = kelas_id
-        WHERE kelas_id = $kelas_id AND sosaf_sosial_id = $sosial_id
+        WHERE kelas_id = $kelas_id AND sosaf_mapel_id = $mapel_id AND sosaf_semester = $semester
       )")->result_array();
 
       $this->load->view('templates/header',$data);
@@ -196,35 +137,56 @@ class sosaf_CRUD extends CI_Controller
   }
 
   public function save_input(){
-    if($this->input->post('a[]')){
+    if($this->input->post('1[]')){
 
-      $soscount = $this->db->join('d_s', 'sosaf_d_s_id=d_s_id', 'left')->where('d_s_kelas_id',$this->input->post('kelas_id'))->where('sosaf_sosial_id',$this->input->post('sosial_id'))->from("sosaf")->count_all_results();
+      $soscount = $this->db->join('d_s', 'sosaf_d_s_id=d_s_id', 'left')->where('d_s_kelas_id',$this->input->post('kelas_id'))->where('sosaf_mapel_id',$this->input->post('mapel_id'))->where('sosaf_semester',$semester)->from("sosaf")->count_all_results();
       if($soscount == 0){
         //Save input
         $data = array();
         $d_s_id = $this->input->post('d_s_id[]');
+        $mapel_id = $this->input->post('mapel_id');
+        $semester = $this->input->post('semester',TRUE);
 
-        $sosaf_a = $this->input->post('a[]');
-        $sosaf_b = $this->input->post('b[]');
-        $sosaf_c = $this->input->post('c[]');
-        $sosaf_d = $this->input->post('d[]');
-        $sosaf_e = $this->input->post('e[]');
-        $sosaf_f = $this->input->post('f[]');
-        $sosaf_g = $this->input->post('g[]');
+        $sosaf_1 = $this->input->post('1[]');
+        $sosaf_2 = $this->input->post('2[]');
+        $sosaf_3 = $this->input->post('3[]');
+        $sosaf_4 = $this->input->post('4[]');
+        $sosaf_5 = $this->input->post('5[]');
+        $sosaf_6 = $this->input->post('6[]');
+        $sosaf_7 = $this->input->post('7[]');
+        $sosaf_8 = $this->input->post('8[]');
+        $sosaf_9 = $this->input->post('9[]');
+        $sosaf_10 = $this->input->post('10[]');
+        $sosaf_11 = $this->input->post('11[]');
+        $sosaf_12 = $this->input->post('12[]');
+        $sosaf_13 = $this->input->post('13[]');
+        $sosaf_14 = $this->input->post('14[]');
+        $sosaf_15 = $this->input->post('15[]');
+        $sosaf_16 = $this->input->post('16[]');
         //
         //var_dump($tes_ph2);
 
         for($i=0;$i<count($d_s_id);$i++){
             $data[$i] = [
               'sosaf_d_s_id' => $d_s_id[$i],
-              'sosaf_a' => $sosaf_a[$i],
-              'sosaf_b' => $sosaf_b[$i],
-              'sosaf_c' => $sosaf_c[$i],
-              'sosaf_d' => $sosaf_d[$i],
-              'sosaf_e' => $sosaf_e[$i],
-              'sosaf_f' => $sosaf_f[$i],
-              'sosaf_g' => $sosaf_g[$i],
-              'sosaf_sosial_id' => $this->input->post('sosial_id')
+              'sosaf_1' => $sosaf_1[$i],
+              'sosaf_2' => $sosaf_2[$i],
+              'sosaf_3' => $sosaf_3[$i],
+              'sosaf_4' => $sosaf_4[$i],
+              'sosaf_5' => $sosaf_5[$i],
+              'sosaf_6' => $sosaf_6[$i],
+              'sosaf_7' => $sosaf_7[$i],
+              'sosaf_8' => $sosaf_8[$i],
+              'sosaf_9' => $sosaf_9[$i],
+              'sosaf_10' => $sosaf_10[$i],
+              'sosaf_11' => $sosaf_11[$i],
+              'sosaf_12' => $sosaf_12[$i],
+              'sosaf_13' => $sosaf_13[$i],
+              'sosaf_14' => $sosaf_14[$i],
+              'sosaf_15' => $sosaf_15[$i],
+              'sosaf_16' => $sosaf_16[$i],
+              'sosaf_mapel_id' => $this->input->post('mapel_id'),
+              'sosaf_semester' => $semester
             ];
         }
 
@@ -242,33 +204,53 @@ class sosaf_CRUD extends CI_Controller
   public function save_new_student(){
 
 
-    if($this->input->post('a[]')){
-      $uj_count = $this->db->join('d_s', 'sosaf_d_s_id=d_s_id', 'left')->where_in('d_s_id',$this->input->post('d_s_id[]'))->where('sosaf_sosial_id',$this->input->post('sosial_id'))->from("sosaf")->count_all_results();
+    if($this->input->post('1[]')){
+      $uj_count = $this->db->join('d_s', 'sosaf_d_s_id=d_s_id', 'left')->where_in('d_s_id',$this->input->post('d_s_id[]'))->where('sosaf_mapel_id',$this->input->post('mapel_id'))->where('sosaf_semester',$semester)->from("sosaf")->count_all_results();
 
       //var_dump($this->db->last_query());
       if($uj_count == 0){
         $data = array();
         $d_s_id = $this->input->post('d_s_id[]');
+        $semester = $this->input->post('semester',TRUE);
 
-        $sosaf_a = $this->input->post('a[]');
-        $sosaf_b = $this->input->post('b[]');
-        $sosaf_c = $this->input->post('c[]');
-        $sosaf_d = $this->input->post('d[]');
-        $sosaf_e = $this->input->post('e[]');
-        $sosaf_f = $this->input->post('f[]');
-        $sosaf_g = $this->input->post('g[]');
+        $sosaf_1 = $this->input->post('1[]');
+        $sosaf_2 = $this->input->post('2[]');
+        $sosaf_3 = $this->input->post('3[]');
+        $sosaf_4 = $this->input->post('4[]');
+        $sosaf_5 = $this->input->post('5[]');
+        $sosaf_6 = $this->input->post('6[]');
+        $sosaf_7 = $this->input->post('7[]');
+        $sosaf_8 = $this->input->post('8[]');
+        $sosaf_9 = $this->input->post('9[]');
+        $sosaf_10 = $this->input->post('10[]');
+        $sosaf_11 = $this->input->post('11[]');
+        $sosaf_12 = $this->input->post('12[]');
+        $sosaf_13 = $this->input->post('13[]');
+        $sosaf_14 = $this->input->post('14[]');
+        $sosaf_15 = $this->input->post('15[]');
+        $sosaf_16 = $this->input->post('16[]');
 
         for($i=0;$i<count($d_s_id);$i++){
             $data[$i] = [
               'sosaf_d_s_id' => $d_s_id[$i],
-              'sosaf_a' => $sosaf_a[$i],
-              'sosaf_b' => $sosaf_b[$i],
-              'sosaf_c' => $sosaf_c[$i],
-              'sosaf_d' => $sosaf_d[$i],
-              'sosaf_e' => $sosaf_e[$i],
-              'sosaf_f' => $sosaf_f[$i],
-              'sosaf_g' => $sosaf_g[$i],
-              'sosaf_sosial_id' => $this->input->post('sosial_id')
+              'sosaf_1' => $sosaf_1[$i],
+              'sosaf_2' => $sosaf_2[$i],
+              'sosaf_3' => $sosaf_3[$i],
+              'sosaf_4' => $sosaf_4[$i],
+              'sosaf_5' => $sosaf_5[$i],
+              'sosaf_6' => $sosaf_6[$i],
+              'sosaf_7' => $sosaf_7[$i],
+              'sosaf_8' => $sosaf_8[$i],
+              'sosaf_9' => $sosaf_9[$i],
+              'sosaf_10' => $sosaf_10[$i],
+              'sosaf_11' => $sosaf_11[$i],
+              'sosaf_12' => $sosaf_12[$i],
+              'sosaf_13' => $sosaf_13[$i],
+              'sosaf_14' => $sosaf_14[$i],
+              'sosaf_15' => $sosaf_15[$i],
+              'sosaf_16' => $sosaf_16[$i],
+              'sosaf_mapel_id' => $this->input->post('mapel_id'),
+              'sosaf_semester' => $semester
             ];
         }
 
@@ -284,27 +266,45 @@ class sosaf_CRUD extends CI_Controller
   }
 
   public function save_update(){
-    if($this->input->post('a[]')){
+    if($this->input->post('1[]')){
       $data = array();
       $sosaf_id = $this->input->post('sosaf_id[]');
 
-      $sosaf_a = $this->input->post('a[]');
-      $sosaf_b = $this->input->post('b[]');
-      $sosaf_c = $this->input->post('c[]');
-      $sosaf_d = $this->input->post('d[]');
-      $sosaf_e = $this->input->post('e[]');
-      $sosaf_f = $this->input->post('f[]');
-      $sosaf_g = $this->input->post('g[]');
+      $sosaf_1 = $this->input->post('1[]');
+      $sosaf_2 = $this->input->post('2[]');
+      $sosaf_3 = $this->input->post('3[]');
+      $sosaf_4 = $this->input->post('4[]');
+      $sosaf_5 = $this->input->post('5[]');
+      $sosaf_6 = $this->input->post('6[]');
+      $sosaf_7 = $this->input->post('7[]');
+      $sosaf_8 = $this->input->post('8[]');
+      $sosaf_9 = $this->input->post('9[]');
+      $sosaf_10 = $this->input->post('10[]');
+      $sosaf_11 = $this->input->post('11[]');
+      $sosaf_12 = $this->input->post('12[]');
+      $sosaf_13 = $this->input->post('13[]');
+      $sosaf_14 = $this->input->post('14[]');
+      $sosaf_15 = $this->input->post('15[]');
+      $sosaf_16 = $this->input->post('16[]');
 
       for($i=0;$i<count($sosaf_id);$i++){
         $data[$i] = [
-          'sosaf_a' => $sosaf_a[$i],
-          'sosaf_b' => $sosaf_b[$i],
-          'sosaf_c' => $sosaf_c[$i],
-          'sosaf_d' => $sosaf_d[$i],
-          'sosaf_e' => $sosaf_e[$i],
-          'sosaf_f' => $sosaf_f[$i],
-          'sosaf_g' => $sosaf_g[$i],
+          'sosaf_1' => $sosaf_1[$i],
+          'sosaf_2' => $sosaf_2[$i],
+          'sosaf_3' => $sosaf_3[$i],
+          'sosaf_4' => $sosaf_4[$i],
+          'sosaf_5' => $sosaf_5[$i],
+          'sosaf_6' => $sosaf_6[$i],
+          'sosaf_7' => $sosaf_7[$i],
+          'sosaf_8' => $sosaf_8[$i],
+          'sosaf_9' => $sosaf_9[$i],
+          'sosaf_10' => $sosaf_10[$i],
+          'sosaf_11' => $sosaf_11[$i],
+          'sosaf_12' => $sosaf_12[$i],
+          'sosaf_13' => $sosaf_13[$i],
+          'sosaf_14' => $sosaf_14[$i],
+          'sosaf_15' => $sosaf_15[$i],
+          'sosaf_16' => $sosaf_16[$i],
           'sosaf_id' =>  $sosaf_id[$i]
         ];
       }

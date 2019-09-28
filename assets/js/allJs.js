@@ -357,14 +357,14 @@ $(document).ready(function () {
                 html += '<option value=0>Pilih Mapel</option>';
               }
               for (i = 0; i < data.length; i++) {
-                html += '<option value=' + data[i].mapel_id + '>' + data[i].mapel_nama + '</option>';
+                html += '<option value=' + data[i].mapel_id + '>' + data[i].mapel_nama + ' ('+ data[i].mapel_sing + ')' + '</option>';
               }
               html += '</select>';
             }
 
             if(flag==0){
               html += '<button type="submit" class="btn btn-primary btn-user btn-block">';
-              html += 'Input PTS & PAS';
+              html += 'Input';
               html += '</button>';
             }
 
@@ -372,12 +372,6 @@ $(document).ready(function () {
             $('#mapel_tes').html(html);
             if(!flag){
               refMapelTes();
-            }
-            if(flag==1){
-              refMapelSpr();
-            }
-            if(flag==2){
-              refMapelSos();
             }
           }
         });
@@ -1057,6 +1051,16 @@ $(document).ready(function () {
               html += '</button>';
 
               html += '</form>';
+
+              html += '<form method="post" action="' + base_url + 'topik_CRUD/delete">';
+
+              html += '<input type="hidden" value="' + data[i].topik_id + '" name="topik_id">';
+              html += '<input type="hidden" value="' + data[i].topik_mapel_id + '" name="mapel_id">';
+              html += '<button type="submit" class="badge badge-danger">';
+              html += 'Delete';
+              html += '</button>';
+
+              html += '</form>';
               html += '</td>';
               html += '</tr>';
             }
@@ -1073,120 +1077,6 @@ $(document).ready(function () {
 
         }
       });
-
-      html = "";
-      $.ajax(
-        {
-          type: "post",
-          url: base_url + "Topik_CRUD/get_topik_sosial_detail",
-          data: {
-            'id': id,
-          },
-          async: true,
-          dataType: 'json',
-          success: function (data) {
-            //console.log(data);
-
-            var html = '<h5 class="text-center"><u><b>Sosial</b></u></h5><br><table class="table table-bordered table-sm">';
-            html += '<thead class="thead-dark">';
-            html += '<tr>';
-            html += '<th>Jenjang</th>';
-            html += '<th>Semester</th>';
-            html += '<th>KD Sosial</th>';
-            html += '<th>Urutan KD</th>';
-            html += '<th>Action</th>';
-            html += '</tr>';
-            html += '</thead>';
-
-            html += '<tbody>';
-            if (data.length != 0) {
-              for (var i = 0; i < data.length; i++) {
-                html += '<tr>';
-                html += '<td>' + data[i].jenj_nama + '</td>';
-                html += '<td>' + data[i].sosial_semester + '</td>';
-                html += '<td>' + data[i].sosial_nama + '</td>';
-                html += '<td>' + data[i].sosial_urutan + '</td>';
-                html += '<td>';
-                html += '<form method="post" action="' + base_url + 'topik_CRUD/edit_sosial">';
-
-                html += '<input type="hidden" value="' + data[i].sosial_id + '" name="sosial_id">';
-                html += '<input type="hidden" value="' + data[i].sosial_mapel_id + '" name="mapel_id">';
-                html += '<button type="submit" class="badge badge-warning">';
-                html += 'Edit';
-                html += '</button>';
-
-                html += '</form>';
-                html += '</td>';
-                html += '</tr>';
-              }
-            } else {
-              html += '<td colspan="5" class="text-center table-danger"><b>--Tidak ada KD Sosial, silahkan tambahkan KD--</b></td>';
-            }
-            html += '</tbody>';
-            html += '</table> <hr>';
-
-
-            $('#topik_sosial_mapel_ajax').html(html);
-
-          }
-        });
-
-        html = "";
-        $.ajax(
-          {
-            type: "post",
-            url: base_url + "Topik_CRUD/get_topik_spirit_detail",
-            data: {
-              'id': id,
-            },
-            async: true,
-            dataType: 'json',
-            success: function (data) {
-              //console.log(data);
-
-              var html = '<h5 class="text-center"><u><b>Spiritual</b></u></h5><br><table class="table table-bordered table-sm">';
-              html += '<thead class="thead-dark">';
-              html += '<tr>';
-              html += '<th>Jenjang</th>';
-              html += '<th>Semester</th>';
-              html += '<th>KD Spiritual</th>';
-              html += '<th>Urutan KD</th>';
-              html += '<th>Action</th>';
-              html += '</tr>';
-              html += '</thead>';
-
-              html += '<tbody>';
-              if (data.length != 0) {
-                for (var i = 0; i < data.length; i++) {
-                  html += '<tr>';
-                  html += '<td>' + data[i].jenj_nama + '</td>';
-                  html += '<td>' + data[i].spirit_semester + '</td>';
-                  html += '<td>' + data[i].spirit_nama + '</td>';
-                  html += '<td>' + data[i].spirit_urutan + '</td>';
-                  html += '<td>';
-                  html += '<form method="post" action="' + base_url + 'topik_CRUD/edit_spirit">';
-
-                  html += '<input type="hidden" value="' + data[i].spirit_id + '" name="spirit_id">';
-                  html += '<input type="hidden" value="' + data[i].spirit_mapel_id + '" name="mapel_id">';
-                  html += '<button type="submit" class="badge badge-warning">';
-                  html += 'Edit';
-                  html += '</button>';
-
-                  html += '</form>';
-                  html += '</td>';
-                  html += '</tr>';
-                }
-              } else {
-                html += '<td colspan="5" class="text-center table-danger"><b>--Tidak ada KD Spiritual, silahkan tambahkan KD--</b></td>';
-              }
-              html += '</tbody>';
-              html += '</table> <hr>';
-
-              //alert(html);
-              $('#topik_spirit_mapel_ajax').html(html);
-
-            }
-          });
   });
 
 

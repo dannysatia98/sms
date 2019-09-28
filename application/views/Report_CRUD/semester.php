@@ -21,25 +21,6 @@
                 $sikap = returnRaportSemester1($sis_arr[$i], $semester, $kelas_id);
 
                 if(isset($sikap)):
-                  $total_sosial = 0;
-                  $total_spirit = 0;
-                  foreach($sikap as $z) :
-                    if(empty($z['total_sosial'])){
-                      $total_sosial += 3 * ($z['d_mpl_persen_sos']/100);
-                    }else{
-                      $total_sosial += $z['total_sosial'] * ($z['d_mpl_persen_sos']/100);
-                    }
-
-                    if(empty($z['total_spirit'])){
-                      $total_spirit += 3 * ($z['d_mpl_persen_spr']/100);
-                    }else{
-                      $total_spirit += $z['total_spirit'] * ($z['d_mpl_persen_spr']/100);
-                    }
-                  endforeach;
-
-                  //echo $total_sosial;
-                  //echo return_abjad_sikap($total_sosial);
-                  //echo count($sikap);
 
             ?>
               <table class="rapot_atas">
@@ -80,8 +61,74 @@
                       <td>Deskripsi</td>
                     </tr>
                     <tr>
-                      <td style='text-align:center;'><?= return_abjad_sikap($total_spirit) ?></td>
-                      <td></td>
+                      <td style='text-align:center;'><?= return_abjad_sikap($sikap['total_spirit']) ?></td>
+                      <td style='padding: 0px 0px 0px 5px;'>
+                        <?php
+                          //KATA SPIRIT
+                          $spr_sbaik = array();
+                          $spr_baik = array();
+                          $spr_cukup = array();
+                          $spr_kurang = array();
+
+                          for($xx=1;$xx<=11;$xx++){
+                            $index_spr = "spraf_".$xx;
+                            if(return_abjad_sikap($sikap[$index_spr])== "Sangat Baik")
+                              array_push($spr_sbaik, $xx);
+                            elseif (return_abjad_sikap($sikap[$index_spr])== "Baik")
+                              array_push($spr_baik, $xx);
+                            elseif (return_abjad_sikap($sikap[$index_spr])== "Cukup")
+                              array_push($spr_cukup, $xx);
+                            elseif (return_abjad_sikap($sikap[$index_spr])== "Kurang")
+                              array_push($spr_kurang, $xx);
+                          }
+
+                          if($spr_sbaik){
+                            $kata_sbaik = "";
+                            for($xx=0;$xx<count($spr_sbaik);$xx++){
+                              $kata_sbaik .= returnKategoriSpirit($spr_sbaik[$xx]-1);
+                              if($xx!=count($spr_sbaik)-1)
+                                $kata_sbaik .= ", ";
+                            }
+                            $kata_sbaik .= " Sangat Baik";
+                            echo $kata_sbaik."<br>";
+                          }
+
+                          if($spr_baik){
+                            $kata_baik = "";
+                            for($xx=0;$xx<count($spr_baik);$xx++){
+                              $kata_baik .= returnKategoriSpirit($spr_baik[$xx]-1);
+                              if($xx!=count($spr_baik)-1)
+                                $kata_baik .= ", ";
+                            }
+                            $kata_baik .= " dengan Baik";
+                            echo $kata_baik."<br>";
+                          }
+
+                          if($spr_cukup){
+                            $kata_cukup = "Mulai Berkembang untuk sikap ";
+                            for($xx=0;$xx<count($spr_cukup);$xx++){
+                              $kata_cukup .= returnKategoriSpirit($spr_cukup[$xx]-1);
+                              if($xx!=count($spr_cukup)-1)
+                                $kata_cukup .= ", ";
+                            }
+                            echo $kata_cukup."<br>";
+                          }
+
+                          if($spr_kurang){
+                            $kata_kurang = "Perlu pendampingan untuk sikap ";
+                            for($xx=0;$xx<count($spr_kurang);$xx++){
+                              $kata_kurang .= returnKategoriSpirit($spr_kurang[$xx]-1);
+                              if($xx!=count($spr_kurang)-1)
+                                $kata_kurang .= ", ";
+                            }
+                            echo $kata_kurang."<br>";
+                          }
+                          // var_dump($spr_sbaik);
+                          // var_dump($spr_baik);
+                          // var_dump($spr_cukup);
+                          // var_dump($spr_kurang);
+                        ?>
+                      </td>
                     </tr>
                   </tbody>
                 </table>
@@ -96,8 +143,74 @@
                       <td>Deskripsi</td>
                     </tr>
                     <tr>
-                      <td style='text-align:center;'><?= return_abjad_sikap($total_sosial) ?></td>
-                      <td></td>
+                      <td style='text-align:center;'><?= return_abjad_sikap($sikap['total_sosial']) ?></td>
+                      <td style='padding: 0px 0px 0px 5px;'>
+                        <?php
+                          //KATA SPIRIT
+                          $sos_sbaik = array();
+                          $sos_baik = array();
+                          $sos_cukup = array();
+                          $sos_kurang = array();
+
+                          for($xx=1;$xx<=16;$xx++){
+                            $index_sos = "sosaf_".$xx;
+                            if(return_abjad_sikap($sikap[$index_sos])== "Sangat Baik")
+                              array_push($sos_sbaik, $xx);
+                            elseif (return_abjad_sikap($sikap[$index_sos])== "Baik")
+                              array_push($sos_baik, $xx);
+                            elseif (return_abjad_sikap($sikap[$index_sos])== "Cukup")
+                              array_push($sos_cukup, $xx);
+                            elseif (return_abjad_sikap($sikap[$index_sos])== "Kurang")
+                              array_push($sos_kurang, $xx);
+                          }
+
+                          if($sos_sbaik){
+                            $kata_sbaik = "";
+                            for($xx=0;$xx<count($sos_sbaik);$xx++){
+                              $kata_sbaik .= returnKategoriSosial($sos_sbaik[$xx]-1);
+                              if($xx!=count($sos_sbaik)-1)
+                                $kata_sbaik .= ", ";
+                            }
+                            $kata_sbaik .= " Sangat Baik";
+                            echo $kata_sbaik."<br>";
+                          }
+
+                          if($sos_baik){
+                            $kata_baik = "";
+                            for($xx=0;$xx<count($sos_baik);$xx++){
+                              $kata_baik .= returnKategoriSosial($sos_baik[$xx]-1);
+                              if($xx!=count($sos_baik)-1)
+                                $kata_baik .= ", ";
+                            }
+                            $kata_baik .= " dengan Baik";
+                            echo $kata_baik."<br>";
+                          }
+
+                          if($sos_cukup){
+                            $kata_cukup = "Mulai Berkembang untuk sikap ";
+                            for($xx=0;$xx<count($sos_cukup);$xx++){
+                              $kata_cukup .= returnKategoriSosial($sos_cukup[$xx]-1);
+                              if($xx!=count($sos_cukup)-1)
+                                $kata_cukup .= ", ";
+                            }
+                            echo $kata_cukup."<br>";
+                          }
+
+                          if($sos_kurang){
+                            $kata_kurang = "Perlu pendampingan untuk sikap ";
+                            for($xx=0;$xx<count($sos_kurang);$xx++){
+                              $kata_kurang .= returnKategoriSosial($sos_kurang[$xx]-1);
+                              if($xx!=count($sos_kurang)-1)
+                                $kata_kurang .= ", ";
+                            }
+                            echo $kata_kurang."<br>";
+                          }
+                          // var_dump($spr_sbaik);
+                          // var_dump($spr_baik);
+                          // var_dump($spr_cukup);
+                          // var_dump($spr_kurang);
+                        ?>
+                      </td>
                     </tr>
                   </tbody>
                 </table>

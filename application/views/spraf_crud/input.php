@@ -8,14 +8,13 @@
           <div class="p-5 overflow-auto">
             <div class="text-center">
               <h4 class="h4 text-gray-900"><b><u><?= $kelas['sk_nama'] ?></u></b></h4>
-              <h4 class="h4 text-gray-900"><b><u>Sikap Spiritual <?= $kelas['kelas_nama'] ?></u></b></h4>
-              <h4 class="h4 text-gray-900"><i>Semester <?= $spirit['spirit_semester'].' '.$mapel['mapel_nama'] ?></i></h4>
+              <h4 class="h4 text-gray-900"><b><u>Sikap Spiritual <?= $kelas['kelas_nama'] ?> Semester <?= $semester ?></u></b></h4>
+              <h4 class="h4 text-gray-900"><i><?= $mapel['mapel_nama'] ?></i></h4>
 
               <div class="alert alert-info mb-2">
-                  <h4 class="h4 text-gray-900"><i><u>KD Spiritual: </u></i></h4>
-                  <h6><i><?= $spirit['spirit_nama'] ?></i></h6>
+                  <h4 class="h4 text-gray-900"><i><u>KD Spiritual (Menghayati dan mengamalkan ajaran agama yang dianutnya): </u></i></h4>
                   <h6><b>1. Berdoa sebelum & sesudah kegiatan</b></h6>
-                  <h6><b>2. Menjalankan ibadah sesuai agamanya</b></h6>
+                  <h6><b>2. Menjalankan ibadah sesuai agama yang dianut</b></h6>
                   <h6><b>3. Memberi salam awal dan akhir kegiatan</b></h6>
                   <h6><b>4. Bersyukur atas nikmat dan karunia Tuhan Yang Maha Esa</b></h6>
                   <h6><b>5. Mensyukuri kemampuan manusia dalam mengendalikan diri</b></h6>
@@ -24,7 +23,7 @@
                   <h6><b>8. Menjaga lingkungan hidup di sekitar satuan pendidikan</b></h6>
                   <h6><b>9. Memelihara hubungan baik dengan sesama umat ciptaan Tuhan Yang Maha Esa</b></h6>
                   <h6><b>10. Bersyukur kepada Tuhan Yang Maha Esa sebagai bangsa Indonesia</b></h6>
-                  <h6><b>11. Menghormati orang lain yang menjalankan ibadah sesuai dengan agama yang dianut</b></h6>
+                  <h6><b>11. Menghormati orang lain yang menjalankan ibadah sesuai dengan agama yang dianutnya dan tidak merendahkan agama lain</b></h6>
               </div>
 
 
@@ -54,7 +53,7 @@
             <form class="" action="<?= base_url('spraf_CRUD/save_input'); ?>" method="post">
               <input type="hidden" value="<?= $kelas_id ?>" name="kelas_id">
               <input type="hidden" value="<?= $mapel_id ?>" name="mapel_id">
-              <input type="hidden" value="<?= $spirit['spirit_id'] ?>" name="spirit_id">
+              <input type="hidden" value="<?= $semester ?>" name="semester">
               <table class="table table-bordered table-hover table-sm mr-5">
                 <thead>
                   <tr>
@@ -96,17 +95,17 @@
                       </td>
 
                       <!-- NILAI HARIAN -->
-                      <td class='text-center'><?= cetak_opt("a[]"); ?></td>
-                      <td class='text-center'><?= cetak_opt("b[]"); ?></td>
-                      <td class='text-center'><?= cetak_opt("c[]"); ?></td>
-                      <td class='text-center'><?= cetak_opt("d[]"); ?></td>
-                      <td class='text-center'><?= cetak_opt("e[]"); ?></td>
-                      <td class='text-center'><?= cetak_opt("f[]"); ?></td>
-                      <td class='text-center'><?= cetak_opt("g[]"); ?></td>
-                      <td class='text-center'><?= cetak_opt("h[]"); ?></td>
-                      <td class='text-center'><?= cetak_opt("i[]"); ?></td>
-                      <td class='text-center'><?= cetak_opt("j[]"); ?></td>
-                      <td class='text-center'><?= cetak_opt("k[]"); ?></td>
+                      <td class='text-center'><?= cetak_opt("1[]"); ?></td>
+                      <td class='text-center'><?= cetak_opt("2[]"); ?></td>
+                      <td class='text-center'><?= cetak_opt("3[]"); ?></td>
+                      <td class='text-center'><?= cetak_opt("4[]"); ?></td>
+                      <td class='text-center'><?= cetak_opt("5[]"); ?></td>
+                      <td class='text-center'><?= cetak_opt("6[]"); ?></td>
+                      <td class='text-center'><?= cetak_opt("7[]"); ?></td>
+                      <td class='text-center'><?= cetak_opt("8[]"); ?></td>
+                      <td class='text-center'><?= cetak_opt("9[]"); ?></td>
+                      <td class='text-center'><?= cetak_opt("10[]"); ?></td>
+                      <td class='text-center'><?= cetak_opt("11[]"); ?></td>
                     </tr>
                   <?php endforeach ?>
                 </tbody>

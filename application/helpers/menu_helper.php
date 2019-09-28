@@ -379,13 +379,37 @@ function return_abjad_extra($nilai){
 }
 
 function return_abjad_sikap($nilai){
-  if($nilai >=3){
+  if($nilai >3.33){
       return "Sangat Baik";
-  }elseif($nilai >=2){
+  }elseif($nilai >=2.33){
       return "Baik";
-  }elseif($nilai >=1){
-      return "Perlu Perbaikan";
+  }elseif($nilai >=1.33){
+      return "Cukup";
+  }else{
+      return "Kurang";
   }
+}
+
+function returnKategoriSpirit($index){
+  $kata = ["Berdoa sebelum & sesudah kegiatan",
+          "Menjalankan ibadah sesuai agama yang dianut",
+          "Memberi salam awal dan akhir kegiatan",
+          "Bersyukur atas nikmat dan karunia Tuhan Yang Maha Esa",
+          "Mensyukuri kemampuan manusia dalam mengendalikan diri",
+          "Bersyukur ketika berhasil mengerjakan sesuatu",
+          "Berserah diri (tawakal) kepada Tuhan setelah beriktiar atau melakukan usaha",
+          "Menjaga lingkungan hidup di sekitar satuan pendidikan",
+          "Memelihara hubungan baik dengan sesama umat ciptaan Tuhan Yang Maha Esa",
+          "Bersyukur kepada Tuhan Yang Maha Esa sebagai bangsa Indonesia",
+          "Menghormati orang lain yang menjalankan ibadah sesuai dengan agama yang dianutnya dan tidak merendahkan agama lain"];
+  return $kata[$index];
+}
+function returnKategoriSosial($index){
+  $kata = ["Jujur","Disiplin","Tanggung Jawab","Toleran","Gotong Royong","Santun","Percaya Diri","Responsif dan proaktif",
+          "Peduli (mampu bekerjasama dengan orang lain, gotong royong )","Taat aturan",
+          "Semangat belajar yang tinggi untuk berprestasi","Simpatik","Menghargai orang lain",
+          "Sabar","Sederhana dalam penampilan","Menerima kritik, saran dan mau meminta maaf bila melakukan kesalahan"];
+  return $kata[$index];
 }
 
 function return_detail_siswa($d_s_id){
@@ -436,30 +460,59 @@ function return_nama_bulan($bulan_angka){
   return $bulan;
 }
 
+
 function returnRaportSemester1($d_s_id, $semester, $kelas_id){
   $ci =& get_instance();
 
   $raport_semester1 = $ci->db->query(
-    "SELECT *
+    "SELECT mapel_id,
+      SUM(IFNULL(sosaf_1,3))/COUNT(mapel_id) as sosaf_1,
+      SUM(IFNULL(sosaf_2,3))/COUNT(mapel_id) as sosaf_2,
+      SUM(IFNULL(sosaf_3,3))/COUNT(mapel_id) as sosaf_3,
+      SUM(IFNULL(sosaf_4,3))/COUNT(mapel_id) as sosaf_4,
+      SUM(IFNULL(sosaf_5,3))/COUNT(mapel_id) as sosaf_5,
+      SUM(IFNULL(sosaf_6,3))/COUNT(mapel_id) as sosaf_6,
+      SUM(IFNULL(sosaf_7,3))/COUNT(mapel_id) as sosaf_7,
+      SUM(IFNULL(sosaf_8,3))/COUNT(mapel_id) as sosaf_8,
+      SUM(IFNULL(sosaf_9,3))/COUNT(mapel_id) as sosaf_9,
+      SUM(IFNULL(sosaf_10,3))/COUNT(mapel_id) as sosaf_10,
+      SUM(IFNULL(sosaf_11,3))/COUNT(mapel_id) as sosaf_11,
+      SUM(IFNULL(sosaf_12,3))/COUNT(mapel_id) as sosaf_12,
+      SUM(IFNULL(sosaf_13,3))/COUNT(mapel_id) as sosaf_13,
+      SUM(IFNULL(sosaf_14,3))/COUNT(mapel_id) as sosaf_14,
+      SUM(IFNULL(sosaf_15,3))/COUNT(mapel_id) as sosaf_15,
+      SUM(IFNULL(sosaf_16,3))/COUNT(mapel_id) as sosaf_16,
+      SUM((d_mpl_persen_sos/100) * IFNULL(total_sosial,3)) as total_sosial,
+      SUM(IFNULL(spraf_1,3))/COUNT(mapel_id) as spraf_1,
+      SUM(IFNULL(spraf_2,3))/COUNT(mapel_id) as spraf_2,
+      SUM(IFNULL(spraf_3,3))/COUNT(mapel_id) as spraf_3,
+      SUM(IFNULL(spraf_4,3))/COUNT(mapel_id) as spraf_4,
+      SUM(IFNULL(spraf_5,3))/COUNT(mapel_id) as spraf_5,
+      SUM(IFNULL(spraf_6,3))/COUNT(mapel_id) as spraf_6,
+      SUM(IFNULL(spraf_7,3))/COUNT(mapel_id) as spraf_7,
+      SUM(IFNULL(spraf_8,3))/COUNT(mapel_id) as spraf_8,
+      SUM(IFNULL(spraf_9,3))/COUNT(mapel_id) as spraf_9,
+      SUM(IFNULL(spraf_10,3))/COUNT(mapel_id) as spraf_10,
+      SUM(IFNULL(spraf_11,3))/COUNT(mapel_id) as spraf_11,
+      SUM((d_mpl_persen_spr/100) * IFNULL(total_spirit,3)) as total_spirit
     FROM (
     	SELECT DISTINCT(mapel_id), mapel_nama, d_mpl_persen_sos, d_mpl_persen_spr
     	FROM d_mpl
     	LEFT JOIN mapel ON d_mpl_mapel_id = mapel_id
     	WHERE d_mpl_kelas_id = $kelas_id ) AS master_sikap
     LEFT JOIN (
-      SELECT sosial_mapel_id, GROUP_CONCAT(sosial_nama) AS nama_sosial, SUM((sosaf_a+sosaf_b+sosaf_c+sosaf_d+sosaf_e+sosaf_f+sosaf_g)/7)/COUNT(sosial_mapel_id) AS total_sosial
+      SELECT sosaf_mapel_id, sosaf_1, sosaf_2, sosaf_3, sosaf_4, sosaf_5, sosaf_6, sosaf_7, sosaf_8, sosaf_9, sosaf_10, sosaf_11, sosaf_12, sosaf_13, sosaf_14, sosaf_15, sosaf_16,
+      (sosaf_1+sosaf_2+sosaf_3+sosaf_4+sosaf_5+sosaf_6+sosaf_7+sosaf_8+sosaf_9+sosaf_10+sosaf_11+sosaf_12+sosaf_13+sosaf_14+sosaf_15+sosaf_16)/16 AS total_sosial
     	FROM sosaf
-    	LEFT JOIN sosial ON sosaf_sosial_id = sosial_id
-    	WHERE sosaf_d_s_id = $d_s_id AND sosial_semester = $semester
-    	GROUP BY sosial_mapel_id) AS sosial ON master_sikap.mapel_id = sosial.sosial_mapel_id
+    	WHERE sosaf_d_s_id = $d_s_id AND sosaf_semester = $semester) AS sosial ON master_sikap.mapel_id = sosial.sosaf_mapel_id
     LEFT JOIN (
-      SELECT spirit_mapel_id, GROUP_CONCAT(spirit_nama) AS nama_spirit,
-      SUM((spraf_a+spraf_b+spraf_c+spraf_d+spraf_e+spraf_f+spraf_g+spraf_h+spraf_i+spraf_j+spraf_k)/11)/COUNT(spirit_mapel_id) AS total_spirit
+      SELECT spraf_mapel_id, spraf_1,spraf_2,spraf_3,spraf_4,spraf_5,spraf_6,spraf_7,spraf_8,spraf_9,spraf_10,spraf_11,
+      (spraf_1+spraf_2+spraf_3+spraf_4+spraf_5+spraf_6+spraf_7+spraf_8+spraf_9+spraf_10+spraf_11)/11 AS total_spirit
     	FROM spraf
-    	LEFT JOIN spirit ON spraf_spirit_id = spirit_id
-    	WHERE spraf_d_s_id = $d_s_id AND spirit_semester = $semester
-    	GROUP BY spirit_mapel_id) AS spirit ON master_sikap.mapel_id = spirit.spirit_mapel_id")->result_array();
+    	WHERE spraf_d_s_id = $d_s_id AND spraf_semester = $semester) AS spirit ON master_sikap.mapel_id = spirit.spraf_mapel_id")->row_array();
 
+  // var_dump($this->$ci->last_query());
+  // die();
   return $raport_semester1;
 }
 

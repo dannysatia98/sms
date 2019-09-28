@@ -89,7 +89,7 @@ class Tes_CRUD extends CI_Controller
 
       if($this->session->userdata('kr_jabatan_id')!=4){
         $data = $this->db->query(
-          "SELECT DISTINCT mapel_id, mapel_nama
+          "SELECT DISTINCT mapel_id, mapel_nama, mapel_sing
           FROM d_mpl
           LEFT JOIN mapel ON d_mpl_mapel_id = mapel_id
           WHERE d_mpl_kelas_id = $kelas_id AND d_mpl_kr_id = $kr_id
@@ -97,7 +97,7 @@ class Tes_CRUD extends CI_Controller
       }
       elseif($this->session->userdata('kr_jabatan_id')==4){
         $data = $this->db->query(
-          "SELECT DISTINCT mapel_id, mapel_nama
+          "SELECT DISTINCT mapel_id, mapel_nama, mapel_sing
           FROM d_mpl
           LEFT JOIN mapel ON d_mpl_mapel_id = mapel_id
           WHERE d_mpl_kelas_id = $kelas_id
