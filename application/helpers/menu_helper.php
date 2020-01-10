@@ -27,19 +27,20 @@ function scout_menu(){
   return $count_scout;
 }
 
-function disjam_sekolah_lain($kr_id, $t_id, $sk_id){
+function mapel_urutan_by_kelas($kelas_id){
   $ci =& get_instance();
 
-  $sk_lain = $ci->db->query(
-    'SELECT kr_id, kr_nama_depan, kr_nama_belakang, GROUP_CONCAT(mapel_id ORDER BY sk_id) as mapel_id, GROUP_CONCAT(mapel_nama ORDER BY sk_id) as mapel_nama, sum(d_mpl_beban) as beban, GROUP_CONCAT(sk_nama ORDER BY sk_id SEPARATOR "+") as sk_nama
+  $mpl = $ci->db->query(
+    "SELECT *
     FROM d_mpl
     LEFT JOIN kelas ON d_mpl_kelas_id = kelas_id
     LEFT JOIN mapel ON d_mpl_mapel_id = mapel_id
-    LEFT JOIN sk ON mapel_sk_id = sk_id
-    LEFT JOIN kr ON d_mpl_kr_id = kr_id
-    WHERE d_mpl_kr_id = '.$kr_id.' AND kelas_t_id = '.$t_id.' AND kelas_sk_id <>  '.$sk_id.'')->result_array();
+    LEFT JOIN mapel_kel ON mapel_kel = mapel_kel_id
+    WHERE d_mpl_kelas_id = $kelas_id
+    GROUP BY mapel_id
+    ORDER BY mapel_kel_id, mapel_urutan")->result_array();
 
-  return $sk_lain;
+  return $mpl;
 }
 
 function returnNonZeroK($tes_prak1,$tes_prak2,$tes_prak3,$tes_produk1,$tes_produk2,$tes_produk3,$tes_proyek1,$tes_proyek2,$tes_proyek3,$tes_porto1,$tes_porto2,$tes_porto3){
@@ -553,6 +554,43 @@ function returnRaportSemester2($d_s_id, $semester){
   return $raport_semester2;
 }
 
+function returnRaportPengetahuan($d_s_id, $semester, $mapel_id){
+  $ci =& get_instance();
+
+  $raport_semester2 = $ci->db->query(
+    "SELECT * FROM (
+      SELECT mapel_id, mapel_kel_id, mapel_urutan, tes_d_s_id, mapel_nama, mapel_kel_nama, SUM((tes_ph1+tes_ph2+tes_ph3+tes_ph4+tes_ph5)/tes_jum_ph)/COUNT(mapel_id) as NH, GROUP_CONCAT(topik_id) as topik_kumpulan
+      FROM tes
+      LEFT JOIN topik
+      ON tes_topik_id = topik_id
+      LEFT JOIN mapel
+      ON topik_mapel_id = mapel_id
+      LEFT JOIN mapel_kel
+      ON mapel_kel = mapel_kel_id
+      LEFT JOIN d_s
+      ON tes_d_s_id = d_s_id
+      LEFT JOIN sis
+      ON d_s_sis_id = sis_id
+      WHERE tes_d_s_id = $d_s_id AND topik_semester = $semester AND mapel_id = $mapel_id
+      GROUP BY mapel_id ) AS forma
+    LEFT JOIN (
+      SELECT mapel_id, uj_mid1_kog, uj_fin1_kog, uj_mid2_kog,uj_fin2_kog
+      FROM uj
+      LEFT JOIN mapel
+      ON uj_mapel_id = mapel_id
+      LEFT JOIN d_s
+      ON uj_d_s_id = d_s_id
+      LEFT JOIN sis
+      ON d_s_sis_id = sis_id
+      WHERE uj_d_s_id = $d_s_id
+      GROUP BY mapel_id
+      ORDER BY mapel_urutan
+    )AS summa ON forma.mapel_id = summa.mapel_id
+    ORDER BY mapel_kel_id, mapel_urutan")->row_array();
+
+  return $raport_semester2;
+}
+
 
 function hitungNA($NH,$ujmid,$ujfin){
   $pembagi = 2;
@@ -630,6 +668,58 @@ function returnRaportSemester3($d_s_id, $semester){
     )as uj ON ket.mapel_id = uj.mapel_id
     GROUP BY ket.mapel_id
     ORDER BY mapel_kel_id, mapel_urutan")->result_array();
+
+  return $raport_semester3;
+}
+
+function returnRaportKetrampilan($d_s_id, $semester, $mapel_id){
+  $ci =& get_instance();
+
+  $raport_semester3 = $ci->db->query(
+    "SELECT ket.mapel_id as m_id, mapel_kel_id, mapel_urutan, mapel_nama, mapel_kel_nama, GROUP_CONCAT(topik_id) as topik_kumpulan,
+    SUM(total_max/calJumKet(max_prak,max_produk,max_proyek,max_porto))/COUNT(ket.mapel_id) as NA_ket, uj_mid1_psi, uj_fin1_psi, uj_mid2_psi, uj_fin2_psi
+    FROM(
+      SELECT mapel_id, mapel_kel_id, mapel_urutan, tes_d_s_id, mapel_nama, mapel_kel_nama, topik_id,
+      tes_prak1, tes_prak2, tes_prak3,
+      GREATEST(tes_prak1, tes_prak2, tes_prak3) as max_prak,
+      tes_produk1, tes_produk2, tes_produk3,
+      GREATEST(tes_produk1, tes_produk2, tes_produk3) as max_produk,
+      tes_proyek1, tes_proyek2, tes_proyek3,
+      GREATEST(tes_proyek1, tes_proyek2, tes_proyek3) as max_proyek,
+      tes_porto1, tes_porto2, tes_porto3,
+      GREATEST(tes_porto1, tes_porto2, tes_porto3) as max_porto,
+      GREATEST(tes_prak1, tes_prak2, tes_prak3)+
+      GREATEST(tes_produk1, tes_produk2, tes_produk3)+
+      GREATEST(tes_proyek1, tes_proyek2, tes_proyek3)+
+      GREATEST(tes_porto1, tes_porto2, tes_porto3) as total_max
+      FROM tes
+      LEFT JOIN topik
+      ON tes_topik_id = topik_id
+      LEFT JOIN mapel
+      ON topik_mapel_id = mapel_id
+      LEFT JOIN mapel_kel
+      ON mapel_kel = mapel_kel_id
+      LEFT JOIN d_s
+      ON tes_d_s_id = d_s_id
+      LEFT JOIN sis
+      ON d_s_sis_id = sis_id
+      WHERE tes_d_s_id = $d_s_id AND topik_semester = $semester AND mapel_id = $mapel_id
+    )as ket
+    LEFT JOIN (
+    	SELECT mapel_id, uj_mid1_psi, uj_fin1_psi, uj_mid2_psi, uj_fin2_psi
+        FROM uj
+        LEFT JOIN mapel
+        ON uj_mapel_id = mapel_id
+        LEFT JOIN d_s
+        ON uj_d_s_id = d_s_id
+        LEFT JOIN sis
+        ON d_s_sis_id = sis_id
+        WHERE uj_d_s_id = $d_s_id
+        GROUP BY mapel_id
+        ORDER BY mapel_urutan
+    )as uj ON ket.mapel_id = uj.mapel_id
+    GROUP BY ket.mapel_id
+    ORDER BY mapel_kel_id, mapel_urutan")->row_array();
 
   return $raport_semester3;
 }
@@ -726,4 +816,14 @@ function show_laporan($topik_id){
     ORDER BY sis_no_induk, sis_nama_depan")->result_array();
 
   return $kd_min;
+}
+
+function return_nama_tahun($t_id){
+  $ci =& get_instance();
+  $t = $ci->db->query(
+    "SELECT t_nama
+    FROM t
+    WHERE t_id = $t_id")->row_array();
+
+  return $t;
 }

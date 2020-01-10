@@ -180,6 +180,15 @@
                 </tbody>
               </table>
 
+              <?php
+                $tdep = explode('/',$siswa[0]['t_nama']);
+                $json = file_get_contents('http://sisterapp.frateran.sch.id/sisterv2fratz/sisteraddon/api/absensisiswa/?tahunajaran='.$tdep[0].'&semester='.$semester.'&nis='.$siswa[0]['sis_no_induk']);
+                $obj = json_decode($json);
+                //var_dump($obj);
+                //echo $obj[0]->s;
+                //echo $obj[0]['namasiswa'];
+              ?>
+
               <div style='float: left;'>
                 <div style='margin-top: 30px; font-family: "Times New Roman", Times, serif; font-size:12px;'><b>REKAP ABSENSI</b></div>
 
@@ -193,17 +202,17 @@
                     <tr style="height:2px;" >
                       <td style='width: 25px;'>1</td>
                       <td style='width: 150px; padding: 0px 0px 0px 5px; text-align:left;'>Sakit</td>
-                      <td></td>
+                      <td style='padding: 0px 0px 0px 5px; text-align:center;'><?= $obj[0]->s ?></td>
                     </tr>
                     <tr style="height:2px;" >
                       <td style='width: 25px;'>2</td>
                       <td style='width: 150px; padding: 0px 0px 0px 5px; text-align:left;'>Izin</td>
-                      <td></td>
+                      <td style='padding: 0px 0px 0px 5px; text-align:center;'><?= $obj[0]->i ?></td>
                     </tr>
                     <tr style="height:2px;" >
                       <td style='width: 25px;'>3</td>
                       <td style='width: 150px; padding: 0px 0px 0px 5px; text-align:left;'>Tanpa Keterangan</td>
-                      <td></td>
+                      <td style='padding: 0px 0px 0px 5px; text-align:center;'><?= $obj[0]->a ?></td>
                     </tr>
                   </tbody>
                 </table>

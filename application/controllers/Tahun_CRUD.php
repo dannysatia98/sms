@@ -17,7 +17,7 @@ class Tahun_CRUD extends CI_Controller
     }
 
     //jika bukan Admin dan sudah login redirect ke home
-    if ($this->session->userdata('kr_jabatan_id') != 1 && $this->session->userdata('kr_jabatan_id')) {
+    if ($this->session->userdata('kr_jabatan_id') != 4 && $this->session->userdata('kr_jabatan_id')) {
       redirect('Profile');
     }
   }
@@ -25,7 +25,7 @@ class Tahun_CRUD extends CI_Controller
   public function index()
   {
 
-    $data['title'] = 'Tahun Ajaran List';
+    $data['title'] = 'Daftar Tahun Ajaran';
 
     //data karyawan yang sedang login untuk topbar
     $data['kr'] = $this->_kr->find_by_username($this->session->userdata('kr_username'));
@@ -50,7 +50,7 @@ class Tahun_CRUD extends CI_Controller
   public function add()
   {
 
-    $this->form_validation->set_rules('tahun_nama', 'Tahun Nama', 'required|trim|is_unique[t.t_nama]', ['is_unique' => 'This year already exist!']);
+    $this->form_validation->set_rules('tahun_nama', 'Tahun Nama', 'required|trim|is_unique[t.t_nama]', ['is_unique' => 'Tahun sudah ada!']);
 
 
     if ($this->form_validation->run() == false) {
@@ -71,7 +71,7 @@ class Tahun_CRUD extends CI_Controller
       ];
 
       $this->db->insert('t', $data);
-      $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Year Created!</div>');
+      $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Tahun berhasil dibuat!</div>');
       redirect('tahun_crud/add');
     }
   }
@@ -94,11 +94,11 @@ class Tahun_CRUD extends CI_Controller
       }
     }
 
-    $this->form_validation->set_rules('tahun_nama', 'Tahun', 'required|trim|is_unique[t.t_nama]', ['is_unique' => 'This year already exist!']);
+    $this->form_validation->set_rules('tahun_nama', 'Tahun', 'required|trim|is_unique[t.t_nama]', ['is_unique' => 'Tahun sudah ada!']);
 
     if ($this->form_validation->run() == false) {
       //jika menekan tombol edit
-      $data['title'] = 'Update Year';
+      $data['title'] = 'Update Tahun';
 
       //data karyawan yang sedang login untuk topbar
       $data['kr'] = $this->_kr->find_by_username($this->session->userdata('kr_username'));
@@ -125,7 +125,7 @@ class Tahun_CRUD extends CI_Controller
       $this->db->where('t_id', $this->input->post('_id'));
       $this->db->update('t', $data);
 
-      $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Year Updated!</div>');
+      $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Tahun berhasil dirubah!</div>');
       redirect('Tahun_CRUD');
     }
   }

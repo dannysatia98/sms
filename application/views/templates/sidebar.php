@@ -15,8 +15,6 @@
       <!-- MANAJEMEN MENU -->
       <?php
 
-      //echo $this->Menu->show_hello_world();
-
       if ($this->session->userdata('kr_jabatan_id') == 1 && $this->session->userdata('kr_jabatan_id')) {
         //Administrator atau Super Admin
         echo '<div class="sidebar-heading">Administrator</div>
@@ -70,13 +68,14 @@
               <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
                   <h6 class="collapse-header">Master</h6>
-                  <a class="collapse-item" href=' . base_url('Sekolah_CRUD') . '>1. Sekolah</a>
-                  <a class="collapse-item" href=' . base_url('Karyawan_CRUD') . '>2. Guru</a>
-                  <a class="collapse-item" href=' . base_url('Siswa_CRUD') . '>3. Siswa</a>
-                  <a class="collapse-item" href=' . base_url('Mapel_CRUD') . '>4. Mapel</a>
-                  <a class="collapse-item" href=' . base_url('Topik_CRUD') . '>5. Kompetensi Dasar</a>
-                  <a class="collapse-item" href=' . base_url('Kelas_CRUD') . '>6. Kelas</a>
-                  <a class="collapse-item" href=' . base_url('SSP_CRUD') . '>7. Ekskul</a>
+                  <a class="collapse-item" href=' . base_url('Tahun_CRUD') . '>1. Tahun</a>
+                  <a class="collapse-item" href=' . base_url('Sekolah_CRUD') . '>2. Sekolah</a>
+                  <a class="collapse-item" href=' . base_url('Karyawan_CRUD') . '>3. Guru</a>
+                  <a class="collapse-item" href=' . base_url('Siswa_CRUD') . '>4. Siswa</a>
+                  <a class="collapse-item" href=' . base_url('Mapel_CRUD') . '>5. Mapel</a>
+                  <a class="collapse-item" href=' . base_url('Topik_CRUD') . '>6. Kompetensi Dasar</a>
+                  <a class="collapse-item" href=' . base_url('Kelas_CRUD') . '>7. Kelas</a>
+                  <a class="collapse-item" href=' . base_url('SSP_CRUD') . '>8. Ekskul</a>
                 </div>
               </div>
             </li>
@@ -97,13 +96,17 @@
 
             <li class="nav-item">
               <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo2" aria-expanded="true" aria-controls="collapseTwo">
-                <i class="fas fa-fw fa-book"></i>
-                <span>Raport</span>
+                <i class="fas fa-fw fa-chart-bar"></i>
+                <span>Laporan</span>
               </a>
               <div id="collapseTwo2" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
-                  <h6 class="collapse-header">Print</h6>
-                  <a class="collapse-item" href=' . base_url('Report_CRUD') . '>Raport</a>
+                  <h6 class="collapse-header">Laporan</h6>
+                  <a class="collapse-item" href=' . base_url('Report_CRUD') . '>1. Rapor</a>
+                  <a class="collapse-item" href=' . base_url('Laporan_CRUD/index_dkn_naik') . '>2. DKN Kenaikan Kelas</a>
+                  <a class="collapse-item" href=' . base_url('Laporan_CRUD/index_dkn_un') . '>3. DKN Nominasi UN</a>
+                  <a class="collapse-item" href=' . base_url('Laporan_CRUD/index_buku_induk') . '>4. Buku Induk</a>
+                  <a class="collapse-item" href=' . base_url('Laporan_crud/index_rank') . '>5. Ranking Kelas</a>
                 </div>
               </div>
             </li>
@@ -204,9 +207,9 @@
 
 
       <!-- Sidebar Toggler (Sidebar) -->
-      <div class="text-center d-none d-md-inline">
+      <!-- <div class="text-center d-none d-md-inline">
         <button class="rounded-circle border-0" id="sidebarToggle"></button>
-      </div>
+      </div> -->
 
     </ul>
     <!-- End of Sidebar -->

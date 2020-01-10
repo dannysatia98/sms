@@ -7,17 +7,17 @@
         <div class="col-lg">
           <div class="p-5 overflow-auto">
             <div class="text-center">
-              <h1 class="h4 text-gray-900 mb-4">School Year List</h1>
+              <h1 class="h4 text-gray-900 mb-4"><?= $title ?></h1>
             </div>
 
             <?= $this->session->flashdata('message'); ?>
 
-            <a href="<?= base_url('tahun_crud/add') ?>" class="btn btn-primary mb-3">Add New School Year</a>
+            <a href="<?= base_url('tahun_crud/add') ?>" class="btn btn-primary mb-3">Tambah</a>
 
             <table class="table display compact table-hover dt">
               <thead>
                 <tr>
-                  <th>School Year</th>
+                  <th>Tahun</th>
                   <th>Action</th>
                 </tr>
               </thead>
@@ -33,12 +33,12 @@
                             Edit
                           </button>
                         </form>
-                        <form class="" action="" method="get">
+                        <!-- <form class="" action="" method="get">
                           <input type="hidden" name="" value=<?= $m['t_id'] ?> >
                           <button type="submit" class="badge badge-danger">
                             Delete
                           </button>
-                        </form>
+                        </form> -->
                       </div>
                     </td>
                   </tr>

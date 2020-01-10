@@ -811,7 +811,7 @@ $(document).ready(function () {
               }
 
               html += '<button type="submit" class="btn btn-primary btn-user btn-block">';
-              html += 'Preview Raport';
+              html += 'Proses';
               html += '</button>';
 
             }

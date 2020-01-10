@@ -91,6 +91,120 @@ class Laporan_CRUD extends CI_Controller
 
   }
 
+  public function index_dkn_naik(){
+    $data['title'] = 'DKN Kenaikan Kelas';
 
+    //data karyawan yang sedang login untuk topbar
+    $data['kr'] = $this->_kr->find_by_username($this->session->userdata('kr_username'));
+
+    //$data['tes'] = var_dump($this->db->last_query());
+
+    //cari guru mengajar mapel mana saja
+
+    $kr_id = $data['kr']['kr_id'];
+
+    $data['t_all'] = $this->_t->return_all();
+
+    $this->load->view('templates/header',$data);
+    $this->load->view('templates/sidebar',$data);
+    $this->load->view('templates/topbar',$data);
+    $this->load->view('Laporan_crud/index_dkn_naik',$data);
+    $this->load->view('templates/footer');
+  }
+
+  public function index_dkn_un(){
+    $data['title'] = 'DKN UN';
+
+    //data karyawan yang sedang login untuk topbar
+    $data['kr'] = $this->_kr->find_by_username($this->session->userdata('kr_username'));
+
+    //$data['tes'] = var_dump($this->db->last_query());
+
+    //cari guru mengajar mapel mana saja
+
+    $kr_id = $data['kr']['kr_id'];
+
+    $data['t_all'] = $this->_t->return_all();
+
+    $this->load->view('templates/header',$data);
+    $this->load->view('templates/sidebar',$data);
+    $this->load->view('templates/topbar',$data);
+    $this->load->view('Laporan_crud/index_dkn_un',$data);
+    $this->load->view('templates/footer');
+  }
+
+  public function index_buku_induk(){
+    $data['title'] = 'Buku Induk';
+
+    //data karyawan yang sedang login untuk topbar
+    $data['kr'] = $this->_kr->find_by_username($this->session->userdata('kr_username'));
+
+    //$data['tes'] = var_dump($this->db->last_query());
+
+    //cari guru mengajar mapel mana saja
+
+    $kr_id = $data['kr']['kr_id'];
+
+    $data['t_all'] = $this->_t->return_all();
+
+    $this->load->view('templates/header',$data);
+    $this->load->view('templates/sidebar',$data);
+    $this->load->view('templates/topbar',$data);
+    $this->load->view('Laporan_crud/index_buku_induk',$data);
+    $this->load->view('templates/footer');
+  }
+
+  public function index_buku_induk_show(){
+    if($this->input->post('siswa_check[]',TRUE)){
+
+      if(count($this->input->post('siswa_check[]',TRUE))==0){
+        $this->session->set_flashdata('message','<div class="alert alert-danger" role="alert">Pilih setidaknya 1 siswa!</div>');
+        redirect('Laporan_crud/index_buku_induk');
+      }
+
+      $data['title'] = 'Buku Induk';
+
+      $data['t_id'] = $this->input->post('t',TRUE);
+      //data karyawan yang sedang login untuk topbar
+      $data['kr'] = $this->_kr->find_by_username($this->session->userdata('kr_username'));
+      $data['sis_arr'] = $this->input->post('siswa_check[]',TRUE);
+
+      // $data['kepsek'] = $this->_sk->find_by_id($this->session->userdata('kr_sk_id'));
+      $data['walkel'] = $this->_kelas->find_walkel_by_kelas_id($this->input->post('kelas_id',TRUE));
+      $data['kelas_id'] = $this->input->post('kelas_id',TRUE);
+      $data['tgl_cetak'] = $this->input->post('tgl_cetak',TRUE);
+
+      $this->load->view('templates/header',$data);
+      $this->load->view('templates/sidebar',$data);
+      $this->load->view('templates/topbar',$data);
+      $this->load->view('Laporan_crud/index_buku_induk_show',$data);
+      $this->load->view('templates/footer');
+
+    }else{
+      $this->session->set_flashdata('message','<div class="alert alert-danger" role="alert">Akses Ditolak!</div>');
+      redirect('Profile');
+    }
+  }
+
+  public function index_rank(){
+    $data['title'] = 'Ranking Kelas';
+
+    //data karyawan yang sedang login untuk topbar
+    $data['kr'] = $this->_kr->find_by_username($this->session->userdata('kr_username'));
+
+    //$data['tes'] = var_dump($this->db->last_query());
+
+    //cari guru mengajar mapel mana saja
+
+    $kr_id = $data['kr']['kr_id'];
+
+    $data['t_all'] = $this->_t->return_all();
+
+    $this->load->view('templates/header',$data);
+    $this->load->view('templates/sidebar',$data);
+    $this->load->view('templates/topbar',$data);
+    $this->load->view('Laporan_crud/index_rank',$data);
+    $this->load->view('templates/footer');
+  }
 
 }
