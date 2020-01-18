@@ -7,21 +7,17 @@
         <div class="col-lg">
           <div class="p-5">
             <div class="text-center">
-              <h1 class="h4 text-gray-900 mb-4"><?= $title ?></h1>
+              <h1 class="h4 text-gray-900 mb-4"><u><?= $title ?></u></h1>
             </div>
 
             <?= $this->session->flashdata('message'); ?>
             <form class="user" method="post" action="<?= base_url('Kelas_CRUD/add'); ?>">
               <div class="form-group row">
+                <div class="col-sm-6">
 
-                <div class="col-sm mb-3 mb-sm-0">
                   <input type="hidden" name="kelas_sk_id" class="form-control" value="<?= $kr['kr_sk_id'] ?>">
-                </div>
-              </div>
-              <div class="form-group row">
-                <div class="col-sm-6 mb-3 mb-sm-0">
-
-                  <select name="kelas_t_id" id="kelas_t_id" class="form-control">
+                  <label for="kelas_t_id"><b><u>Tahun Ajaran</u>:</b></label>
+                  <select name="kelas_t_id" id="kelas_t_id" class="form-control form-control-sm">
                     <?php
                     $_selected = set_value('kelas_t_id');
 
@@ -35,16 +31,25 @@
                     endforeach
                     ?>
                   </select>
-                </div>
-                <div class="col-sm mb-3 mb-sm-0 cek">
-                  <input type="text" class="form-control" id="kelas_nama" name="kelas_nama" placeholder="Nama Kelas (Ex: X Science 1)" value="<?= set_value('kelas_nama') ?>">
-                  <?= form_error('kelas_nama', '<small class="text-danger pl-3">', '</small>'); ?>
-                </div>
-              </div>
-              <div class="form-group row">
-                <div class="col-sm-6 mb-3 mb-sm-0">
 
-                  <select name="jenj_id" id="jenj_id" class="form-control">
+                  <label for="kelas_t_id" class="mt-2"><b><u>Program</u>:</b></label>
+                  <select name="kelas_program_id" id="kelas_program_id" class="form-control form-control-sm">
+                    <?php
+                    $_selected = set_value('kelas_program_id');
+
+                    foreach ($program_all as $m) :
+                      if ($_selected == $m['program_id']) {
+                        $s = "selected";
+                      } else {
+                        $s = "";
+                      }
+                      echo "<option value=" . $m['program_id'] . " " . $s . ">" . $m['program_nama'] . "</option>";
+                    endforeach
+                    ?>
+                  </select>
+
+                  <label for="kelas_t_id" class="mt-2"><b><u>Jenjang</u>:</b></label>
+                  <select name="jenj_id" id="jenj_id" class="form-control form-control-sm">
                     <?php
                     $_selected = set_value('jenj_id');
 
@@ -59,13 +64,19 @@
                     ?>
                   </select>
                 </div>
-                <div class="col-sm mb-3 mb-sm-0 cek">
-                  <input type="text" class="form-control" id="kelas_nama_singkat" name="kelas_nama_singkat" placeholder="Singkatan (Ex: Xsc1)" value="<?= set_value('kelas_nama_singkat') ?>">
+                <div class="col-sm-6">
+                  <label for="kelas_nama"><b><u>Nama Kelas</u>:</b></label>
+                  <input type="text" class="form-control form-control-sm" id="kelas_nama" name="kelas_nama" value="<?= set_value('kelas_nama') ?>" required>
+                  <?= form_error('kelas_nama', '<small class="text-danger pl-3">', '</small>'); ?>
+
+                  <label for="kelas_nama_singkat" class="mt-2"><b><u>Singkatan Kelas (Contoh: XMIPA1)</u>:</b></label>
+                  <input type="text" class="form-control form-control-sm" id="kelas_nama_singkat" name="kelas_nama_singkat" required value="<?= set_value('kelas_nama_singkat') ?>">
                   <?= form_error('kelas_nama_singkat', '<small class="text-danger pl-3">', '</small>'); ?>
                 </div>
               </div>
+
               <button type="submit" class="btn btn-primary btn-user btn-block">
-                Insert
+                Tambah
               </button>
             </form>
             <hr>

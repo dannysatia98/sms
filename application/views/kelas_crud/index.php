@@ -1,3 +1,11 @@
+<style>
+.grid-container {
+  display: grid;
+  grid-template-columns: 25% 25% 25% 25%;
+  /* background-color: #2196F3; */
+}
+</style>
+
 <div class="container">
 
   <div class="card o-hidden border-0 shadow-lg my-5">
@@ -15,11 +23,12 @@
 
             <a href="<?= base_url('kelas_crud/add') ?>" class="btn btn-primary mb-3">Tambah Kelas</a>
 
-            <table class="table table-sm display compact table-hover dt">
+            <table class="table table-sm display compact table-hover dt" style="font-size:13px;">
               <thead>
                 <tr>
                   <th style="width: 15%">Nama</th>
                   <th>Singkatan</th>
+                  <th>Program</th>
                   <th>Jenjang</th>
                   <th>&Sigma; Siswa</th>
                   <th>&Sigma; Mapel</th>
@@ -39,6 +48,7 @@
                                       <td></td>
                                       <td></td>
                                       <td></td>
+                                      <td></td>
                                       <td class='text-center'><b>".$m['t_nama']."</b></td>
                                       <td></td>
                                       <td></td>
@@ -51,13 +61,14 @@
                   <tr>
                     <td><?= $m['kelas_nama'] ?></td>
                     <td><?= $m['kelas_nama_singkat'] ?></td>
+                    <td><?= $m['program_nama'] ?></td>
                     <td><?= $m['jenj_nama'] ?></td>
-                    <td><?= $m['jum_siswa'] ?></td>
+                    <td style="width:5%;"><?= $m['jum_siswa'] ?></td>
                     <td><?= $m['jum_mapel'] ?></td>
                     <td>
 
                         <form class="" action="<?= base_url('Kelas_CRUD/save_homeroom') ?>" method="post">
-                          <select name="kelas_kr_id" id="kelas_kr_id" class="form-control-sm">
+                          <select name="kelas_kr_id" id="kelas_kr_id" class="form-control form-control-sm" style="font-size:11px; height:25px;">
                             <?php
                               $_selected = $m['kelas_kr_id'];
                               echo "<option value= '0'>Pilih Walkel</option>";
@@ -67,42 +78,44 @@
                                   } else {
                                       $s = "";
                                   }
-                                  echo "<option value=" . $n['kr_id'] . " " . $s . ">" . $n['kr_nama_depan'] ." ". $n['kr_nama_belakang'][0]. "</option>";
+                                  echo "<option value=" . $n['kr_id'] . " " . $s . ">" . $n['kr_nama_depan'] ." ". $n['kr_nama_belakang']. "</option>";
                               endforeach
                             ?>
                           </select>
                     </td>
                     <td>
-                      <div class="form-group row ml-2">
-                          <input type="hidden" name="kelas_id" value=<?= $m['kelas_id'] ?>>
-                          <button type="submit" class="badge badge-dark">
-                            Save WK
-                          </button>
-                        </form>
-                        <form class="" action="<?= base_url('Kelas_CRUD/update') ?>" method="get">
-                          <input type="hidden" name="_id" value=<?= $m['kelas_id'] ?>>
-                          <button type="submit" class="badge badge-warning">
-                            Edit Kelas
-                          </button>
-                        </form>
+                      <div class="grid-container">
+                        <div>
+                            <input type="hidden" name="kelas_id" value=<?= $m['kelas_id'] ?>>
+                            <button type="submit" class="badge badge-dark">
+                              Save WK
+                            </button>
+                          </form>
+                        </div>
+                        <div>
+                          <form class="" action="<?= base_url('Kelas_CRUD/update') ?>" method="get">
+                            <input type="hidden" name="_id" value=<?= $m['kelas_id'] ?>>
+                            <button type="submit" class="badge badge-warning">
+                              Edit Kelas
+                            </button>
+                          </form>
+                        </div>
+                        <div>
                         <form class="" action="<?= base_url('Kelas_CRUD/edit_student') ?>" method="get">
                           <input type="hidden" name="_id" value=<?= $m['kelas_id'] ?>>
                           <button type="submit" class="badge badge-success">
                             Edit Siswa
                           </button>
                         </form>
+                        </div>
+                        <div>
                         <form class="" action="<?= base_url('Kelas_CRUD/edit_subject') ?>" method="get">
                           <input type="hidden" name="_id" value=<?= $m['kelas_id'] ?>>
                           <button type="submit" class="badge badge-primary">
                             Edit Mapel
                           </button>
                         </form>
-                        <form class="" action="" method="post">
-                          <input type="hidden" name="_id" value=<?= $m['kelas_id'] ?>>
-                          <button type="submit" class="badge badge-danger">
-                            Delete
-                          </button>
-                        </form>
+                        </div>
                       </div>
                     </td>
                   </tr>

@@ -52,16 +52,17 @@ class Kelas_CRUD extends CI_Controller
     $sk_id = $this->session->userdata('kr_sk_id');
 
     $data['kelas_all'] = $this->db->query(
-      "SELECT kelas_nama, kelas_nama_singkat, t_nama, jenj_nama, kelas_id, kelas_kr_id, count(DISTINCT d_s_id) as jum_siswa, count(DISTINCT d_mpl_id) as jum_mapel
+      "SELECT kelas_nama, kelas_nama_singkat, t_nama, jenj_nama, kelas_id, kelas_kr_id, count(DISTINCT d_s_id) as jum_siswa, count(DISTINCT d_mpl_id) as jum_mapel, program_nama
       FROM kelas
       LEFT JOIN t ON kelas_t_id = t_id
       LEFT JOIN jenj ON kelas_jenj_id = jenj_id
       LEFT JOIN sk ON kelas_sk_id = sk_id
       LEFT JOIN d_s ON kelas_id = d_s_kelas_id
       LEFT JOIN d_mpl ON d_mpl_kelas_id = kelas_id
+      LEFT JOIN program ON kelas_program_id = program_id
       WHERE kelas_sk_id = $sk_id
       GROUP BY kelas_id
-      ORDER BY t_id DESC, jenj_nama, kelas_nama"
+      ORDER BY t_nama DESC, jenj_nama, kelas_nama"
     )->result_array();
 
     $data['guru_all'] = $this->_kr->return_all_teacher();
@@ -97,7 +98,12 @@ class Kelas_CRUD extends CI_Controller
         redirect('Kelas_CRUD');
       }
 
-      $data['title'] = 'Create Class';
+      $data['title'] = 'Tambah Kelas';
+
+      $data['program_all'] = $this->db->query(
+        "SELECT *
+        FROM program"
+      )->result_array();
 
       //data karyawan yang sedang login untuk topbar
       $data['kr'] = $this->_kr->find_by_username($this->session->userdata('kr_username'));
@@ -116,13 +122,14 @@ class Kelas_CRUD extends CI_Controller
       $data = [
         'kelas_nama' => $this->input->post('kelas_nama'),
         'kelas_sk_id' => $this->input->post('kelas_sk_id'),
+        'kelas_program_id' => $this->input->post('kelas_program_id'),
         'kelas_jenj_id' => $this->input->post('jenj_id'),
         'kelas_nama_singkat' => $this->input->post('kelas_nama_singkat'),
         'kelas_t_id' => $this->input->post('kelas_t_id')
       ];
 
       $this->db->insert('kelas', $data);
-      $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Class Created!</div>');
+      $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Kelas Berhasil Dibuat!</div>');
       redirect('kelas_crud/add');
     }
   }
@@ -336,7 +343,7 @@ class Kelas_CRUD extends CI_Controller
         redirect('Kelas_CRUD');
       }
 
-      $data['title'] = 'All Students';
+      $data['title'] = 'Semua Siswa';
 
       //data karyawan yang sedang login untuk topbar
       $data['kr'] = $this->_kr->find_by_username($this->session->userdata('kr_username'));
@@ -421,10 +428,19 @@ class Kelas_CRUD extends CI_Controller
 
       $data['tahun_all'] = $this->_t->return_all();
 
+      $data['program_all'] = $this->db->query(
+        "SELECT *
+        FROM program"
+      )->result_array();
+
       //simpan data primary key
       $kelas_id = $this->input->get('_id', true);
 
-      $data['kelas_update'] = $this->_kelas->find_by_id($kelas_id);
+      $data['kelas_update'] = $this->db->query(
+        "SELECT *
+        FROM kelas
+        WHERE kelas_id = $kelas_id"
+      )->row_array();
 
       //load view dengan data query
       $this->load->view('templates/header', $data);
@@ -437,6 +453,7 @@ class Kelas_CRUD extends CI_Controller
       $data = [
         'kelas_nama' => $this->input->post('kelas_nama'),
         'kelas_nama_singkat' => $this->input->post('kelas_nama_singkat'),
+        'kelas_program_id' => $this->input->post('kelas_program_id'),
         'kelas_jenj_id' => $this->input->post('jenj_id'),
         'kelas_t_id' => $this->input->post('kelas_t_id')
       ];
