@@ -106,7 +106,7 @@
                   <a class="collapse-item" href=' . base_url('Laporan_CRUD/index_dkn_naik') . '>2. DKN Kenaikan Kelas</a>
                   <a class="collapse-item" href=' . base_url('Laporan_CRUD/index_dkn_un') . '>3. DKN Nominasi UN</a>
                   <a class="collapse-item" href=' . base_url('Laporan_CRUD/index_buku_induk') . '>4. Buku Induk</a>
-                  <a class="collapse-item" href=' . base_url('Laporan_crud/index_rank') . '>5. Ranking Kelas</a>
+                  <a class="collapse-item" href=' . base_url('Laporan_crud/index_rank') . '>5. Ranking Pararel</a>
                 </div>
               </div>
             </li>

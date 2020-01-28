@@ -559,34 +559,19 @@ function returnRaportPengetahuan($d_s_id, $semester, $mapel_id){
 
   $raport_semester2 = $ci->db->query(
     "SELECT * FROM (
-      SELECT mapel_id, mapel_kel_id, mapel_urutan, tes_d_s_id, mapel_nama, mapel_kel_nama, SUM((tes_ph1+tes_ph2+tes_ph3+tes_ph4+tes_ph5)/tes_jum_ph)/COUNT(mapel_id) as NH, GROUP_CONCAT(topik_id) as topik_kumpulan
+      SELECT mapel_id, mapel_urutan, SUM((tes_ph1+tes_ph2+tes_ph3+tes_ph4+tes_ph5)/tes_jum_ph)/COUNT(mapel_id) as NH
       FROM tes
-      LEFT JOIN topik
-      ON tes_topik_id = topik_id
-      LEFT JOIN mapel
-      ON topik_mapel_id = mapel_id
-      LEFT JOIN mapel_kel
-      ON mapel_kel = mapel_kel_id
-      LEFT JOIN d_s
-      ON tes_d_s_id = d_s_id
-      LEFT JOIN sis
-      ON d_s_sis_id = sis_id
+      LEFT JOIN topik ON tes_topik_id = topik_id
+      LEFT JOIN mapel ON topik_mapel_id = mapel_id
       WHERE tes_d_s_id = $d_s_id AND topik_semester = $semester AND mapel_id = $mapel_id
       GROUP BY mapel_id ) AS forma
     LEFT JOIN (
-      SELECT mapel_id, uj_mid1_kog, uj_fin1_kog, uj_mid2_kog,uj_fin2_kog
+      SELECT uj_mapel_id, uj_mid1_kog, uj_fin1_kog, uj_mid2_kog,uj_fin2_kog
       FROM uj
-      LEFT JOIN mapel
-      ON uj_mapel_id = mapel_id
-      LEFT JOIN d_s
-      ON uj_d_s_id = d_s_id
-      LEFT JOIN sis
-      ON d_s_sis_id = sis_id
       WHERE uj_d_s_id = $d_s_id
-      GROUP BY mapel_id
-      ORDER BY mapel_urutan
-    )AS summa ON forma.mapel_id = summa.mapel_id
-    ORDER BY mapel_kel_id, mapel_urutan")->row_array();
+      GROUP BY uj_mapel_id
+    )AS summa ON forma.mapel_id = summa.uj_mapel_id
+    ")->row_array();
 
   return $raport_semester2;
 }
@@ -676,7 +661,7 @@ function returnRaportKetrampilan($d_s_id, $semester, $mapel_id){
   $ci =& get_instance();
 
   $raport_semester3 = $ci->db->query(
-    "SELECT ket.mapel_id as m_id, mapel_kel_id, mapel_urutan, mapel_nama, mapel_kel_nama, GROUP_CONCAT(topik_id) as topik_kumpulan,
+    "SELECT ket.mapel_id as m_id, mapel_kel_id,
     SUM(total_max/calJumKet(max_prak,max_produk,max_proyek,max_porto))/COUNT(ket.mapel_id) as NA_ket, uj_mid1_psi, uj_fin1_psi, uj_mid2_psi, uj_fin2_psi
     FROM(
       SELECT mapel_id, mapel_kel_id, mapel_urutan, tes_d_s_id, mapel_nama, mapel_kel_nama, topik_id,
@@ -699,10 +684,6 @@ function returnRaportKetrampilan($d_s_id, $semester, $mapel_id){
       ON topik_mapel_id = mapel_id
       LEFT JOIN mapel_kel
       ON mapel_kel = mapel_kel_id
-      LEFT JOIN d_s
-      ON tes_d_s_id = d_s_id
-      LEFT JOIN sis
-      ON d_s_sis_id = sis_id
       WHERE tes_d_s_id = $d_s_id AND topik_semester = $semester AND mapel_id = $mapel_id
     )as ket
     LEFT JOIN (
@@ -710,10 +691,6 @@ function returnRaportKetrampilan($d_s_id, $semester, $mapel_id){
         FROM uj
         LEFT JOIN mapel
         ON uj_mapel_id = mapel_id
-        LEFT JOIN d_s
-        ON uj_d_s_id = d_s_id
-        LEFT JOIN sis
-        ON d_s_sis_id = sis_id
         WHERE uj_d_s_id = $d_s_id
         GROUP BY mapel_id
         ORDER BY mapel_urutan
@@ -826,4 +803,16 @@ function return_nama_tahun($t_id){
     WHERE t_id = $t_id")->row_array();
 
   return $t;
+}
+
+function return_seluruh_kelas_siswa($sis_id){
+  $ci =& get_instance();
+  $det = $ci->db->query(
+    "SELECT d_s_id, sis_nama_depan, sis_nama_bel, sis_no_induk, kelas_nama, kelas_id
+    FROM sis
+    LEFT JOIN d_s ON sis_id = d_s_sis_id
+    LEFT JOIN kelas ON kelas_id = d_s_kelas_id
+    WHERE sis_id = $sis_id")->result_array();
+
+  return $det;
 }

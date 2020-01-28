@@ -14,7 +14,28 @@
 
             <?= $this->session->flashdata('message'); ?>
 
-            <h1 class="text-center">Under Construction</h1>
+            <form class="user" action="<?= base_url('Laporan_CRUD/index_dkn_un_show') ?>" method="POST">
+              <div class="form-group row mt-4">
+                <div class="col-sm mb-sm-0">
+                  <label><b><u>Tahun Ajaran:</u></b></label>
+                  <select name="t_id" id="t_rank" class="form-control form-control-sm">
+                    <option value="0">Pilih Tahun Ajaran</option>
+                    <?php foreach ($t_all as $m) : ?>
+                      <option value='<?= $m['t_id'] ?>'>
+                        <?= $m['t_nama']; ?>
+                      </option>
+                    <?php endforeach ?>
+                  </select>
+                </div>
+              </div>
+
+              <div id="kelas_rank_ajax">
+
+              </div>
+              <div id="siswa_ajax">
+
+              </div>
+            </form>
 
           </div>
         </div>
@@ -23,3 +44,91 @@
   </div>
 
 </div>
+
+<script type="text/javascript">
+
+  $(document).ready(function() {
+
+    $('#t_rank').change(function () {
+      var id = $(this).val();
+      //alert(id);
+      $('#kelas_rank_ajax').html("");
+
+      $.ajax(
+        {
+          type: "post",
+          url: base_url + "Report_CRUD/get_kelas_akhir",
+          data: {
+            'id': id,
+          },
+          async: true,
+          dataType: 'json',
+          success: function (data) {
+            //console.log(data);
+            if (data.length == 0) {
+              var html = '<div class="text-center mb-3 text-danger"><b>--Kelas Jenjang akhir tidak ada--</b></div>';
+            } else {
+              var html = '<label><b><u>Kelas:</u></b></label><select name="kelas_id" id="kelas_dkn_un_id" class="form-control form-control-sm mb-3">';
+              var i;
+              html += '<option value="0">Pilih Kelas</option>';
+              for (i = 0; i < data.length; i++) {
+                html += '<option value=' + data[i].kelas_id + '>' + data[i].kelas_nama + '</option>';
+              }
+              html += '</select>';
+            }
+
+            $('#kelas_rank_ajax').html(html);
+            refreshEventKelas();
+          }
+        });
+    });
+
+    function refreshEventKelas() {
+      $('#kelas_dkn_un_id').change(function () {
+        var id = $(this).val();
+        //alert(id);
+        if (id == 0) {
+          $('#siswa_ajax').html("");
+        }
+
+        $.ajax(
+          {
+            type: "post",
+            url: base_url + "Report_CRUD/get_siswa",
+            data: {
+              'id': id,
+            },
+            async: true,
+            dataType: 'json',
+            success: function (data) {
+              if (data.length == 0) {
+                var html = '<div class="text-center mb-3 text-danger"><b>--Siswa tidak ada, silahkan tambahkan siswa--</b></div>';
+              } else {
+                var i;
+                html = "";
+
+                html += '<hr><div class="form-group d-flex justify-content-center"><label class="checkbox-inline mr-2"><input class="checkAll" type="checkbox"> <b><u>CHECK ALL</u></b></label></div><hr>';
+
+
+                for (i = 0; i < data.length; i++) {
+                  html += '<div class="checkbox ml-2">';
+                  html += '<label><input type="checkbox" name="siswa_check[]" class="sisC" value="' + data[i].sis_id + '"> ' + data[i].sis_nama_depan + ' ' + data[i].sis_nama_bel + '</label>';
+                  html += '</div>';
+                }
+
+                html += '<button type="submit" class="btn btn-primary btn-user btn-block">';
+                html += 'Proses';
+                html += '</button>';
+
+              }
+
+              $('#siswa_ajax').html(html);
+
+            }
+          });
+      });
+    }
+
+  });
+
+</script>

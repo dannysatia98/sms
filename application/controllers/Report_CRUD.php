@@ -65,6 +65,28 @@ class Report_CRUD extends CI_Controller
     }
   }
 
+  public function get_kelas_akhir(){
+    if($this->input->post('id',TRUE)){
+
+      $t_id = $this->input->post('id',TRUE);
+      $sk_id = $this->session->userdata('kr_sk_id');
+
+      //temukan jenjang id pada kelas itu
+      $data = $this->db->query(
+        "SELECT kelas_id, kelas_nama
+        FROM kelas
+        LEFT JOIN jenj ON kelas_jenj_id = jenj_id
+        WHERE kelas_t_id = $t_id AND kelas_sk_id = $sk_id AND jenj_akhir = 1
+        ORDER BY kelas_nama")->result();
+
+      //$data = $this->product_model->get_sub_category($category_id)->result();
+      echo json_encode($data);
+    }else{
+      $this->session->set_flashdata('message','<div class="alert alert-danger" role="alert">Access Denied!</div>');
+      redirect('Profile');
+    }
+  }
+
   public function get_siswa(){
     if($this->input->post('id',TRUE)){
 
@@ -72,7 +94,7 @@ class Report_CRUD extends CI_Controller
 
       //temukan jenjang id pada kelas itu
       $data = $this->db->query(
-        "SELECT d_s_id, sis_nama_depan, sis_nama_bel
+        "SELECT d_s_id, sis_nama_depan, sis_nama_bel, sis_id
         FROM d_s
         LEFT JOIN sis ON d_s_sis_id = sis_id
         WHERE d_s_kelas_id = $kelas_id
@@ -134,6 +156,40 @@ class Report_CRUD extends CI_Controller
     }else{
       $this->session->set_flashdata('message','<div class="alert alert-danger" role="alert">Do not access page directly!</div>');
       redirect('Profile');
+    }
+  }
+
+  public function get_jenjang(){
+    if($this->input->post('t_id',TRUE)){
+      $t_id = $this->input->post('t_id',TRUE);
+
+      //temukan jenjang id pada kelas itu
+      $data = $this->db->query(
+        "SELECT DISTINCT jenj_id, jenj_nama
+        FROM kelas
+        LEFT JOIN jenj ON kelas_jenj_id = jenj_id
+        WHERE kelas_t_id = $t_id
+        ORDER BY jenj_id")->result();
+
+      //$data = $this->product_model->get_sub_category($category_id)->result();
+      echo json_encode($data);
+    }
+  }
+
+  public function get_program(){
+    if($this->input->post('jenj_id',TRUE)){
+      $jenj_id = $this->input->post('jenj_id',TRUE);
+
+      //temukan jenjang id pada kelas itu
+      $data = $this->db->query(
+        "SELECT DISTINCT program_id, program_nama
+        FROM kelas
+        LEFT JOIN program ON kelas_program_id = program_id
+        WHERE kelas_jenj_id = $jenj_id
+        ORDER BY program_id")->result();
+
+      //$data = $this->product_model->get_sub_category($category_id)->result();
+      echo json_encode($data);
     }
   }
 
