@@ -76,6 +76,29 @@ class Tahun_CRUD extends CI_Controller
     }
   }
 
+  public function rubah_status(){
+
+    if ($this->input->post('t_id', true)) {
+
+      $t_kunci = $this->input->post('t_kunci', true);
+
+      $data = [
+        't_kunci' => $t_kunci * -1
+      ];
+
+      //simpan ke db
+
+      $this->db->where('t_id', $this->input->post('t_id', true));
+      $this->db->update('t', $data);
+
+      $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Status berhasil dirubah!</div>');
+      redirect('Tahun_CRUD');
+    }
+    else{
+      redirect('Profile');
+    }
+  }
+
   public function update()
   {
 

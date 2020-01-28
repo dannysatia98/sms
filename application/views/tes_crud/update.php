@@ -60,7 +60,7 @@
                 <input type="hidden" value="<?= $kelas_id ?>" name="kelas_id">
                 <input type="hidden" value="<?= $mapel_id ?>" name="mapel_id">
                 <input type="hidden" value="<?= $topik_id ?>" name="topik_id">
-                <table class="table table-bordered table-hover table-sm mr-5">
+                <table class="table table-bordered table-hover table-sm mr-5" style="font-size:12px;">
                   <thead>
                     <tr>
                       <th rowspan="3">No</th>
@@ -94,12 +94,7 @@
                         </td>
                         <td>
                           <?php
-                            if($m['sis_nama_bel']){
-                              $bel = $m['sis_nama_bel'][0];
-                            }else{
-                              $bel = "";
-                            }
-                            echo $m['sis_nama_depan']." ".$bel;
+                            echo $m['sis_nama_depan']." ".$m['sis_nama_bel'];
                           ?>
                         </td>
 
@@ -154,7 +149,7 @@
               <input type="hidden" value="<?= $kelas_id ?>" name="kelas_id">
               <input type="hidden" value="<?= $mapel_id ?>" name="mapel_id">
               <input type="hidden" value="<?= $topik_id ?>" name="topik_id">
-              <table class="table table-bordered table-hover table-sm mr-5">
+              <table class="table table-bordered table-hover table-sm mr-5" style="font-size:12px;">
                 <thead>
                   <tr>
                     <th rowspan="3">No</th>
@@ -188,12 +183,7 @@
                       </td>
                       <td>
                         <?php
-                          if($m['sis_nama_bel']){
-                            $bel = $m['sis_nama_bel'][0];
-                          }else{
-                            $bel = "";
-                          }
-                          echo $m['sis_nama_depan']." ".$bel;
+                          echo $m['sis_nama_depan']." ".$m['sis_nama_bel'];
                         ?>
                       </td>
 

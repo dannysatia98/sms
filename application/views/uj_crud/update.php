@@ -26,7 +26,7 @@
               <form class="" action="<?= base_url('Uj_CRUD/save_new_student'); ?>" method="post" id="sub_uj" >
                 <input type="hidden" value="<?= $kelas_id ?>" name="kelas_id">
                 <input type="hidden" value="<?= $mapel_id ?>" name="mapel_id">
-                <table class="table table-hover table-sm">
+                <table class="table table-hover table-sm" style="font-size:12px;">
                   <thead>
                     <tr>
                       <th rowspan="4">No</th>
@@ -64,12 +64,7 @@
                         </td>
                         <td>
                           <?php
-                            if($m['sis_nama_bel']){
-                              $bel = $m['sis_nama_bel'][0];
-                            }else{
-                              $bel = "";
-                            }
-                            echo $m['sis_nama_depan']." ".$bel;
+                            echo $m['sis_nama_depan']." ".$m['sis_nama_bel'];
                           ?>
                         </td>
                         <td><input type="number" onfocus='this.select();' required class='kin' style='width: 47px;' name="uj_mid1_kog[]" value="0" max="100"></td>
@@ -104,7 +99,7 @@
             <form class="" action="<?= base_url('Uj_CRUD/save_update'); ?>" method="post" id="sub_uj" >
               <input type="hidden" value="<?= $kelas_id ?>" name="kelas_id">
               <input type="hidden" value="<?= $mapel_id ?>" name="mapel_id">
-              <table class="table table-hover table-sm">
+              <table class="table table-hover table-sm" style="font-size:12px;">
                 <thead>
                   <tr>
                     <th rowspan="4">No</th>
@@ -141,12 +136,7 @@
                       </td>
                       <td>
                         <?php
-                          if($m['sis_nama_bel']){
-                            $bel = $m['sis_nama_bel'][0];
-                          }else{
-                            $bel = "";
-                          }
-                          echo $m['sis_nama_depan']." ".$bel;
+                          echo $m['sis_nama_depan']." ".$m['sis_nama_bel'];
                         ?>
                       </td>
                       <td><input type="number" onfocus='this.select();' required class='kin' style='width: 47px;' name="uj_mid1_kog[]" value="<?= $m['uj_mid1_kog'] ?>" max="100"></td>

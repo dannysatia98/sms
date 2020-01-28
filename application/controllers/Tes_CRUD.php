@@ -40,7 +40,12 @@ class Tes_CRUD extends CI_Controller
 
     $kr_id = $data['kr']['kr_id'];
 
-    $data['t_all'] = $this->_t->return_all();
+    $data['t_all'] = $this->db->query(
+      "SELECT *
+      FROM t
+      WHERE t_kunci = 1
+      ORDER BY t_nama DESC")->result_array();
+
     //var_dump($this->db->last_query());
     $this->load->view('templates/header',$data);
     $this->load->view('templates/sidebar',$data);

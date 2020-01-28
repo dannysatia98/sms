@@ -39,7 +39,11 @@ class Uj_CRUD extends CI_Controller
 
     $kr_id = $data['kr']['kr_id'];
 
-    $data['t_all'] = $this->_t->return_all();
+    $data['t_all'] = $this->db->query(
+      "SELECT *
+      FROM t
+      WHERE t_kunci = 1
+      ORDER BY t_nama DESC")->result_array();
     //SELECT * from d_mpl WHERE d_mpl_kr_id = $data['kr']['kr_id']
     // if($this->session->userdata('kr_jabatan_id')!=4){
     //   $data['mapel_all'] = $this->db->query(
