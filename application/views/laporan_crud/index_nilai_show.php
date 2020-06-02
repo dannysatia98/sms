@@ -94,7 +94,7 @@ table.cus{
                   <?php
                     if($pts_pas['jumlah']!=0)
                       echo $pts_pas['jumlah'];
-                 ?>
+                  ?>
                </td>
               <?php endforeach; ?>
             </tr>
@@ -105,10 +105,37 @@ table.cus{
                 $harian_1 = show_harian_count($m['mapel_id'], $k['kelas_id'], 1);
                 $harian_2 = show_harian_count($m['mapel_id'], $k['kelas_id'], 2);
               ?>
+                <?php
+                  $warna2 = "";
+                  if($harian_1['jumlah']!=0){
+                    if($harian_1['jumlah']% $jumlah_siswa['jumlah'] != 0)
+                      $warna2 = "background-color:#e9ed55;";
+                  }else{
+                    $warna2 = "background-color:#d94a02;";
+                  }
+
+                  $warna3 = "";
+                  if($harian_2['jumlah']!=0){
+                    if($harian_2['jumlah']% $jumlah_siswa['jumlah'] != 0)
+                      $warna3 = "background-color:#e9ed55;";
+                  }else{
+                    $warna3 = "background-color:#d94a02;";
+                  }
+                ?>
                 <!-- Semester 1 -->
-                <td><?= $harian_1['jumlah'] ?></td>
+                <td style="<?= $warna2 ?>">
+                  <?php
+                    if($harian_1['jumlah']!=0)
+                      echo $harian_1['jumlah'];
+                  ?>
+                </td>
                 <!-- Semester 2 -->
-                <td><?= $harian_2['jumlah'] ?></td>
+                <td style="<?= $warna3 ?>">
+                  <?php
+                    if($harian_2['jumlah']!=0)
+                      echo $harian_2['jumlah'];
+                  ?>
+                </td>
               <?php endforeach; ?>
             </tr>
         </tbody>
