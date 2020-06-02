@@ -7,7 +7,7 @@
         <div class="col-lg">
           <div class="p-5 overflow-auto">
             <div class="text-center mb-3">
-              <h1 class="h4 text-gray-900"><u>Ranking Pararel</u></h1>
+              <h1 class="h4 text-gray-900"><u>DKN kenaikan kelas</u></h1>
               <!-- <h1 class="h4 text-gray-900"><u>DKN Nominasi UN</u></h1>
               <h5>Pilih Tahun, Kelas dan Siswa</h5> -->
             </div>

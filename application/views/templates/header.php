@@ -18,7 +18,7 @@
   <link href="<?= base_url('assets/'); ?>css/sb-admin-2.min.css" rel="stylesheet">
   <link href="<?= base_url(''); ?>css/rapot.css" rel="stylesheet">
   <link href="<?= base_url('assets/'); ?>css/profile.css" rel="stylesheet">
-
+  <link rel="icon" href="<?= base_url('assets/'); ?>img/iconFrat.ico">
 
   <!-- Bootstrap core JavaScript-->
   <script src="<?= base_url('assets/'); ?>vendor/jquery/jquery.min.js"></script>

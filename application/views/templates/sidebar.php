@@ -4,9 +4,9 @@
       <!-- Sidebar - Brand -->
       <a class="sidebar-brand d-flex align-items-center justify-content-center" href="<?= base_url('Profile') ?>">
         <div class="sidebar-brand-icon">
-          <i class="fas fa-university"></i>
+          <img src="<?= base_url('assets/img/profile/frateran.gif'); ?>" height="60px" style="-moz-border-radius: 0px;-webkit-border-radius: 0px;border-radius: 0px;">
         </div>
-        <div class="sidebar-brand-text mx-3">FRATERAN</div>
+        <div class="sidebar-brand-text mx-3" style="font-size:12px;">SMA Katolik Frateran Surabaya</div>
       </a>
 
       <!-- Divider -->
@@ -68,9 +68,9 @@
               <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
                   <h6 class="collapse-header">Master</h6>
-                  <a class="collapse-item" href=' . base_url('Tahun_CRUD') . '>1. Tahun</a>
+                  <a class="collapse-item" href=' . base_url('Tahun_CRUD') . '>1. Tahun Pelajaran</a>
                   <a class="collapse-item" href=' . base_url('Sekolah_CRUD') . '>2. Sekolah</a>
-                  <a class="collapse-item" href=' . base_url('Karyawan_CRUD') . '>3. Guru</a>
+                  <a class="collapse-item" href=' . base_url('Karyawan_CRUD') . '>3. Guru/Pegawai</a>
                   <a class="collapse-item" href=' . base_url('Siswa_CRUD') . '>4. Siswa</a>
                   <a class="collapse-item" href=' . base_url('Mapel_CRUD') . '>5. Mapel</a>
                   <a class="collapse-item" href=' . base_url('Topik_CRUD') . '>6. Kompetensi Dasar</a>
@@ -103,10 +103,11 @@
                 <div class="bg-white py-2 collapse-inner rounded">
                   <h6 class="collapse-header">Laporan</h6>
                   <a class="collapse-item" href=' . base_url('Report_CRUD') . '>1. Rapor</a>
-                  <a class="collapse-item" href=' . base_url('Laporan_CRUD/index_dkn_naik') . '>2. DKN Kenaikan Kelas</a>
-                  <a class="collapse-item" href=' . base_url('Laporan_CRUD/index_dkn_un') . '>3. DKN Nominasi UN</a>
-                  <a class="collapse-item" href=' . base_url('Laporan_CRUD/index_buku_induk') . '>4. Buku Induk</a>
-                  <a class="collapse-item" href=' . base_url('Laporan_crud/index_rank') . '>5. Ranking Pararel</a>
+                  <a class="collapse-item" href=' . base_url('Laporan_CRUD/index_nilai') . '>2. Input Nilai</a>
+                  <a class="collapse-item" href=' . base_url('Laporan_CRUD/index_dkn_naik') . '>3. DKN Kenaikan Kelas</a>
+                  <a class="collapse-item" href=' . base_url('Laporan_CRUD/index_dkn_un') . '>4. DKN Nominasi UN</a>
+                  <a class="collapse-item" href=' . base_url('Laporan_CRUD/index_buku_induk') . '>5. Buku Induk</a>
+                  <a class="collapse-item" href=' . base_url('Laporan_crud/index_rank') . '>6. Ranking Pararel</a>
                 </div>
               </div>
             </li>

@@ -14,7 +14,7 @@
 
             <a href="<?= base_url('siswa_crud/add') ?>" class="btn btn-primary mb-3">Tambah Siswa</a>
 
-            <table class="table display compact table-hover dt">
+            <table class="table table-sm display compact table-hover dt" style="font-size:13px;">
               <thead>
                 <tr>
                   <th style="width: 35%">Nama</th>
@@ -22,7 +22,7 @@
                   <th>NISN</th>
                   <th>Gender</th>
                   <th>Agama</th>
-                  <th>Angkatan</th>
+                  <th>Th Pel</th>
                   <th>Action</th>
                 </tr>
               </thead>
@@ -46,17 +46,17 @@
                     <td><?= $m['agama_nama'] ?></td>
                     <td><?= $m['t_nama'] ?></td>
                     <td>
-                      <div class="form-group row">
+                      <div class="form-group row m-0">
                         <form class="" action="<?= base_url('Siswa_CRUD/update') ?>" method="get">
                           <input type="hidden" name="_id" value=<?= $m['sis_id'] ?>>
                           <button type="submit" class="badge badge-warning">
                             Edit
                           </button>
                         </form>
-                        <form class="" action="" method="post">
-                          <input type="hidden" name="" method="get" value=<?= $m['sis_id'] ?>>
-                          <button type="submit" class="badge badge-danger">
-                            Delete
+                        <form class="ml-1" target="_blank" action="<?= base_url('Siswa_CRUD/cek_kelas') ?>" method="post">
+                          <input type="hidden" name="sis_id" value=<?= $m['sis_id'] ?>>
+                          <button type="submit" class="badge badge-primary">
+                            Cek Kelas
                           </button>
                         </form>
                       </div>

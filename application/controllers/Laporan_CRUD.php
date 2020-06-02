@@ -319,4 +319,44 @@ class Laporan_CRUD extends CI_Controller
     }
   }
 
+  public function index_nilai(){
+
+    $data['title'] = 'Laporan Input';
+
+    $data['t_all'] = $this->_t->return_all();
+    //data karyawan yang sedang login untuk topbar
+    $data['kr'] = $this->_kr->find_by_username($this->session->userdata('kr_username'));
+
+    $this->load->view('templates/header',$data);
+    $this->load->view('templates/sidebar',$data);
+    $this->load->view('templates/topbar',$data);
+    $this->load->view('Laporan_crud/index_nilai',$data);
+    $this->load->view('templates/footer');
+  }
+
+  public function index_nilai_show(){
+
+    if($this->input->post('t_id',TRUE)){
+
+      $data['title'] = 'Laporan Input';
+      $data['kr'] = $this->_kr->find_by_username($this->session->userdata('kr_username'));
+      $t_id = $this->input->post('t_id',TRUE);
+      $data['tahun'] = $this->db->query
+                      ("SELECT *
+                      FROM t
+                      WHERE t_id = $t_id")->row_array();
+      $data['kelas_all'] = $this->db->query
+                      ("SELECT *
+                      FROM kelas
+                      WHERE kelas_t_id = $t_id
+                      ORDER BY kelas_jenj_id, kelas_program_id, kelas_nama")->result_array();
+
+      $this->load->view('templates/header',$data);
+      $this->load->view('templates/sidebar',$data);
+      $this->load->view('templates/topbar',$data);
+      $this->load->view('Laporan_crud/index_nilai_show',$data);
+      $this->load->view('templates/footer');
+    }
+  }
+
 }

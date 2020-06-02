@@ -110,13 +110,13 @@
                           echo"<td>PH".$inph."</td>";
                         }
                       ?>
-                      <td>UTS</td>
+                      <td>PTS</td>
                       <?php
                         for($inph=1; $inph<=max($max_kolomK);$inph++){
                           echo"<td>PK".$inph."</td>";
                         }
                       ?>
-                      <td>UTS</td>
+                      <td>PTS</td>
                     </tr>
                 </thead>
                 <tbody>

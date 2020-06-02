@@ -28,7 +28,7 @@ class Siswa_CRUD extends CI_Controller
   public function index()
   {
 
-    $data['title'] = 'Students List';
+    $data['title'] = 'Daftar Siswa';
 
     //data karyawan yang sedang login untuk topbar
     $data['kr'] = $this->_kr->find_by_username($this->session->userdata('kr_username'));
@@ -161,6 +161,35 @@ class Siswa_CRUD extends CI_Controller
 
       $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Student Data Updated!</div>');
       redirect('Siswa_CRUD');
+    }
+  }
+
+  public function cek_kelas(){
+
+    $sis_id = $this->input->post('sis_id', true);
+
+    if($sis_id){
+      $data['title'] = 'Daftar Kelas Siswa';
+      $data['kr'] = $this->_kr->find_by_username($this->session->userdata('kr_username'));
+
+      $data['detail_siswa'] = $this->db->query
+                          ("SELECT *
+                          FROM sis
+                          WHERE sis_id = $sis_id")->row_array();
+
+      $data['detail_all'] = $this->db->query
+                          ("SELECT kelas_nama, t_nama
+                          FROM d_s
+                          LEFT JOIN kelas ON d_s_kelas_id = kelas_id
+                          LEFT JOIN t ON kelas_t_id = t_id
+                          WHERE d_s_sis_id = $sis_id
+                          ORDER BY kelas_jenj_id, kelas_program_id, kelas_nama")->result_array();
+
+      $this->load->view('templates/header', $data);
+      $this->load->view('templates/sidebar', $data);
+      $this->load->view('templates/topbar', $data);
+      $this->load->view('siswa_crud/cek_kelas', $data);
+      $this->load->view('templates/footer');
     }
   }
 }

@@ -11,14 +11,14 @@
             </div>
 
 
-            <table class="table table-sm table-hover">
-              <thead>
+            <table class="table table-sm table-hover table-bordered" style="font-size:13px;">
+              <thead class="thead-dark">
                 <tr>
                   <th>Nama</th>
                   <th>Kepala Sekolah</th>
                   <th>Pengajar Pramuka</th>
-                  <th>Tanggal Raport Sisipan</th>
-                  <th>Tanggal Raport Semester</th>
+                  <th>Tanggal Rapor Sisipan</th>
+                  <th>Tanggal Rapor Semester</th>
                   <th>Action</th>
                 </tr>
               </thead>
@@ -31,7 +31,7 @@
                     <td><?= $m['sk_mid'] ?></td>
                     <td><?= $m['sk_fin'] ?></td>
                     <td>
-                      <div class="form-group row">
+                      <div class="form-group row m-0">
                         <form class="" action="<?= base_url('Sekolah_CRUD/update') ?>" method="get">
                           <input type="hidden" name="_id" value=<?= $m['sk_id'] ?>>
                           <button type="submit" class="badge badge-warning">

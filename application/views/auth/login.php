@@ -12,9 +12,9 @@
               <div class="col-lg">
                 <div class="p-2">
                   <div class="text-center">
-                    <h5 class="mb-3">SMAK Frateran Surabaya</h5>
+                    <h5 class="mb-3">SMA Katolik Frateran Surabaya</h5>
                     <hr>
-                    <img src="<?= base_url('assets/img/profile/frateran.gif'); ?>" height="80px" class="mb-4 img-fluid" width="40%">
+                    <img src="<?= base_url('assets/img/profile/frateran.gif'); ?>" class="mb-4" width="35%">
                   </div>
 
                   <?= $this->session->flashdata('message'); ?>

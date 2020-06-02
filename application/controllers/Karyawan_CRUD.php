@@ -24,7 +24,7 @@ class Karyawan_CRUD extends CI_Controller
 
   public function index(){
 
-    $data['title'] = 'Employee List';
+    $data['title'] = 'Daftar Guru';
 
     //data karyawan yang sedang login untuk topbar
     $data['kr'] = $this->_kr->find_by_username($this->session->userdata('kr_username'));

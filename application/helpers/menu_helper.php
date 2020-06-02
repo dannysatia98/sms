@@ -816,3 +816,42 @@ function return_seluruh_kelas_siswa($sis_id){
 
   return $det;
 }
+
+function show_mid_final_count($mapel_id, $kelas_id)
+{
+  $ci = &get_instance();
+  $laporan = $ci->db->query(
+    "SELECT count(*) as jumlah
+    FROM uj
+    LEFT JOIN d_s ON uj_d_s_id = d_s_id
+    WHERE d_s_kelas_id = $kelas_id AND uj_mapel_id = $mapel_id"
+  )->row_array();
+
+  return $laporan;
+}
+
+function show_harian_count($mapel_id, $kelas_id, $sem)
+{
+  $ci = &get_instance();
+  $laporan = $ci->db->query(
+    "SELECT count(*) as jumlah
+    FROM tes
+    LEFT JOIN d_s ON tes_d_s_id = d_s_id
+    LEFT JOIN topik ON tes_topik_id = topik_id
+    WHERE d_s_kelas_id = $kelas_id AND topik_mapel_id = $mapel_id AND topik_semester = $sem"
+  )->row_array();
+
+  return $laporan;
+}
+
+function return_jumlah_siswa($kelas_id)
+{
+  $ci = &get_instance();
+  $laporan = $ci->db->query(
+    "SELECT count(*) as jumlah
+    FROM d_s
+    WHERE d_s_kelas_id = $kelas_id"
+  )->row_array();
+
+  return $laporan;
+}

@@ -5,7 +5,7 @@
   grid-column-gap:3px;
   padding: 10px;
   margin: 20px;
-  box-shadow: 2px 2px 2px 2px;
+  box-shadow: 5px 5px 5px 5px;
   overflow: auto;
 }
 .grid-inside {
@@ -30,11 +30,14 @@ table.cus{
 
 <div class="grid-container">
   <div class="text-center">
-    <img src="<?= base_url('assets/img/profile/').$kr['kr_pp'] ?>" alt="Avatar" style="height: 300px">
-    <div class="text-center"><?= $this->session->flashdata('message'); ?></div>
-    <h3 class="text-center mt-3"><b><?= $kr['kr_nama_depan'].' '.$kr['kr_nama_belakang'] ?></b></h3>
-    <p class="text-center"><?= $kr['sk_nama'] ?><br>
-    <?= $jabatan['jabatan_nama']?> <br>
-    <b>Aktif Sejak: </b><?= date('d F Y', $kr['kr_date_created']); ?></p>
+    <h1 class="h4 text-gray-900 mb-4 mt-3"><u><?= $detail_siswa['sis_nama_depan'].' '.$detail_siswa['sis_nama_bel'] ?></u></h1>
   </div>
+
+  <label><b>Terdapat pada kelas:</b></label>
+  <ul>
+    <?php foreach ($detail_all as $d): ?>
+      <li><?= $d['kelas_nama'].' ('.$d['t_nama'].')' ?></li>
+    <?php endforeach; ?>
+  </ul>
+
 </div>

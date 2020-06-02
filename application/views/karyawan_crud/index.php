@@ -14,7 +14,7 @@
 
                   <a href="<?= base_url('karyawan_crud/add') ?>" class="btn btn-primary mb-3">Tambah Guru</a>
 
-                  <table class="table display compact table-hover dt">
+                  <table class="table table-sm display compact table-hover dt" style="font-size:13px;">
                     <thead>
                       <tr>
                         <th>Nama Depan</th>
@@ -34,7 +34,7 @@
                           <td><?= $m['jabatan_nama'] ?></td>
                           <td><?= $m['st_nama'] ?></td>
                           <td>
-                            <div class="form-group row">
+                            <div class="form-group row m-0">
                               <form class="" action="<?= base_url('Karyawan_CRUD/update') ?>" method="get">
                                 <input type="hidden" name="_id" value=<?= $m['kr_id'] ?>>
                                 <button type="submit" class="badge badge-warning">
