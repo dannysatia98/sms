@@ -14,7 +14,7 @@
                   <div class="text-center">
                     <h5 class="mb-3">SMA Katolik Frateran Surabaya</h5>
                     <hr>
-                    <img src="<?= base_url('assets/img/profile/frateran.gif'); ?>" class="mb-4" width="35%">
+                    <img src="<?= base_url('assets/img/profile/frateran.png'); ?>" class="mb-2" width="35%">
                   </div>
 
                   <?= $this->session->flashdata('message'); ?>

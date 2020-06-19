@@ -4,7 +4,7 @@
       <!-- Sidebar - Brand -->
       <a class="sidebar-brand d-flex align-items-center justify-content-center" href="<?= base_url('Profile') ?>">
         <div class="sidebar-brand-icon">
-          <img src="<?= base_url('assets/img/profile/frateran.gif'); ?>" height="60px" style="-moz-border-radius: 0px;-webkit-border-radius: 0px;border-radius: 0px;">
+          <img src="<?= base_url('assets/img/profile/frateran.png'); ?>" height="60px" style="-moz-border-radius: 0px;-webkit-border-radius: 0px;border-radius: 0px;">
         </div>
         <div class="sidebar-brand-text mx-3" style="font-size:12px;">SMA Katolik Frateran Surabaya</div>
       </a>

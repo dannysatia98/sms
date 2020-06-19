@@ -46,6 +46,8 @@
               $tes_jum_proy = $siswa_all[0]['tes_jum_proy'];
               $tes_jum_porto = $siswa_all[0]['tes_jum_porto'];
 
+              //echo $tes_jum_ph.' '.$tes_jum_prak.' '.$tes_jum_prod.' '.$tes_jum_proy.' '.$tes_jum_porto;
+
               if(!empty($siswa_baru)):
                 $dis_opt = "disabled";
                 echo '<div class="alert alert-danger alert-dismissible fade show">
@@ -60,6 +62,14 @@
                 <input type="hidden" value="<?= $kelas_id ?>" name="kelas_id">
                 <input type="hidden" value="<?= $mapel_id ?>" name="mapel_id">
                 <input type="hidden" value="<?= $topik_id ?>" name="topik_id">
+
+
+                <input type="hidden" value="<?= $tes_jum_ph ?>" name="tes_jum_ph_baru">
+                <input type="hidden" value="<?= $tes_jum_prak ?>" name="tes_jum_prak_baru">
+                <input type="hidden" value="<?= $tes_jum_prod ?>" name="tes_jum_prod_baru">
+                <input type="hidden" value="<?= $tes_jum_proy ?>" name="tes_jum_proy_baru">
+                <input type="hidden" value="<?= $tes_jum_porto ?>" name="tes_jum_porto_baru">
+
                 <table class="table table-bordered table-hover table-sm mr-5" style="font-size:12px;">
                   <thead>
                     <tr>

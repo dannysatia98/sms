@@ -200,7 +200,7 @@ class Tes_CRUD extends CI_Controller
         LEFT JOIN sis ON d_s_sis_id = sis_id
         LEFT JOIN agama ON sis_agama_id = agama_id
         WHERE d_s_kelas_id = $kelas_id
-        ORDER BY $_gb sis_nama_depan, sis_no_induk")->result_array();
+        ORDER BY $_gb sis_nama_depan, sis_nama_bel, sis_no_induk")->result_array();
 
       $this->load->view('templates/header',$data);
       $this->load->view('templates/sidebar',$data);
@@ -215,7 +215,7 @@ class Tes_CRUD extends CI_Controller
         LEFT JOIN sis ON sis_id = d_s_sis_id
         LEFT JOIN agama ON sis_agama_id = agama_id
         WHERE d_s_kelas_id = $kelas_id AND tes_topik_id = $topik_id
-        ORDER BY $_gb sis_nama_depan, sis_no_induk")->result_array();
+        ORDER BY $_gb sis_nama_depan, sis_nama_bel, sis_no_induk")->result_array();
 
       //cari siswa yang ada di kelas tapi tidak mempunyai nilai
       $data['siswa_baru'] = $this->db->query(
@@ -371,23 +371,23 @@ class Tes_CRUD extends CI_Controller
             'tes_ph3' => $tes_ph3[$i],
             'tes_ph4' => $tes_ph4[$i],
             'tes_ph5' => $tes_ph5[$i],
-            'tes_jum_ph' => $this->input->post('opt_peng'),
+            'tes_jum_ph' => $this->input->post('tes_jum_ph_baru'),
             'tes_prak1' => $tes_prak1[$i],
             'tes_prak2' => $tes_prak2[$i],
             'tes_prak3' => $tes_prak3[$i],
-            'tes_jum_prak' => $this->input->post('opt_prak'),
+            'tes_jum_prak' => $this->input->post('tes_jum_prak_baru'),
             'tes_produk1' => $tes_produk1[$i],
             'tes_produk2' => $tes_produk2[$i],
             'tes_produk3' => $tes_produk3[$i],
-            'tes_jum_prod' => $this->input->post('opt_prod'),
+            'tes_jum_prod' => $this->input->post('tes_jum_prod_baru'),
             'tes_proyek1' => $tes_proyek1[$i],
             'tes_proyek2' => $tes_proyek2[$i],
             'tes_proyek3' => $tes_proyek3[$i],
-            'tes_jum_proy' => $this->input->post('opt_proy'),
+            'tes_jum_proy' => $this->input->post('tes_jum_proy_baru'),
             'tes_porto1' => $tes_porto1[$i],
             'tes_porto2' => $tes_porto2[$i],
             'tes_porto3' => $tes_porto3[$i],
-            'tes_jum_porto' => $this->input->post('opt_porto'),
+            'tes_jum_porto' => $this->input->post('tes_jum_porto_baru'),
             'tes_topik_id' => $this->input->post('topik_id')
           ];
         }
