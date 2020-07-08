@@ -68,16 +68,18 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php foreach ($d_s_all as $m) : ?>
+                                <?php
+                                  //var_dump($d_s_all);
+                                foreach ($d_s_all as $m) : ?>
                                     <tr>
                                         <td><?= $m['sis_nama_depan'] ?> <?= $m['sis_nama_bel'] ?></td>
                                         <td><?= $m['sis_no_induk'] ?></td>
                                         <td><?= $m['t_nama'] ?></td>
                                         <td>
-                                          <form class="" action="<?= base_url('Siswa_CRUD/update') ?>" method="post">
-                                              <input type="hidden" name="sis_id" value=<?= $m['sis_id'] ?>>
+                                          <form class="" action="<?= base_url('Kelas_CRUD/delete_siswa') ?>" method="post">
                                               <input type="hidden" name="kelas_id" value=<?= $kelas_all['kelas_id']; ?>>
-                                              <button type="submit" class="ml-2 badge badge-danger">
+                                              <input type="hidden" name="d_s_id" value=<?= $m['d_s_id'] ?>>
+                                              <button onclick="return confirm('Menghapus siswa dari kelas berarti menghapus semua nilai siswa, lanjutkan?')" type="submit" class="ml-2 badge badge-danger">
                                                   Remove
                                               </button>
                                           </form>
@@ -95,3 +97,19 @@
     </div>
 
 </div>
+
+
+<script>
+
+$(document).ready(function() {
+
+  $(".alert-success").fadeTo(2000, 500).slideUp(500, function(){
+      $(".alert-success").slideUp(500);
+  });
+
+  $(".alert-danger").fadeTo(2000, 500).slideUp(500, function(){
+      $(".alert-danger").slideUp(500);
+  });
+
+});
+</script>

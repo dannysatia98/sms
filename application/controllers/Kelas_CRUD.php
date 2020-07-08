@@ -467,4 +467,21 @@ class Kelas_CRUD extends CI_Controller
       redirect('Kelas_CRUD');
     }
   }
+
+  public function delete_siswa(){
+    if($this->input->post('d_s_id', true)){
+      $d_s_id = $this->input->post('d_s_id', true);
+      $kelas_id = $this->input->post('kelas_id', true);
+
+      $this->db->where('d_s_id', $d_s_id);
+      $this->db->delete('d_s');
+      $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Siswa dan nilai dihapus dari kelas!</div>');
+      redirect('Kelas_CRUD/edit_student?_id=' . $kelas_id);
+
+    }else {
+      $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Access Denied!</div>');
+      redirect('Profile');
+    }
+  }
+
 }
