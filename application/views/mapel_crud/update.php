@@ -13,29 +13,30 @@
                 <form class="user" method="post" action="<?= base_url('Mapel_CRUD/update'); ?>">
                     <div class="form-group row">
                         <div class="col-sm-6 mb-3 mb-sm-0">
+                            <label><u><b>Nama Mapel (Cth: Matematika):</b></u></label>
                             <input type="hidden" name="_id" value="<?= set_value('_id', $mapel_update['mapel_id']); ?>">
-                            <input type="text" class="form-control" id="mapel_nama" name="mapel_nama" placeholder="Nama Mapel" value="<?= set_value('mapel_nama', $mapel_update['mapel_nama']) ?>">
-                            <?= form_error('mapel_nama','<small class="text-danger pl-3">','</small>'); ?>
+                            <input type="text" class="form-control form-control-sm" name="mapel_nama" value="<?= $mapel_update['mapel_nama'] ?>" required>
                         </div>
                         <div class="col-sm-6 mb-3 mb-sm-0">
-                            <input type="number" class="form-control" id="mapel_kkm" name="mapel_kkm" placeholder="KKM" value="<?= set_value('mapel_kkm', $mapel_update['mapel_kkm']) ?>">
-                            <?= form_error('mapel_kkm','<small class="text-danger pl-3">','</small>'); ?>
+                            <label><u><b>KKM (Cth: 75,80):</b></u></label>
+                            <input type="number" class="form-control form-control-sm" name="mapel_kkm" value="<?= $mapel_update['mapel_kkm'] ?>" required>
                         </div>
                     </div>
-                    <input type="hidden" class="form-control" id="_mapel_urutan" name="_mapel_urutan" value="<?= set_value('_mapel_urutan', $mapel_update['mapel_urutan']) ?>">
+                    <input type="hidden" class="form-control" name="_mapel_urutan" value="<?= $mapel_update['mapel_urutan'] ?>">
                     <div class="form-group row">
                         <div class="col-sm-6 mb-3 mb-sm-0">
-                            <input type="number" class="form-control" id="mapel_urutan" name="mapel_urutan" placeholder="Urutan pada Raport" value="<?= set_value('mapel_urutan', $mapel_update['mapel_urutan']) ?>">
-                            <?= form_error('mapel_urutan','<small class="text-danger pl-3">','</small>'); ?>
+                            <label><u><b>Urutan dalam kelompok:</b></u></label>
+                            <input type="number" class="form-control form-control-sm" name="mapel_urutan" value="<?= $mapel_update['mapel_urutan'] ?>" required>
                         </div>
                         <div class="col-sm-6 mb-3 mb-sm-0">
-                            <input type="text" class="form-control" id="mapel_sing" name="mapel_sing" placeholder="Singkatan (ex: MAT, PE, ICT)" value="<?= set_value('mapel_sing', $mapel_update['mapel_sing']) ?>">
-                            <?= form_error('mapel_sing','<small class="text-danger pl-3">','</small>'); ?>
+                            <label><u><b>Singkatan mapel (cth: MAT, Eko, OR):</b></u></label>
+                            <input type="text" class="form-control form-control-sm" name="mapel_sing" value="<?= $mapel_update['mapel_sing'] ?>" required>
                         </div>
                         <div class="col-sm mb-3 mb-sm-0 mt-3">
-                          <select class="form-control" name="mapel_kel" id="mapel_kel">
+                          <label><u><b>Kelompok Mapel:</b></u></label>
+                          <select class="form-control form-control-sm" name="mapel_kel">
                               <?php
-                                $_selected = set_value('mapel_kel', $mapel_update['mapel_kel']);
+                                $_selected = $mapel_update['mapel_kel'];
                                 if($_selected == "1")
                                   echo '<option value="1" selected>Kelompok A (UMUM)</option>';
                                 else
@@ -56,6 +57,23 @@
                                 else
                                   echo '<option value="4">LINTAS MINAT</option>';
                               ?>
+                          </select>
+                        </div>
+                        <div class="col-sm mb-3 mb-sm-0 mt-3">
+                          <label><u><b>Jenis Mapel:</b></u></label>
+                          <select class="form-control form-control-sm" name="mapel_bk">
+                            <?php
+                              $_selected = $mapel_update['mapel_bk'];
+                              if($_selected == "0")
+                                echo '<option value="0" selected>Bukan BK</option>';
+                              else
+                                echo '<option value="1">Bukan BK</option>';
+
+                              if($_selected == "1")
+                                echo '<option value="1" selected>BK</option>';
+                              else
+                                echo '<option value="1">BK</option>';
+                            ?>
                           </select>
                         </div>
                     </div>

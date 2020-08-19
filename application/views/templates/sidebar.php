@@ -108,6 +108,7 @@
                   <a class="collapse-item" href=' . base_url('Laporan_CRUD/index_dkn_un') . '>4. DKN Nominasi UN</a>
                   <a class="collapse-item" href=' . base_url('Laporan_CRUD/index_buku_induk') . '>5. Buku Induk</a>
                   <a class="collapse-item" href=' . base_url('Laporan_crud/index_rank') . '>6. Ranking Pararel</a>
+                  <a class="collapse-item" href=' . base_url('Laporan_crud/index_rank') . '>7. Ketuntasan Klasikal</a>
                 </div>
               </div>
             </li>

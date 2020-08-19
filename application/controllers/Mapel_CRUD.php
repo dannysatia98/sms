@@ -25,7 +25,7 @@ class Mapel_CRUD extends CI_Controller
 
   public function index(){
 
-    $data['title'] = 'Subject List';
+    $data['title'] = 'Daftar Mapel';
 
     //data karyawan yang sedang login untuk topbar
     $data['kr'] = $this->_kr->find_by_username($this->session->userdata('kr_username'));
@@ -53,7 +53,7 @@ class Mapel_CRUD extends CI_Controller
 
 
 		if($this->form_validation->run() == false){
-			$data['title'] = 'Create Subject';
+			$data['title'] = 'Tambah Mapel';
 
       //data karyawan yang sedang login untuk topbar
       $data['kr'] = $this->_kr->find_by_username($this->session->userdata('kr_username'));
@@ -73,11 +73,12 @@ class Mapel_CRUD extends CI_Controller
 				'mapel_sing' => $this->input->post('mapel_sing'),
         'mapel_urutan' => $this->input->post('mapel_urutan'),
         'mapel_kel' => $this->input->post('mapel_kel'),
-        'mapel_sk_id' => $this->session->userdata('kr_sk_id')
+        'mapel_sk_id' => $this->session->userdata('kr_sk_id'),
+        'mapel_bk' => $this->input->post('mapel_bk')
 			];
 
 			$this->db->insert('mapel', $data);
-			$this->session->set_flashdata('message','<div class="alert alert-success" role="alert">Subject Created!</div>');
+			$this->session->set_flashdata('message','<div class="alert alert-success" role="alert">Mapel berhasil dibuat!</div>');
 			redirect('mapel_crud/add');
 		}
 
@@ -112,7 +113,7 @@ class Mapel_CRUD extends CI_Controller
 
     if($this->form_validation->run() == false){
       //jika menekan tombol edit
-      $data['title'] = 'Update Subject Name';
+      $data['title'] = 'Update Mapel';
 
       //data karyawan yang sedang login untuk topbar
       $data['kr'] = $this->_kr->find_by_username($this->session->userdata('kr_username'));
@@ -137,14 +138,15 @@ class Mapel_CRUD extends CI_Controller
 				'mapel_sing' => $this->input->post('mapel_sing'),
         'mapel_urutan' => $this->input->post('mapel_urutan'),
         'mapel_kel' => $this->input->post('mapel_kel'),
-        'mapel_kkm' => $this->input->post('mapel_kkm')
+        'mapel_kkm' => $this->input->post('mapel_kkm'),
+        'mapel_bk' => $this->input->post('mapel_bk')
       ];
 
       //simpan ke db
       $this->db->where('mapel_id', $this->input->post('_id'));
       $this->db->update('mapel', $data);
 
-      $this->session->set_flashdata('message','<div class="alert alert-success" role="alert">Subject Updated!</div>');
+      $this->session->set_flashdata('message','<div class="alert alert-success" role="alert">Mapel berhasil diupdate!</div>');
       redirect('Mapel_CRUD');
     }
 

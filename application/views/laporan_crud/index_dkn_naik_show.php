@@ -51,7 +51,7 @@
         <td style="width:100px;">Pengetahuan</td>
         <?php foreach ($mapel_all as $m) :
           $nilai = returnRaportPengetahuan($s['d_s_id'], 1, $m['mapel_id']);
-          var_dump($nilai['uj_mid1_kog']);
+          //var_dump($nilai['uj_mid1_kog']);
           $ujmid = $nilai['uj_mid1_kog'];
           $ujfin = $nilai['uj_fin1_kog'];
           $nh = $nilai['NH'];
@@ -123,7 +123,7 @@
   </table>
   </div>
   <button type="submit" class="btn btn-success btn-user btn-block" id="export_excel">
-      Export To Excel
+      Export Ke Excel
   </button>
   <hr>
 
