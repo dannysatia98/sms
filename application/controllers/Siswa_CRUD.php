@@ -192,4 +192,54 @@ class Siswa_CRUD extends CI_Controller
       $this->load->view('templates/footer');
     }
   }
+
+  public function add_csv(){
+
+    $data['title'] = 'Upload dari CSV';
+
+    $data['kr'] = $this->_kr->find_by_username($this->session->userdata('kr_username'));
+    $data['sk_id'] = $this->session->userdata('kr_sk_id');
+
+    $data['t'] = $this->db->query(
+      "SELECT t_id, t_nama
+      FROM t
+      ORDER BY t_nama DESC"
+    )->result_array();
+
+    $this->load->view('templates/header', $data);
+    $this->load->view('templates/sidebar', $data);
+    $this->load->view('templates/topbar', $data);
+    $this->load->view('siswa_crud/add_csv', $data);
+    $this->load->view('templates/footer');
+  }
+
+  public function add_csv_proses(){
+
+    $sis_no_induk = $this->input->post('sis_no_induk[]', true);
+    $sis_nama_depan = $this->input->post('sis_nama_depan[]', true);
+    $sis_nama_bel = $this->input->post('sis_nama_bel[]', true);
+    $sis_agama = $this->input->post('sis_agama[]', true);
+    $sis_jk = $this->input->post('sis_jk[]', true);
+
+    if($sis_no_induk){
+      $data = array();
+
+      for($i=0;$i<count($sis_no_induk);$i++){
+        $data[$i] = [
+          'sis_no_induk' => $sis_no_induk[$i],
+          'sis_nama_depan' => $sis_nama_depan[$i],
+          'sis_nama_bel' => $sis_nama_bel[$i],
+          'sis_agama_id' =>  $sis_agama[$i],
+          'sis_t_id' => $this->input->post('sis_t_id'),
+          'sis_sk_id' => $this->input->post('sis_sk_id'),
+          'sis_jk' => $sis_jk[$i]
+        ];
+      }
+
+      $this->db->insert_batch('sis', $data);
+      $this->session->set_flashdata('message','<div class="alert alert-success" role="alert">Input Success!</div>');
+      redirect('Siswa_CRUD');
+    }
+
+  }
 }
