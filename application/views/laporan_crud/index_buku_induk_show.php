@@ -203,24 +203,51 @@
               $mapel_kel_nama = "";
               foreach ($mapel_detail as $m):
                 ////////////////////////semester 1///////////////////////////////
+
                 $nilai = returnRaportPengetahuan($sis_arr[$i], 1, $m['mapel_id']);
-                $ujmid = $nilai['uj_mid1_kog'];
-                $ujfin = $nilai['uj_fin1_kog'];
-                $nh = $nilai['NH'];
+                if($nilai){
+                  $ujmid = $nilai['uj_mid1_kog'];
+                  $ujfin = $nilai['uj_fin1_kog'];
+                  $nh = $nilai['NH'];
+                }else{
+                  $ujmid = 0;
+                  $ujfin = 0;
+                  $nh = 0;
+                }
 
                 $nilai_ket = returnRaportKetrampilan($sis_arr[$i], 1, $m['mapel_id']);
-                $ujmidps = $nilai_ket['uj_mid1_psi'];
-                $ujfinps = $nilai_ket['uj_fin1_psi'];
+                if($nilai_ket){
+                  $ujmidps = $nilai_ket['uj_mid1_psi'];
+                  $ujfinps = $nilai_ket['uj_fin1_psi'];
+                  $naKet = round(hitungNA($nilai_ket['NA_ket'],$ujmidps,$ujfinps));
+                }else{
+                  $ujmidps = 0;
+                  $ujfinps = 0;
+                  $naKet = 0;
+                }
 
                 /////////////////////////semester 2//////////////////////////////
                 $nilai2 = returnRaportPengetahuan($sis_arr[$i], 2, $m['mapel_id']);
-                $ujmid2 = $nilai2['uj_mid2_kog'];
-                $ujfin2 = $nilai2['uj_fin2_kog'];
-                $nh2 = $nilai2['NH'];
+                if($nilai2){
+                  $ujmid2 = $nilai2['uj_mid2_kog'];
+                  $ujfin2 = $nilai2['uj_fin2_kog'];
+                  $nh2 = $nilai2['NH'];
+                }else{
+                  $ujmid2 = 0;
+                  $ujfin2 = 0;
+                  $nh2 = 0;
+                }
 
                 $nilai_ket2 = returnRaportKetrampilan($sis_arr[$i], 2, $m['mapel_id']);
-                $ujmidps2 = $nilai_ket2['uj_mid2_psi'];
-                $ujfinps2 = $nilai_ket2['uj_fin2_psi'];
+                if($nilai_ket2){
+                  $ujmidps2 = $nilai_ket2['uj_mid2_psi'];
+                  $ujfinps2 = $nilai_ket2['uj_fin2_psi'];
+                  $naKet2 = round(hitungNA($nilai_ket2['NA_ket'],$ujmidps2,$ujfinps2));
+                }else{
+                  $ujmidps2 = 0;
+                  $ujfinps2 = 0;
+                  $naKet2 = 0;
+                }
             ?>
               <tr>
                 <?php if($mapel_kel_nama != $m['mapel_kel_nama']): ?>
@@ -236,10 +263,10 @@
                 <td style="padding: 0px 0px 0px 5px;"><?= $m['mapel_nama'] ?></td>
                 <!-- pengetahuan semester 1 -->
                 <td style="text-align: center;"><?= round(hitungNA($nh,$ujmid,$ujfin)) ?></td>
-                <td style="text-align: center;"><?= round(hitungNA($nilai_ket['NA_ket'],$ujmidps,$ujfinps)) ?></td>
+                <td style="text-align: center;"><?= $naKet ?></td>
                 <!-- pengetahuan semester 2 -->
                 <td style="text-align: center;"><?= round(hitungNA($nh2,$ujmid2,$ujfin2)) ?></td>
-                <td style="text-align: center;"><?= round(hitungNA($nilai_ket2['NA_ket'],$ujmidps2,$ujfinps2)) ?></td>
+                <td style="text-align: center;"><?= $naKet2 ?></td>
               </tr>
             <?php
               $no++;

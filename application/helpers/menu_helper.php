@@ -36,7 +36,7 @@ function mapel_urutan_by_kelas($kelas_id){
     LEFT JOIN kelas ON d_mpl_kelas_id = kelas_id
     LEFT JOIN mapel ON d_mpl_mapel_id = mapel_id
     LEFT JOIN mapel_kel ON mapel_kel = mapel_kel_id
-    WHERE d_mpl_kelas_id = $kelas_id
+    WHERE d_mpl_kelas_id = $kelas_id AND mapel_bk = 0
     GROUP BY mapel_id
     ORDER BY mapel_kel_id, mapel_urutan")->result_array();
 
@@ -854,4 +854,184 @@ function return_jumlah_siswa($kelas_id)
   )->row_array();
 
   return $laporan;
+}
+
+function return_topik_mapel($mapel_id, $jenj_id, $sem)
+{
+  $ci = &get_instance();
+
+  $sql = $ci->db->query(
+    "SELECT topik_id, topik_nama, topik_semester
+    FROM topik
+    WHERE topik_mapel_id = $mapel_id AND topik_jenj_id = $jenj_id AND topik_semester = $sem"
+  )->result_array();
+
+  return $sql;
+}
+
+function return_siswa_kelas($kelas_id)
+{
+  $ci = &get_instance();
+  $sql = $ci->db->query(
+    "SELECT d_s_id, sis_nama_depan, sis_nama_bel
+    FROM d_s
+    LEFT JOIN sis ON sis_id = d_s_sis_id
+    WHERE d_s_kelas_id = $kelas_id
+    ORDER BY sis_nama_depan"
+  )->result_array();
+
+  return $sql;
+}
+
+function return_tes_by_d_s_id_topik($d_s_id, $topik_id)
+{
+  $ci = &get_instance();
+  $sql = $ci->db->query(
+    "SELECT *
+    FROM tes
+    WHERE tes_d_s_id = $d_s_id AND tes_topik_id = $topik_id"
+  )->row_array();
+
+  return $sql;
+}
+
+function return_uj_by_d_s_id($d_s_id, $mapel_id)
+{
+  $ci = &get_instance();
+  $sql = $ci->db->query(
+    "SELECT *
+    FROM uj
+    WHERE uj_d_s_id = $d_s_id AND uj_mapel_id = $mapel_id"
+  )->row_array();
+
+  return $sql;
+}
+
+function returnNHPengMapel($d_s_id, $semester, $mapel_id){
+    $ci =& get_instance();
+
+    $raport_semester2 = $ci->db->query(
+      "SELECT SUM((tes_ph1+tes_ph2+tes_ph3+tes_ph4+tes_ph5)/tes_jum_ph)/COUNT(mapel_id) as NH
+      FROM tes
+      LEFT JOIN topik
+      ON tes_topik_id = topik_id
+      LEFT JOIN mapel
+      ON topik_mapel_id = mapel_id
+      LEFT JOIN mapel_kel
+      ON mapel_kel = mapel_kel_id
+      LEFT JOIN d_s
+      ON tes_d_s_id = d_s_id
+      LEFT JOIN sis
+      ON d_s_sis_id = sis_id
+      WHERE tes_d_s_id = $d_s_id AND topik_semester = $semester AND mapel_id = $mapel_id
+      GROUP BY mapel_id ")->row_array();
+
+    return $raport_semester2;
+}
+
+function returnNHKetMapel($d_s_id, $semester, $mapel_id){
+  $ci =& get_instance();
+
+  $raport_semester3 = $ci->db->query(
+    "SELECT SUM(total_max/calJumKet(max_prak,max_produk,max_proyek,max_porto))/COUNT(ket.mapel_id) as NA_ket
+    FROM(
+      SELECT mapel_id, mapel_kel_id, mapel_urutan, tes_d_s_id, mapel_nama, mapel_kel_nama, topik_id,
+      tes_prak1, tes_prak2, tes_prak3,
+      GREATEST(tes_prak1, tes_prak2, tes_prak3) as max_prak,
+      tes_produk1, tes_produk2, tes_produk3,
+      GREATEST(tes_produk1, tes_produk2, tes_produk3) as max_produk,
+      tes_proyek1, tes_proyek2, tes_proyek3,
+      GREATEST(tes_proyek1, tes_proyek2, tes_proyek3) as max_proyek,
+      tes_porto1, tes_porto2, tes_porto3,
+      GREATEST(tes_porto1, tes_porto2, tes_porto3) as max_porto,
+      GREATEST(tes_prak1, tes_prak2, tes_prak3)+
+      GREATEST(tes_produk1, tes_produk2, tes_produk3)+
+      GREATEST(tes_proyek1, tes_proyek2, tes_proyek3)+
+      GREATEST(tes_porto1, tes_porto2, tes_porto3) as total_max
+      FROM tes
+      LEFT JOIN topik
+      ON tes_topik_id = topik_id
+      LEFT JOIN mapel
+      ON topik_mapel_id = mapel_id
+      LEFT JOIN mapel_kel
+      ON mapel_kel = mapel_kel_id
+      WHERE tes_d_s_id = $d_s_id AND topik_semester = $semester AND mapel_id = $mapel_id
+    )as ket")->row_array();
+
+  return $raport_semester3;
+}
+
+function returnSosafBySiswa($d_s_id, $semester, $mapel_id){
+  $ci =& get_instance();
+
+  $a = $ci->db->query(
+    "SELECT sosaf_1, sosaf_2, sosaf_3, sosaf_4, sosaf_5, sosaf_6, sosaf_7, sosaf_8, sosaf_9, sosaf_10, sosaf_11, sosaf_12, sosaf_13, sosaf_14, sosaf_15, sosaf_16
+      FROM sosaf
+      WHERE sosaf_d_s_id = $d_s_id AND sosaf_semester = $semester AND sosaf_mapel_id = $mapel_id")->row_array();
+
+  return $a;
+}
+
+function returnSprafBySiswa($d_s_id, $semester, $mapel_id){
+  $ci =& get_instance();
+
+  $a = $ci->db->query(
+    "SELECT spraf_1,spraf_2,spraf_3,spraf_4,spraf_5,spraf_6,spraf_7,spraf_8,spraf_9,spraf_10,spraf_11
+      FROM spraf
+      WHERE spraf_d_s_id = $d_s_id AND spraf_semester = $semester AND spraf_mapel_id = $mapel_id")->row_array();
+
+  return $a;
+}
+
+function returnNamaMapel($mapel_id){
+  $ci =& get_instance();
+
+  $a = $ci->db->query(
+    "SELECT mapel_sing
+      FROM mapel
+      WHERE mapel_id = $mapel_id")->row_array();
+
+  return $a;
+}
+
+function returnKelasXsiswa($sis_id){
+  $ci =& get_instance();
+
+  $a = $ci->db->query(
+    "SELECT d_s_id
+      FROM d_s
+      LEFT JOIN sis ON sis_id = d_s_sis_id
+      LEFT JOIN kelas ON kelas_id = d_s_kelas_id
+      LEFT JOIN jenj ON kelas_jenj_id = jenj_id
+      WHERE jenj_id = 1 AND sis_id = $sis_id")->result_array();
+
+  return $a;
+}
+
+function returnKelasXisiswa($sis_id){
+  $ci =& get_instance();
+
+  $a = $ci->db->query(
+    "SELECT d_s_id
+      FROM d_s
+      LEFT JOIN sis ON sis_id = d_s_sis_id
+      LEFT JOIN kelas ON kelas_id = d_s_kelas_id
+      LEFT JOIN jenj ON kelas_jenj_id = jenj_id
+      WHERE jenj_id = 2 AND sis_id = $sis_id")->result_array();
+
+  return $a;
+}
+
+function returnKelasXiisiswa($sis_id){
+  $ci =& get_instance();
+
+  $a = $ci->db->query(
+    "SELECT d_s_id
+      FROM d_s
+      LEFT JOIN sis ON sis_id = d_s_sis_id
+      LEFT JOIN kelas ON kelas_id = d_s_kelas_id
+      LEFT JOIN jenj ON kelas_jenj_id = jenj_id
+      WHERE jenj_id = 3 AND sis_id = $sis_id")->result_array();
+
+  return $a;
 }

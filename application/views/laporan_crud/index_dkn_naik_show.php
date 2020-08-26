@@ -10,6 +10,15 @@
 }
 </style>
 
+<?php
+  function cek_null($val){
+    if($val)
+      return $val;
+    else
+      return 0;
+  }
+?>
+
 <div class="grid-container">
   <div class="text-center">
     <label style="display: block; font-size: 14px;"><b><u>DAFTAR KUMPULAN NILAI</u></b></label>
@@ -33,28 +42,41 @@
         <th>S</th>
         <th>I</th>
         <th>A</th>
+        <th>Rank</th>
       </tr>
     </thead>
     <tbody>
       <?php
+      $muridke = 0;
       foreach ($sis_all as $s) :
+
+      //untuk nilai sikap akhir
+      $nilai_sikap1 = returnRaportSemester1($s['d_s_id'], 1, $s['kelas_id']);
+      $nilai_sikap2 = returnRaportSemester1($s['d_s_id'], 2, $s['kelas_id']);
+
       $total_peng1=0;
       $total_ket1=0;
       $total_peng2=0;
       $total_ket2=0;
       ?>
       <tr>
-        <td rowspan="4" style="vertical-align: middle;"><?= $s['sis_no_induk'] ?></td>
-        <td rowspan="4" style="vertical-align: middle;"><?= $s['sis_nama_depan'].' '.$s['sis_nama_bel'] ?></td>
-        <td rowspan="2">1</td>
+        <td rowspan="8" style="vertical-align: middle;"><?= $s['sis_no_induk'] ?></td>
+        <td rowspan="8" style="vertical-align: middle;"><?= $s['sis_nama_depan'].' '.$s['sis_nama_bel'] ?></td>
+        <td rowspan="4">1</td>
         <!-- SEMESTER 1 -->
         <td style="width:100px;">Pengetahuan</td>
         <?php foreach ($mapel_all as $m) :
           $nilai = returnRaportPengetahuan($s['d_s_id'], 1, $m['mapel_id']);
           //var_dump($nilai['uj_mid1_kog']);
-          $ujmid = $nilai['uj_mid1_kog'];
-          $ujfin = $nilai['uj_fin1_kog'];
-          $nh = $nilai['NH'];
+          if($nilai){
+            $ujmid = $nilai['uj_mid1_kog'];
+            $ujfin = $nilai['uj_fin1_kog'];
+            $nh = $nilai['NH'];
+          }else{
+            $ujmid = 0;
+            $ujfin = 0;
+            $nh = 0;
+          }
           $naPeng = round(hitungNA($nh,$ujmid,$ujfin));
           $total_peng1 += $naPeng;
         ?>
@@ -63,34 +85,94 @@
         <!-- total pengetahuan semester 1 -->
         <td><?= $total_peng1 ?></td>
         <td><?= round($total_peng1/count($mapel_all)) ?></td>
-        <td rowspan="2"></td>
-        <td rowspan="2"></td>
-        <td rowspan="2"></td>
+        <!-- SAKIT semester 1-->
+        <td rowspan="4"></td>
+        <!-- IJIN semester 1-->
+        <td rowspan="4"></td>
+        <!-- ALPHA semester 1-->
+        <td rowspan="4"></td>
+        <!-- RANKING semester 1-->
+        <td rowspan="4" class="murid1ke<?= $muridke ?>"></td>
       </tr>
       <tr>
         <td>Ketrampilan</td>
         <?php foreach ($mapel_all as $m) :
           $nilai_ket = returnRaportKetrampilan($s['d_s_id'], 1, $m['mapel_id']);
-          $ujmidps = $nilai_ket['uj_mid1_psi'];
-          $ujfinps = $nilai_ket['uj_fin1_psi'];
-          $naKet = round(hitungNA($nilai_ket['NA_ket'],$ujmidps,$ujfinps));
+          if($nilai_ket){
+            $ujmidps = $nilai_ket['uj_mid1_psi'];
+            $ujfinps = $nilai_ket['uj_fin1_psi'];
+            $naKet = round(hitungNA($nilai_ket['NA_ket'],$ujmidps,$ujfinps));
+          }else{
+            $ujmidps = 0;
+            $ujfinps = 0;
+            $naKet = 0;
+          }
+
           $total_ket1 += $naKet;
         ?>
         <td><?= $naKet ?></td>
         <?php endforeach; ?>
         <!-- total ketrampilan semester 1 -->
         <td><?= $total_ket1 ?></td>
-        <td><?= round($total_ket1/count($mapel_all)) ?></td>
+        <td>
+          <input type="hidden" class="semester" value="<?= (round($total_peng1/count($mapel_all)) + round($total_ket1/count($mapel_all)))/2 ?>">
+          <?= round($total_ket1/count($mapel_all)) ?>
+        </td>
+      </tr>
+
+      <tr>
+        <td>Sosial</td>
+        <?php
+          foreach ($mapel_all as $m) :
+            $sosaf = returnSosafBySiswa($s['d_s_id'],1,$m['mapel_id']);
+            $nil_sosaf = 0;
+            if(!$sosaf)
+              $nil_sosaf = 3;
+            else{
+              for ($i=1; $i <=16 ; $i++) {
+                $nil_sosaf += $sosaf['sosaf_'.$i];
+              }
+              $nil_sosaf/=16;
+            }
+        ?>
+        <td><?= return_abjad_sikap($nil_sosaf) ?></td>
+        <?php endforeach; ?>
+        <td colspan="2"><?= return_abjad_sikap($nilai_sikap1['total_sosial']) ?></td>
+      </tr>
+      <tr>
+        <td>Spiritual</td>
+        <?php
+          foreach ($mapel_all as $m) :
+            $spraf = returnSprafBySiswa($s['d_s_id'],1,$m['mapel_id']);
+            $nil_spraf = 0;
+            if(!$spraf)
+              $nil_spraf = 3;
+            else{
+              for ($i=1; $i <=11 ; $i++) {
+                $nil_spraf += $spraf['spraf_'.$i];
+              }
+              $nil_spraf/=11;
+            }
+        ?>
+        <td><?= return_abjad_sikap($nil_spraf) ?></td>
+        <?php endforeach; ?>
+        <td colspan="2"><?= return_abjad_sikap($nilai_sikap1['total_spirit']) ?></td>
       </tr>
       <tr>
         <!-- SEMESTER 2 -->
-        <td rowspan="2">2</td>
+        <td rowspan="4">2</td>
         <td>Pengetahuan</td>
         <?php foreach ($mapel_all as $m) :
           $nilai2 = returnRaportPengetahuan($s['d_s_id'], 2, $m['mapel_id']);
-          $ujmid2 = $nilai2['uj_mid2_kog'];
-          $ujfin2 = $nilai2['uj_fin2_kog'];
-          $nh2 = $nilai2['NH'];
+          if($nilai2){
+            $ujmid2 = $nilai2['uj_mid2_kog'];
+            $ujfin2 = $nilai2['uj_fin2_kog'];
+            $nh2 = $nilai2['NH'];
+          }else{
+            $ujmid2 = 0;
+            $ujfin2 = 0;
+            $nh2 = 0;
+          }
           $naPeng2 = round(hitungNA($nh2,$ujmid2,$ujfin2));
           $total_peng2 += $naPeng2;
         ?>
@@ -99,26 +181,78 @@
         <!-- total pengetahuan semester 2 -->
         <td><?= $total_peng2 ?></td>
         <td><?= round($total_peng2/count($mapel_all)) ?></td>
-        <td rowspan="2"></td>
-        <td rowspan="2"></td>
-        <td rowspan="2"></td>
+        <!-- SAKIT semester 2-->
+        <td rowspan="4"></td>
+        <!-- IJIN semester 2-->
+        <td rowspan="4"></td>
+        <!-- ALPHA semester 2-->
+        <td rowspan="4"></td>
+        <!-- RANKING semester 2-->
+        <td rowspan="4" class="murid2ke<?= $muridke ?>"></td>
       </tr>
       <tr>
         <td>Ketrampilan</td>
         <?php foreach ($mapel_all as $m) :
           $nilai_ket2 = returnRaportKetrampilan($s['d_s_id'], 2, $m['mapel_id']);
-          $ujmidps2 = $nilai_ket2['uj_mid2_psi'];
-          $ujfinps2 = $nilai_ket2['uj_fin2_psi'];
-          $naKet2 = round(hitungNA($nilai_ket2['NA_ket'],$ujmidps2,$ujfinps2));
+          if($nilai_ket2){
+            $ujmidps2 = $nilai_ket2['uj_mid2_psi'];
+            $ujfinps2 = $nilai_ket2['uj_fin2_psi'];
+            $naKet2 = round(hitungNA($nilai_ket2['NA_ket'],$ujmidps2,$ujfinps2));
+          }else{
+            $ujmidps2 = 0;
+            $ujfinps2 = 0;
+            $naKet2 = 0;
+          }
           $total_ket2 += $naKet2;
         ?>
         <td><?= $naKet2 ?></td>
         <?php endforeach; ?>
         <!-- total ketrampilan semester 2 -->
         <td><?= $total_ket2 ?></td>
-        <td><?= round($total_ket2/count($mapel_all)) ?></td>
+        <td>
+          <input type="hidden" class="semester2" value="<?= (round($total_peng2/count($mapel_all)) + round($total_ket2/count($mapel_all)))/2 ?>">
+          <?= round($total_ket2/count($mapel_all)) ?>
+        </td>
       </tr>
-      <?php endforeach; ?>
+      <tr>
+        <td>Sosial</td>
+        <?php
+          foreach ($mapel_all as $m) :
+            $sosaf2 = returnSosafBySiswa($s['d_s_id'],2,$m['mapel_id']);
+            $nil_sosaf2 = 0;
+            if(!$sosaf2)
+              $nil_sosaf2 = 3;
+            else{
+              for ($i=1; $i <=16 ; $i++) {
+                $nil_sosaf2 += $sosaf2['sosaf_'.$i];
+              }
+              $nil_sosaf2/=16;
+            }
+        ?>
+        <td><?= return_abjad_sikap($nil_sosaf2) ?></td>
+        <?php endforeach; ?>
+        <td colspan="2"><?= return_abjad_sikap($nilai_sikap2['total_sosial']) ?></td>
+      </tr>
+      <tr>
+        <td>Spiritual</td>
+        <?php
+          foreach ($mapel_all as $m) :
+            $spraf2 = returnSprafBySiswa($s['d_s_id'],2,$m['mapel_id']);
+            $nil_spraf2 = 0;
+            if(!$spraf2)
+              $nil_spraf2 = 3;
+            else{
+              for ($i=1; $i <=11 ; $i++) {
+                $nil_spraf2 += $spraf2['spraf_'.$i];
+              }
+              $nil_spraf2/=11;
+            }
+        ?>
+        <td><?= return_abjad_sikap($nil_spraf2) ?></td>
+        <?php endforeach; ?>
+        <td colspan="2"><?= return_abjad_sikap($nilai_sikap2['total_spirit']) ?></td>
+      </tr>
+      <?php $muridke++; endforeach; ?>
     </tbody>
   </table>
   </div>
@@ -137,22 +271,33 @@
       return b - a;
     }
 
+    // SEMESTER 1
     var nilai_arr = [];
     $(".semester").each(function() {
-      nilai_arr.push($(this).attr('rel'));
+      nilai_arr.push($(this).val());
     });
-    //console.log(nilai_arr);
 
-    var nilai_arr_urut;
-    nilai_arr_urut = nilai_arr.sort(sortNumber);
-    //console.log(nilai_arr_urut);
-
+    nilai_arr.sort(sortNumber);
+    var i=0;
     $(".semester").each(function() {
-      var rank = nilai_arr.indexOf($(this).attr('rel'));
-      $(this).html(rank+1);
-      //console.log(rank);
+      var rank = nilai_arr.indexOf($(this).val());
+      $('.murid1ke'+i).html(rank+1);
+      i+=1;
     });
 
+    //SEMESTER 2
+    var nilai_arr2 = [];
+    $(".semester2").each(function() {
+      nilai_arr2.push($(this).val());
+    });
+
+    nilai_arr2.sort(sortNumber);
+    var j=0;
+    $(".semester2").each(function() {
+      var rank2 = nilai_arr2.indexOf($(this).val());
+      $('.murid2ke'+j).html(rank2+1);
+      j+=1;
+    });
 
   });
 

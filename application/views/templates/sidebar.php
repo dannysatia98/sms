@@ -107,8 +107,7 @@
                   <a class="collapse-item" href=' . base_url('Laporan_CRUD/index_dkn_naik') . '>3. DKN Kenaikan Kelas</a>
                   <a class="collapse-item" href=' . base_url('Laporan_CRUD/index_dkn_un') . '>4. DKN Nominasi UN</a>
                   <a class="collapse-item" href=' . base_url('Laporan_CRUD/index_buku_induk') . '>5. Buku Induk</a>
-                  <a class="collapse-item" href=' . base_url('Laporan_crud/index_rank') . '>6. Ranking Pararel</a>
-                  <a class="collapse-item" href=' . base_url('Laporan_crud/index_rank') . '>7. Ketuntasan Klasikal</a>
+                  <a class="collapse-item" href=' . base_url('Laporan_crud/index_ketuntasan') . '>6. Ketuntasan Klasikal</a>
                 </div>
               </div>
             </li>
@@ -132,7 +131,7 @@
                   <a class="collapse-item" href=' . base_url('Uj_CRUD') . '>2. PTS & PAS</a>
                   <a class="collapse-item" href=' . base_url('sosaf_CRUD') . '>3. Sosial</a>
                   <a class="collapse-item" href=' . base_url('spraf_CRUD') . '>4. Spiritual</a>
-                  <a class="collapse-item" href=' . base_url('Laporan_CRUD') . '>5. Laporan</a>
+                  <a class="collapse-item" href=' . base_url('Laporan_crud/index_ketuntasan') . '>5. Ketuntasan Klasikal</a>
                 </div>
               </div>
             </li>
