@@ -12,7 +12,9 @@
 
             <?= $this->session->flashdata('message'); ?>
 
-            <a href="<?= base_url('siswa_crud/add') ?>" class="btn btn-primary mb-3">Tambah Siswa</a>
+            <a href="<?= base_url('siswa_crud/add') ?>" class="btn btn-sm btn-primary mb-3">&plus; Siswa</a>
+
+            <a href="<?= base_url('siswa_crud/add_csv') ?>" class="btn btn-sm btn-success mb-3">&plus; Siswa dari CSV</a>
 
             <table class="table table-sm display compact table-hover dt" style="font-size:13px;">
               <thead>
