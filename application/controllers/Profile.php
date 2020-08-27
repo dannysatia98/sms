@@ -41,7 +41,7 @@ class Profile extends CI_Controller
 
 		if($this->form_validation->run() == false){
       //set judul
-      $data['title'] = 'Update Profile';
+      $data['title'] = 'Update Profil';
 
       //ambil data karyawan yang sedang login
       $data['kr'] = $this->_kr->find_by_id($this->session->userdata('kr_id'));
@@ -98,7 +98,7 @@ class Profile extends CI_Controller
       $this->session->unset_userdata('kr_id');
       $this->session->unset_userdata('kr_jabatan_id');
       $this->session->unset_userdata('kr_sk_id');
-      $this->session->set_flashdata('message','<div class="alert alert-success" role="alert">Profile Updated, please re-login</div>');
+      $this->session->set_flashdata('message','<div class="alert alert-success" role="alert">Profile berhasil dirubah, silahkan login kembali</div>');
       redirect('Auth');
     }
   }

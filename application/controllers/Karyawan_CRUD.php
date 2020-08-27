@@ -177,4 +177,59 @@ class Karyawan_CRUD extends CI_Controller
 
   }
 
+  public function add_csv(){
+    $data['title'] = 'Upload dari CSV';
+
+    $data['kr'] = $this->_kr->find_by_username($this->session->userdata('kr_username'));
+
+    $this->load->view('templates/header', $data);
+    $this->load->view('templates/sidebar', $data);
+    $this->load->view('templates/topbar', $data);
+    $this->load->view('karyawan_crud/add_csv', $data);
+    $this->load->view('templates/footer');
+  }
+
+  public function array_has_dupes($array) {
+     return count($array) !== count(array_unique($array));
+  }
+
+  public function add_csv_proses(){
+    if($this->input->post('kr_nama_depan[]', true)){
+      $kr_nama_depan = $this->input->post('kr_nama_depan[]', true);
+      $kr_nama_belakang = $this->input->post('kr_nama_belakang[]', true);
+      $kr_username = $this->input->post('kr_username[]', true);
+      $kr_password = $this->input->post('kr_password[]', true);
+
+      $gagal = 0;
+
+      for($i=0;$i<count($kr_nama_depan);$i++){
+        $cek = $this->db->query(
+          "SELECT kr_id
+          FROM kr
+          WHERE kr_username = '$kr_username[$i]'")->row_array();
+
+        if(!$cek){
+          $data[$i] = [
+            'kr_username' => $kr_username[$i],
+            'kr_password' => password_hash($kr_password[$i], PASSWORD_DEFAULT),
+            'kr_nama_depan' => $kr_nama_depan[$i],
+            'kr_nama_belakang' => $kr_nama_belakang[$i],
+    				'kr_date_created' => time()
+          ];
+        }else{
+          $gagal++;
+        }
+      }
+
+      //var_dump($data);
+
+      $this->db->insert_batch('kr', $data);
+      $this->session->set_flashdata('message','<div class="alert alert-success" role="alert">Berhasil memasukkan '.count($data).' guru, Gagal sejumlah '.$gagal.' (username sudah ada)</div>');
+      redirect('karyawan_crud');
+
+
+
+    }
+  }
+
 }

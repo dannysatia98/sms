@@ -12,7 +12,8 @@
 
                   <?= $this->session->flashdata('message'); ?>
 
-                  <a href="<?= base_url('karyawan_crud/add') ?>" class="btn btn-primary mb-3">Tambah Guru</a>
+                  <a href="<?= base_url('karyawan_crud/add') ?>" class="btn btn-sm btn-primary mb-3">&plus; Guru</a>
+                  <a href="<?= base_url('karyawan_crud/add_csv') ?>" class="btn btn-sm btn-success mb-3">&plus; Guru CSV</a>
 
                   <table class="table table-sm display compact table-hover dt" style="font-size:13px;">
                     <thead>
