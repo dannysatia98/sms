@@ -861,7 +861,7 @@ function return_topik_mapel($mapel_id, $jenj_id, $sem)
   $ci = &get_instance();
 
   $sql = $ci->db->query(
-    "SELECT topik_id, topik_nama, topik_semester
+    "SELECT topik_id, topik_nama, topik_semester, topik_nama_ket
     FROM topik
     WHERE topik_mapel_id = $mapel_id AND topik_jenj_id = $jenj_id AND topik_semester = $sem"
   )->result_array();

@@ -394,4 +394,82 @@ class Laporan_CRUD extends CI_Controller
     }
   }
 
+  public function index_rekap(){
+    $data['title'] = 'Rekap Nilai';
+
+    //data karyawan yang sedang login untuk topbar
+    $data['kr'] = $this->_kr->find_by_username($this->session->userdata('kr_username'));
+
+    $kr_id = $data['kr']['kr_id'];
+
+    $data['t_all'] = $this->_t->return_all();
+
+    if($this->session->userdata('kr_jabatan_id')==4){
+      $data['waka'] = 1;
+    }else{
+      $data['waka'] = 0;
+    }
+
+    $this->load->view('templates/header',$data);
+    $this->load->view('templates/sidebar',$data);
+    $this->load->view('templates/topbar',$data);
+    $this->load->view('Laporan_crud/index_rekap',$data);
+    $this->load->view('templates/footer');
+  }
+
+  public function index_rekap_show(){
+    $data['title'] = 'Rekap Nilai';
+    $data['kr'] = $this->_kr->find_by_username($this->session->userdata('kr_username'));
+    $t_id = $this->input->post('t_id',TRUE);
+    $data['sem'] = $this->input->post('sem',TRUE);
+
+    $data['t'] = $this->db->query
+                    ("SELECT t_id, t_nama
+                    FROM t
+                    WHERE t_id = $t_id
+                    ORDER BY t_nama")->row_array();
+
+    //jika dia wakakur semua kelas
+    if($this->session->userdata('kr_jabatan_id')==4){
+
+      $mapel_id = $this->input->post('mapel_id',TRUE);
+
+      $data['detail_tampil'] = $this->input->post('detail_tampil',TRUE);
+
+      $data['m_nama'] = $this->db->query
+                      ("SELECT mapel_nama
+                      FROM mapel
+                      WHERE mapel_id = $mapel_id")->row_array();
+
+      $data['d_all'] = $this->db->query
+                      ("SELECT d_mpl_mapel_id, mapel_nama, kelas_id, kelas_nama, kelas_jenj_id, mapel_kkm
+                      FROM d_mpl
+                      LEFT JOIN mapel ON d_mpl_mapel_id = mapel_id
+                      LEFT JOIN kelas ON d_mpl_kelas_id = kelas_id
+                      WHERE kelas_t_id = $t_id AND d_mpl_mapel_id = $mapel_id
+                      ORDER BY kelas_nama")->result_array();
+    }
+
+    //jika dia guru hanya mapel yang diajar dan kelas yang diajar
+    if($this->session->userdata('kr_jabatan_id')==7){
+      $kr_id = $data['kr']['kr_id'];
+      $data['detail_tampil'] = 1;
+
+      $data['d_all'] = $this->db->query
+                      ("SELECT d_mpl_mapel_id, mapel_nama, kelas_id, kelas_nama, kelas_jenj_id, mapel_kkm
+                      FROM d_mpl
+                      LEFT JOIN mapel ON d_mpl_mapel_id = mapel_id
+                      LEFT JOIN kelas ON d_mpl_kelas_id = kelas_id
+                      WHERE kelas_t_id = $t_id AND d_mpl_kr_id = $kr_id
+                      ORDER BY kelas_nama")->result_array();
+    }
+
+
+    $this->load->view('templates/header',$data);
+    $this->load->view('templates/sidebar',$data);
+    $this->load->view('templates/topbar',$data);
+    $this->load->view('Laporan_crud/index_rekap_show',$data);
+    $this->load->view('templates/footer');
+  }
+
 }

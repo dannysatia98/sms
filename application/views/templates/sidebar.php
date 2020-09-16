@@ -131,7 +131,7 @@
                   <a class="collapse-item" href=' . base_url('Uj_CRUD') . '>2. PTS & PAS</a>
                   <a class="collapse-item" href=' . base_url('sosaf_CRUD') . '>3. Sosial</a>
                   <a class="collapse-item" href=' . base_url('spraf_CRUD') . '>4. Spiritual</a>
-                  <a class="collapse-item" href=' . base_url('Laporan_crud/index_ketuntasan') . '>5. Ketuntasan Klasikal</a>
+                  <a class="collapse-item" href=' . base_url('Laporan_crud/index_rekap') . '>5. Rekap Nilai</a>
                 </div>
               </div>
             </li>
