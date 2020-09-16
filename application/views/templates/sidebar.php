@@ -103,11 +103,11 @@
                 <div class="bg-white py-2 collapse-inner rounded">
                   <h6 class="collapse-header">Laporan</h6>
                   <a class="collapse-item" href=' . base_url('Report_CRUD') . '>1. Rapor</a>
-                  <a class="collapse-item" href=' . base_url('Laporan_CRUD/index_nilai') . '>2. Input Nilai</a>
+                  <a class="collapse-item" href=' . base_url('Laporan_CRUD/index_nilai') . '>2. Pantauan Input Nilai</a>
                   <a class="collapse-item" href=' . base_url('Laporan_CRUD/index_dkn_naik') . '>3. DKN Kenaikan Kelas</a>
                   <a class="collapse-item" href=' . base_url('Laporan_CRUD/index_dkn_un') . '>4. DKN Nominasi UN</a>
                   <a class="collapse-item" href=' . base_url('Laporan_CRUD/index_buku_induk') . '>5. Buku Induk</a>
-                  <a class="collapse-item" href=' . base_url('Laporan_crud/index_ketuntasan') . '>6. Ketuntasan Klasikal</a>
+                  <a class="collapse-item" href=' . base_url('Laporan_crud/index_ketuntasan') . ' data-toggle="tooltip" data-placement="right" title="Ketuntasan Klasikal Per Mapel">6. Ketuntasan Klasikal Per...</a>
                 </div>
               </div>
             </li>

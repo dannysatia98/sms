@@ -260,7 +260,7 @@ class Laporan_CRUD extends CI_Controller
 
   public function index_nilai(){
 
-    $data['title'] = 'Laporan Input';
+    $data['title'] = 'Pantauan Input Nilai';
 
     $data['t_all'] = $this->_t->return_all();
     //data karyawan yang sedang login untuk topbar
@@ -277,7 +277,7 @@ class Laporan_CRUD extends CI_Controller
 
     if($this->input->post('t_id',TRUE)){
 
-      $data['title'] = 'Laporan Input';
+      $data['title'] = 'Pantauan Input Nilai';
       $data['kr'] = $this->_kr->find_by_username($this->session->userdata('kr_username'));
       $t_id = $this->input->post('t_id',TRUE);
       $data['tahun'] = $this->db->query
@@ -299,7 +299,7 @@ class Laporan_CRUD extends CI_Controller
   }
 
   public function index_ketuntasan(){
-    $data['title'] = 'Ketuntasan Klasikal';
+    $data['title'] = 'Ketuntasan Klasikal Per Mapel';
 
     //data karyawan yang sedang login untuk topbar
     $data['kr'] = $this->_kr->find_by_username($this->session->userdata('kr_username'));
@@ -322,7 +322,7 @@ class Laporan_CRUD extends CI_Controller
   }
 
   public function index_ketuntasan_show(){
-    $data['title'] = 'Ketuntasan Klasikal';
+    $data['title'] = 'Ketuntasan Klasikal Per Mapel';
     $data['kr'] = $this->_kr->find_by_username($this->session->userdata('kr_username'));
     $t_id = $this->input->post('t_id',TRUE);
     $data['sem'] = $this->input->post('sem',TRUE);

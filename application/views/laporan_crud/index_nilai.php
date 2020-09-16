@@ -7,7 +7,7 @@
         <div class="col-lg">
           <div class="p-5 overflow-auto">
             <div class="text-center mb-3">
-              <h1 class="h4 text-gray-900"><u>Laporan Input Nilai</u></h1>
+              <h1 class="h4 text-gray-900"><u><?= $title; ?></u></h1>
             </div>
 
             <?= $this->session->flashdata('message'); ?>
