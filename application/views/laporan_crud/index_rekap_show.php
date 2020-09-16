@@ -173,19 +173,43 @@
                         else
                           $lebar = 100;
                       ?>
+                      <?php $hit_0 = 0;?>
 
                       <?php for($i=1;$i<=$tes['tes_jum_prak'];$i++): ?>
-                        <td style="width: <?= $lebar2 ?>%; height:20px;"><?= $tes['tes_prak'.$i] ?></td>
+                        <?php if($tes['tes_prak'.$i] == 0):?>
+                          <?php $hit_0++; ?>
+                        <?php else: ?>
+                          <td style="width: <?= $lebar2 ?>%; height:20px;"><?= $tes['tes_prak'.$i] ?></td>
+                        <?php endif;  ?>
                       <?php endfor; ?>
+
                       <?php for($i=1;$i<=$tes['tes_jum_prod'];$i++): ?>
-                        <td style="width: <?= $lebar2 ?>%; height:20px;"><?= $tes['tes_produk'.$i] ?></td>
+                        <?php if($tes['tes_produk'.$i] == 0):?>
+                          <?php $hit_0++; ?>
+                        <?php else: ?>
+                          <td style="width: <?= $lebar2 ?>%; height:20px;"><?= $tes['tes_produk'.$i] ?></td>
+                        <?php endif; ?>
                       <?php endfor; ?>
+
                       <?php for($i=1;$i<=$tes['tes_jum_proy'];$i++): ?>
-                        <td style="width: <?= $lebar2 ?>%; height:20px;"><?= $tes['tes_proyek'.$i] ?></td>
+                        <?php if($tes['tes_proyek'.$i] == 0):?>
+                          <?php $hit_0++; ?>
+                        <?php else: ?>
+                          <td style="width: <?= $lebar2 ?>%; height:20px;"><?= $tes['tes_proyek'.$i] ?></td>
+                        <?php endif; ?>
                       <?php endfor; ?>
+
                       <?php for($i=1;$i<=$tes['tes_jum_porto'];$i++): ?>
-                        <td style="width: <?= $lebar2 ?>%; height:20px;"><?= $tes['tes_porto'.$i] ?></td>
+                        <?php if($tes['tes_porto'.$i] == 0):?>
+                          <?php $hit_0++; ?>
+                        <?php else: ?>
+                          <td style="width: <?= $lebar2 ?>%; height:20px;"><?= $tes['tes_porto'.$i] ?></td>
+                        <?php endif; ?>
                       <?php endfor; ?>
+
+                      <?php if($hit_0 >=4):?>
+                        - 
+                      <?php endif; ?>
                     </tr>
                   </table>
                 </td>
