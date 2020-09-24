@@ -122,7 +122,7 @@ class Uj_CRUD extends CI_Controller
         LEFT JOIN sis ON d_s_sis_id = sis_id
         LEFT JOIN agama ON sis_agama_id = agama_id
         WHERE d_s_kelas_id = $kelas_id
-        ORDER BY $_gb sis_nama_depan, sis_nama_bel, sis_no_induk")->result_array();
+        ORDER BY sis_no_induk, $_gb sis_nama_depan, sis_nama_bel")->result_array();
 
       $this->load->view('templates/header',$data);
       $this->load->view('templates/sidebar',$data);
@@ -137,7 +137,7 @@ class Uj_CRUD extends CI_Controller
         LEFT JOIN sis ON sis_id = d_s_sis_id
         LEFT JOIN agama ON sis_agama_id = agama_id
         WHERE d_s_kelas_id = $kelas_id AND uj_mapel_id = $mapel_id
-        ORDER BY $_gb sis_nama_depan, sis_nama_bel, sis_no_induk")->result_array();
+        ORDER BY sis_no_induk, $_gb sis_nama_depan, sis_nama_bel")->result_array();
 
       //cari siswa yang ada di kelas tapi tidak mempunyai nilai
       $data['siswa_baru'] = $this->db->query(
@@ -151,7 +151,7 @@ class Uj_CRUD extends CI_Controller
           LEFT JOIN sis ON sis_id = d_s_sis_id
           WHERE d_s_kelas_id = $kelas_id AND uj_mapel_id = $mapel_id
           )
-        ORDER BY sis_nama_depan, sis_no_induk")->result_array();
+        ORDER BY sis_no_induk, sis_nama_depan")->result_array();
 
       //var_dump($this->db->last_query());
 

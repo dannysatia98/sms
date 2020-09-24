@@ -135,7 +135,7 @@
               $uj = return_uj_by_d_s_id($s['d_s_id'], $d['d_mpl_mapel_id']);
               $NH = returnNHPengMapel($s['d_s_id'], $sem, $d['d_mpl_mapel_id']);
               $NH_ket = returnNHKetMapel($s['d_s_id'], $sem, $d['d_mpl_mapel_id']);
-              if($sem == 1 && $uj):
+              if($sem == 1):
             ?>
               <!-- PTS PENGETAHUAN-->
               <td>
@@ -158,7 +158,7 @@
               <!-- NR PENGETAHUAN-->
               <td>
                 <?php
-                  if($NH && isset($uj['uj_mid1_kog'])){
+                  if($NH){
                     if(round(hitungNA($NH['NH'],$uj['uj_mid1_kog'],$uj['uj_fin1_kog'])) < $kkm){
                       $tidak_tuntas++;
                     }
@@ -190,7 +190,7 @@
               <!-- NR KETERAMPILAN-->
               <td>
                 <?php
-                  if($NH_ket && isset($uj['uj_mid1_psi'])){
+                  if($NH_ket){
                     if(round(hitungNA($NH_ket['NA_ket'],$uj['uj_mid1_psi'],$uj['uj_fin1_psi'])) < $kkm){
                       $tidak_tuntas_ket++;
                     }
@@ -202,7 +202,7 @@
                 ?>
               </td>
             <?php
-              elseif($sem == 2 && $uj):
+              elseif($sem == 2):
             ?>
               <!-- PTS PENGETAHUAN-->
               <td>
@@ -225,7 +225,7 @@
               <!-- NR PENGETAHUAN-->
               <td>
                 <?php
-                  if($NH && isset($uj['uj_mid2_kog'])){
+                  if($NH ){
                     if(round(hitungNA($NH['NH'],$uj['uj_mid2_kog'],$uj['uj_fin2_kog'])) < $kkm){
                       $tidak_tuntas++;
                     }
@@ -257,7 +257,7 @@
               <!-- NR KETERAMPILAN-->
               <td>
                 <?php
-                  if($NH_ket && isset($uj['uj_mid2_psi'])){
+                  if($NH_ket){
                     if(round(hitungNA($NH_ket['NA_ket'],$uj['uj_mid2_psi'],$uj['uj_fin2_psi'])) < $kkm){
                       $tidak_tuntas_ket++;
                     }

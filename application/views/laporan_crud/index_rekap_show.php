@@ -34,7 +34,7 @@
   ?>
     <h5 style="<?= $style ?>"><?= $d['kelas_nama'].' ('.$d['mapel_nama'].' KKM: '.$kkm.')' ?></h5>
     <?php $nama_kelas[] = $d['kelas_nama']; ?>
-    <table class="table table-hover table-bordered table-sm" style="font-size:11px;<?= $style ?>">
+    <table class="table table-hover table-bordered table-sm rapot" style="font-size:11px;<?= $style ?>">
       <thead>
         <tr>
           <th rowspan="2"></th>
@@ -44,6 +44,8 @@
             }; 
           ?>
           <th colspan="<?php echo $hitungcol;?>">PENGETAHUAN</th>
+          <th rowspan="2">S. Spi</th>
+          <th rowspan="2">S. Sos</th>
           <th colspan="<?php echo $hitungcol;?>">KETERAMPILAN</th>
         </tr>
         <tr>          
@@ -76,6 +78,10 @@
           $jumlah_murid = 0;
           foreach ($siswa_all as $s) :
             $jumlah_murid++;
+
+            //untuk nilai sikap akhir
+            $nilai_sikap1 = returnRaportSemester1($s['d_s_id'], 1, $s['kelas_id']);
+            $nilai_sikap2 = returnRaportSemester1($s['d_s_id'], 2, $s['kelas_id']);
         ?>
 
           <tr>
@@ -109,7 +115,13 @@
               
             <?php else: ?>
               <!-- Kalau nilai harian di KD nya belum diisi -->
-              <td> - </td>
+              <td>
+                <table style="width: 100%;">
+                  <tr>
+                      <td style="width: 100%; height:20px;">-</td>
+                  </tr>
+                </table>
+              </td>
             <?php
               endif;
               endforeach;
@@ -119,30 +131,34 @@
               $uj = return_uj_by_d_s_id($s['d_s_id'], $d['d_mpl_mapel_id']);
               $NH = returnNHPengMapel($s['d_s_id'], $sem, $d['d_mpl_mapel_id']);
               $NH_ket = returnNHKetMapel($s['d_s_id'], $sem, $d['d_mpl_mapel_id']);
-              if($sem == 1 && $uj):
+              if($sem == 1):
             ?>
               <!-- PTS PENGETAHUAN-->
               <td>
                 <?php
-                  if(isset($uj['uj_mid1_kog']))
+                  if(isset($uj['uj_mid1_kog'])){
                     echo $uj['uj_mid1_kog'];
-                  else
+                  }
+                  else{
                     echo "-";
+                  }
                 ?>
               </td>
               <!-- PAS PENGETAHUAN-->
               <td>
                 <?php
-                  if(isset($uj['uj_fin1_kog']))
+                  if(isset($uj['uj_fin1_kog'])){
                     echo $uj['uj_fin1_kog'];
-                  else
+                  }
+                  else{
                     echo "-";
+                  }
                 ?>
               </td>
               <!-- NR PENGETAHUAN-->
               <td>
                 <?php
-                  if($NH && isset($uj['uj_mid1_kog'])){
+                  if($NH){
                     if(round(hitungNA($NH['NH'],$uj['uj_mid1_kog'],$uj['uj_fin1_kog'])) < $kkm){
                       $tidak_tuntas++;
                     }
@@ -153,6 +169,9 @@
                   }
                 ?>
               </td>
+
+              <td><?= return_singkat_sikap($nilai_sikap1['total_sosial']) ?></td>
+              <td><?= return_singkat_sikap($nilai_sikap1['total_spirit']) ?></td>
 
               <?php
                 foreach ($topik_all as $t) :
@@ -208,7 +227,7 @@
                       <?php endfor; ?>
 
                       <?php if($hit_0 >=4):?>
-                        - 
+                        <td style="width: 100%; height:20px;">-</td>
                       <?php endif; ?>
                     </tr>
                   </table>
@@ -216,7 +235,13 @@
                 
               <?php else: ?>
                 <!-- Kalau nilai harian di KD nya belum diisi -->
-                <td> - </td>
+                <td>
+                  <table style="width: 100%;">
+                    <tr>
+                        <td style="width: 100%; height:20px;">-</td>
+                    </tr>
+                  </table>
+                </td>
               <?php
                 endif;
                 endforeach;
@@ -226,25 +251,29 @@
               <!-- PTS KETERAMPILAN-->
               <td>
                 <?php
-                  if(isset($uj['uj_mid1_psi']))
+                  if(isset($uj['uj_mid1_psi'])){
                     echo $uj['uj_mid1_psi'];
-                  else
+                  }
+                  else{
                     echo "-";
+                  }
                 ?>
               </td>
               <!-- PAS KETERAMPILAN-->
               <td>
                 <?php
-                  if(isset($uj['uj_fin1_psi']))
+                  if(isset($uj['uj_fin1_psi'])){
                     echo $uj['uj_fin1_psi'];
-                  else
+                  }
+                  else{
                     echo "-";
+                  }
                 ?>
               </td>
               <!-- NR KETERAMPILAN-->
               <td>
                 <?php
-                  if($NH_ket && isset($uj['uj_mid1_psi'])){
+                  if($NH_ket){
                     if(round(hitungNA($NH_ket['NA_ket'],$uj['uj_mid1_psi'],$uj['uj_fin1_psi'])) < $kkm){
                       $tidak_tuntas_ket++;
                     }
@@ -256,30 +285,34 @@
                 ?>
               </td>
             <?php
-              elseif($sem == 2 && $uj):
+              elseif($sem == 2):
             ?>
               <!-- PTS PENGETAHUAN-->
               <td>
                 <?php
-                  if(isset($uj['uj_mid2_kog']))
+                  if(isset($uj['uj_mid2_kog'])){
                     echo $uj['uj_mid2_kog'];
-                  else
+                  }
+                  else{
                     echo "-";
+                  }
                 ?>
               </td>
               <!-- PAS PENGETAHUAN-->
               <td>
                 <?php
-                  if(isset($uj['uj_fin2_kog']))
+                  if(isset($uj['uj_fin2_kog'])){
                     echo $uj['uj_fin2_kog'];
-                  else
+                  }
+                  else{
                     echo "-";
+                  }
                 ?>
               </td>
               <!-- NR PENGETAHUAN-->
               <td>
                 <?php
-                  if($NH && isset($uj['uj_mid2_kog'])){
+                  if($NH){
                     if(round(hitungNA($NH['NH'],$uj['uj_mid2_kog'],$uj['uj_fin2_kog'])) < $kkm){
                       $tidak_tuntas++;
                     }
@@ -290,6 +323,9 @@
                   }
                 ?>
               </td>
+
+              <td><?= return_singkat_sikap($nilai_sikap2['total_sosial']) ?></td>
+              <td><?= return_singkat_sikap($nilai_sikap2['total_spirit']) ?></td>
 
               <?php
                 foreach ($topik_all as $t) :
@@ -310,26 +346,56 @@
                         else
                           $lebar = 100;
                       ?>
+                      <?php $hit_0 = 0;?>
 
                       <?php for($i=1;$i<=$tes['tes_jum_prak'];$i++): ?>
-                        <td style="width: <?= $lebar2 ?>%; height:20px;"><?= $tes['tes_prak'.$i] ?></td>
+                        <?php if($tes['tes_prak'.$i] == 0):?>
+                          <?php $hit_0++; ?>
+                        <?php else: ?>
+                          <td style="width: <?= $lebar2 ?>%; height:20px;"><?= $tes['tes_prak'.$i] ?></td>
+                        <?php endif;  ?>
                       <?php endfor; ?>
+
                       <?php for($i=1;$i<=$tes['tes_jum_prod'];$i++): ?>
-                        <td style="width: <?= $lebar2 ?>%; height:20px;"><?= $tes['tes_produk'.$i] ?></td>
+                        <?php if($tes['tes_produk'.$i] == 0):?>
+                          <?php $hit_0++; ?>
+                        <?php else: ?>
+                          <td style="width: <?= $lebar2 ?>%; height:20px;"><?= $tes['tes_produk'.$i] ?></td>
+                        <?php endif; ?>
                       <?php endfor; ?>
+
                       <?php for($i=1;$i<=$tes['tes_jum_proy'];$i++): ?>
-                        <td style="width: <?= $lebar2 ?>%; height:20px;"><?= $tes['tes_proyek'.$i] ?></td>
+                        <?php if($tes['tes_proyek'.$i] == 0):?>
+                          <?php $hit_0++; ?>
+                        <?php else: ?>
+                          <td style="width: <?= $lebar2 ?>%; height:20px;"><?= $tes['tes_proyek'.$i] ?></td>
+                        <?php endif; ?>
                       <?php endfor; ?>
+
                       <?php for($i=1;$i<=$tes['tes_jum_porto'];$i++): ?>
-                        <td style="width: <?= $lebar2 ?>%; height:20px;"><?= $tes['tes_porto'.$i] ?></td>
+                        <?php if($tes['tes_porto'.$i] == 0):?>
+                          <?php $hit_0++; ?>
+                        <?php else: ?>
+                          <td style="width: <?= $lebar2 ?>%; height:20px;"><?= $tes['tes_porto'.$i] ?></td>
+                        <?php endif; ?>
                       <?php endfor; ?>
+
+                      <?php if($hit_0 >=4):?>
+                        <td style="width: 100%; height:20px;">-</td>
+                      <?php endif; ?>
                     </tr>
                   </table>
                 </td>
                 
               <?php else: ?>
                 <!-- Kalau nilai harian di KD nya belum diisi -->
-                <td> - </td>
+                <td>
+                  <table style="width: 100%;">
+                    <tr>
+                        <td style="width: 100%; height:20px;">-</td>
+                    </tr>
+                  </table>
+                </td>
               <?php
                 endif;
                 endforeach;
@@ -356,7 +422,7 @@
               <!-- NR KETERAMPILAN-->
               <td>
                 <?php
-                  if($NH_ket && isset($uj['uj_mid2_psi'])){
+                  if($NH_ket){
                     if(round(hitungNA($NH_ket['NA_ket'],$uj['uj_mid2_psi'],$uj['uj_fin2_psi'])) < $kkm){
                       $tidak_tuntas_ket++;
                     }
@@ -416,10 +482,12 @@
   <?php endif; ?>
 
   </div>
-  <!-- <button type="submit" class="btn btn-success btn-user btn-block" id="export_excel">
+  <button type="submit" class="btn btn-success btn-user btn-block" id="export_excel">
       Export Ke Excel
-  </button> -->
+  </button>
+
   <hr>
+  <input type="button" name="print_rekap" id="print_rekap" class="btn btn-success" value="Print">
 
 </div>
 

@@ -391,6 +391,18 @@ function return_abjad_sikap($nilai){
   }
 }
 
+function return_singkat_sikap($nilai){
+  if($nilai >3.33){
+      return "SB";
+  }elseif($nilai >=2.33){
+      return "B";
+  }elseif($nilai >=1.33){
+      return "C";
+  }else{
+      return "K";
+  }
+}
+
 function returnKategoriSpirit($index){
   $kata = ["Berdoa sebelum & sesudah kegiatan",
           "Menjalankan ibadah sesuai agama yang dianut",
@@ -873,12 +885,12 @@ function return_siswa_kelas($kelas_id)
 {
   $ci = &get_instance();
   $sql = $ci->db->query(
-    "SELECT d_s_id, sis_nama_depan, sis_nama_bel
+    "SELECT d_s_id, sis_nama_bel, sis_nama_depan, sis_no_induk, kelas_nama, kelas_id
     FROM d_s
     LEFT JOIN sis ON sis_id = d_s_sis_id
-    WHERE d_s_kelas_id = $kelas_id
-    ORDER BY sis_nama_depan"
-  )->result_array();
+    LEFT JOIN kelas ON d_s_kelas_id = kelas_id
+    WHERE kelas_id = $kelas_id
+    ORDER BY sis_nama_depan, sis_no_induk")->result_array();
 
   return $sql;
 }

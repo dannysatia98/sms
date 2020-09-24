@@ -99,7 +99,7 @@ class sosaf_CRUD extends CI_Controller
         LEFT JOIN sis ON d_s_sis_id = sis_id
         LEFT JOIN agama ON sis_agama_id = agama_id
         WHERE d_s_kelas_id = $kelas_id
-        ORDER BY $_gb sis_nama_depan, sis_no_induk")->result_array();
+        ORDER BY sis_no_induk, $_gb sis_nama_depan")->result_array();
 
       $this->load->view('templates/header',$data);
       $this->load->view('templates/sidebar',$data);
@@ -115,7 +115,7 @@ class sosaf_CRUD extends CI_Controller
         LEFT JOIN sis ON sis_id = d_s_sis_id
         LEFT JOIN agama ON sis_agama_id = agama_id
         WHERE d_s_kelas_id = $kelas_id AND sosaf_mapel_id = $mapel_id AND sosaf_semester = $semester
-        ORDER BY $_gb sis_nama_depan, sis_no_induk")->result_array();
+        ORDER BY sis_no_induk, $_gb sis_nama_depan")->result_array();
 
       //cari siswa yang ada di kelas tapi tidak mempunyai nilai
       $data['siswa_baru'] = $this->db->query(
