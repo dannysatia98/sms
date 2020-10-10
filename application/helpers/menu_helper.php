@@ -224,7 +224,7 @@ function return_raport_mid($d_s_id, $semester){
         ON d_s_sis_id = sis_id
         WHERE uj_d_s_id = '.$d_s_id.'
         GROUP BY mapel_id
-        ORDER BY mapel_urutan
+        ORDER BY mapel_kel_id, mapel_urutan
       )as summative ON formative.mapel_id = summative.mapel_id')->result_array();
 
   return $raport_mid;

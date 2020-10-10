@@ -44,9 +44,9 @@
             }; 
           ?>
           <th colspan="<?php echo $hitungcol;?>">PENGETAHUAN</th>
+          <th colspan="<?php echo $hitungcol;?>">KETERAMPILAN</th>
           <th rowspan="2">S. Spi</th>
           <th rowspan="2">S. Sos</th>
-          <th colspan="<?php echo $hitungcol;?>">KETERAMPILAN</th>
         </tr>
         <tr>          
           <?php foreach ($topik_all as $t) : ?>
@@ -170,9 +170,7 @@
                 ?>
               </td>
 
-              <td><?= return_singkat_sikap($nilai_sikap1['total_sosial']) ?></td>
-              <td><?= return_singkat_sikap($nilai_sikap1['total_spirit']) ?></td>
-
+              
               <?php
                 foreach ($topik_all as $t) :
                 //cari tes
@@ -284,6 +282,10 @@
                   }
                 ?>
               </td>
+
+              <td><?= return_singkat_sikap($nilai_sikap1['total_sosial']) ?></td>
+              <td><?= return_singkat_sikap($nilai_sikap1['total_spirit']) ?></td>
+
             <?php
               elseif($sem == 2):
             ?>
@@ -324,8 +326,7 @@
                 ?>
               </td>
 
-              <td><?= return_singkat_sikap($nilai_sikap2['total_sosial']) ?></td>
-              <td><?= return_singkat_sikap($nilai_sikap2['total_spirit']) ?></td>
+              
 
               <?php
                 foreach ($topik_all as $t) :
@@ -433,6 +434,10 @@
                   }
                 ?>
               </td>
+
+              <td><?= return_singkat_sikap($nilai_sikap2['total_sosial']) ?></td>
+              <td><?= return_singkat_sikap($nilai_sikap2['total_spirit']) ?></td>
+
             <?php endif; ?>
 
           </tr>
