@@ -7,6 +7,7 @@ class Profile extends CI_Controller
   {
     parent::__construct();
     $this->load->model('_kr');
+    $this->load->model('_siswa');
 
     //jika belum login
     if(!$this->session->userdata('kr_jabatan_id')){
@@ -15,11 +16,15 @@ class Profile extends CI_Controller
   }
 
   public function index(){
+    if($this->session->userdata('kr_jabatan_id')<8){
     $data['title'] = 'Profil Guru';
     $data['kr'] = $this->_kr->find_by_username($this->session->userdata('kr_username'));
 
     $data['jabatan'] = $this->_kr->find_jabatan_by_kr_id($this->session->userdata('kr_id'));
-
+  }else if($this->session->userdata('kr_jabatan_id')==8){
+    $data['title'] = 'Profil Siswa';
+    $data['kr'] = $this->_siswa->find_by_nis($this->session->userdata('kr_username'));
+  }
     $this->load->view('templates/header',$data);
     $this->load->view('templates/sidebar',$data);
     $this->load->view('templates/topbar',$data);

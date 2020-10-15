@@ -32,7 +32,9 @@
         <div class="modal-body">Tekan logout untuk keluar.</div>
         <div class="modal-footer">
           <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-          <a class="btn btn-primary" href="<?= base_url('auth/logout') ?>">Logout</a>
+          <?php if($this->session->userdata('kr_jabatan_id')<8){
+            echo '<a class="btn btn-primary" href="'.base_url('auth/logout').'">Logout</a>';
+          }else{echo '<a class="btn btn-primary" href="'.base_url('login_siswa/logout').'">Logout</a>';}?>
         </div>
       </div>
     </div>

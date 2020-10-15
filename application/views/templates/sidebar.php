@@ -1,8 +1,11 @@
     <!-- Sidebar -->
-    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
-
+    <?php if($this->session->userdata('kr_jabatan_id') < 8){
+      echo '<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">';
+    }else if($this->session->userdata('kr_jabatan_id') == 8){
+      echo '<ul class="navbar-nav bg-gradient-info sidebar sidebar-dark accordion" id="accordionSidebar">';
+    }?>
       <!-- Sidebar - Brand -->
-      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="<?= base_url('Profile') ?>">
+      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="<?php if($this->session->userdata('kr_jabatan_id') < 8){echo base_url('Profile');}else if($this->session->userdata('kr_jabatan_id') == 8){echo base_url('Profiles');}?>">
         <div class="sidebar-brand-icon">
           <img src="<?= base_url('assets/img/profile/frateran.png'); ?>" height="60px" style="-moz-border-radius: 0px;-webkit-border-radius: 0px;border-radius: 0px;">
         </div>
@@ -197,7 +200,27 @@
                   <hr class="sidebar-divider d-none d-md-block">
             ';
         }
-      }
+      }elseif ($this->session->userdata('kr_jabatan_id') == 8 && $this->session->userdata('kr_jabatan_id')) {
+        //jika dia siswa
+        echo '<div class="sidebar-heading">
+              Siswa
+            </div>
+
+            <li class="nav-item">
+              <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                <i class="fas fa-fw fa-cog"></i>
+                <span>Lihat Rapor</span>
+              </a>
+              
+              <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                  <h6 class="collapse-header">Lihat Rapor</h6>
+                  <a class="collapse-item" href=' . base_url('Report_CRUD/showsiswa/1/1').'>Rapor Sisipan</a>
+                </div>
+              </div>
+            </li>
+
+            <hr class="sidebar-divider d-none d-md-block">';}
       ?>
 
 

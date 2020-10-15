@@ -12,6 +12,7 @@ class Report_CRUD extends CI_Controller
     $this->load->model('_sk');
     $this->load->model('_st');
     $this->load->model('_jabatan');
+    $this->load->model('_siswa');
 
     //jika belum login
     if(!$this->session->userdata('kr_jabatan_id')){
@@ -19,7 +20,7 @@ class Report_CRUD extends CI_Controller
     }
 
     //jika bukan HRD dan sudah login redirect ke home
-    if($this->session->userdata('kr_jabatan_id')!=4 && $this->session->userdata('kr_jabatan_id')){
+    if($this->session->userdata('kr_jabatan_id')!=4 && $this->session->userdata('kr_jabatan_id')!=8 && $this->session->userdata('kr_jabatan_id')){
       redirect('Profile');
     }
   }
@@ -156,6 +157,64 @@ class Report_CRUD extends CI_Controller
     }else{
       $this->session->set_flashdata('message','<div class="alert alert-danger" role="alert">Do not access page directly!</div>');
       redirect('Profile');
+    }
+  }
+
+  public function showsiswa($sem, $jenis){
+
+    if($sem!=null){
+
+
+      $data['title'] = 'Halaman Rapor';
+
+      //data siswa yang sedang login untuk topbar
+      $data['kr'] = $this->_siswa->find_by_nis($this->session->userdata('kr_username'));
+      $sis_id = $this->session->userdata('kr_id');
+
+      $d_s_id[0] = $this->db->query(
+        "SELECT d_s_id
+        FROM d_s
+        WHERE d_s_sis_id = $sis_id")->row('d_s_id');
+
+      $kelas = $this->db->query(
+        "SELECT *
+        FROM d_s
+        WHERE d_s_sis_id = $sis_id")->row('d_s_kelas_id');
+
+      $data['sis_arr'] = $d_s_id;
+      $data['semester'] = $sem;
+      $data['jumPh'] = 0;
+      $data['jumK'] = 0;
+
+      $data['kepsek'] = $this->_sk->find_by_id($this->session->userdata('kr_sk_id'));
+      $data['walkel'] = $this->_kelas->find_walkel_by_kelas_id($kelas);
+
+      $data['kelas_id'] = $this->input->post('kelas_id',TRUE);
+
+      $pjenis = $jenis;
+
+      if($pjenis == 1){
+        //Sisipan
+        $this->load->view('templates/header',$data);
+        $this->load->view('templates/sidebar',$data);
+        $this->load->view('templates/topbar',$data);
+        $this->load->view('Report_CRUD/sisipan',$data);
+        $this->load->view('templates/footer');
+
+      }else{
+        //Semester
+        $this->load->view('templates/header',$data);
+        $this->load->view('templates/sidebar',$data);
+        $this->load->view('templates/topbar',$data);
+        $this->load->view('Report_CRUD/semester',$data);
+        $this->load->view('templates/footer');
+      }
+
+
+
+    }else{
+      $this->session->set_flashdata('message','<div class="alert alert-danger" role="alert">Do not access page directly!</div>');
+      redirect('Profiles');
     }
   }
 

@@ -22,4 +22,9 @@ class _siswa extends CI_Model
   {
     return $this->db->where('sis_id', $sis_id)->get('sis')->row_array();
   }
+
+  public function find_by_nis($sis_id)
+  {
+    return $this->db->join('sk','sis_sk_id=sk_id','Left')->where('sis_no_induk', $sis_id)->get('sis')->row_array();
+  }
 }

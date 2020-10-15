@@ -211,7 +211,7 @@ function return_raport_mid($d_s_id, $semester){
       ON kelas_t_id = t_id
       WHERE tes_d_s_id = '.$d_s_id.' AND topik_semester = '.$semester.'
       GROUP BY mapel_id
-      ORDER BY mapel_kel_id, mapel_urutan)as formative
+      ORDER BY mapel_kel, mapel_urutan)as formative
       LEFT JOIN
       (
         SELECT mapel_id, uj_mid1_kog, uj_mid1_psi
@@ -224,8 +224,11 @@ function return_raport_mid($d_s_id, $semester){
         ON d_s_sis_id = sis_id
         WHERE uj_d_s_id = '.$d_s_id.'
         GROUP BY mapel_id
-        ORDER BY mapel_kel_id, mapel_urutan
-      )as summative ON formative.mapel_id = summative.mapel_id')->result_array();
+        ORDER BY mapel_kel, mapel_urutan
+      )as summative ON formative.mapel_id = summative.mapel_id 
+      LEFT JOIN mapel
+      ON mapel.mapel_id = formative.mapel_id 
+      ORDER BY mapel.mapel_kel, mapel.mapel_urutan')->result_array();
 
   return $raport_mid;
 }
