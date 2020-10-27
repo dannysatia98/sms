@@ -20,7 +20,7 @@ class Report_CRUD extends CI_Controller
     }
 
     //jika bukan HRD dan sudah login redirect ke home
-    if($this->session->userdata('kr_jabatan_id')!=4 && $this->session->userdata('kr_jabatan_id')!=8 && $this->session->userdata('kr_jabatan_id')){
+    if($this->session->userdata('kr_jabatan_id')!=4 && $this->session->userdata('kr_jabatan_id')!=8 && $this->session->userdata('kr_jabatan_id')!=7 && $this->session->userdata('kr_jabatan_id')){
       redirect('Profile');
     }
   }
@@ -31,6 +31,8 @@ class Report_CRUD extends CI_Controller
 
     //data karyawan yang sedang login untuk topbar
     $data['kr'] = $this->_kr->find_by_username($this->session->userdata('kr_username'));
+
+    $data['kelas_all'] = $this->_kelas->find_by_walkel($this->session->userdata('kr_id'));
 
     //data karyawan untuk konten
     $data['t_all'] = $this->_t->return_all();
@@ -50,6 +52,7 @@ class Report_CRUD extends CI_Controller
 
       $t_id = $this->input->post('id',TRUE);
       $sk_id = $this->session->userdata('kr_sk_id');
+      $kr_id = $this->session->userdata('kr_id');
 
       //temukan jenjang id pada kelas itu
       $data = $this->db->query(
@@ -57,6 +60,14 @@ class Report_CRUD extends CI_Controller
         FROM kelas
         WHERE kelas_t_id = $t_id AND kelas_sk_id = $sk_id
         ORDER BY kelas_nama")->result();
+
+      if($this->session->userdata('kr_jabatan_id')==7){
+        $data = $this->db->query(
+        "SELECT kelas_id, kelas_nama
+        FROM kelas
+        WHERE kelas_t_id = $t_id AND kelas_sk_id = $sk_id AND kelas_kr_id = $kr_id
+        ORDER BY kelas_nama")->result();
+      }
 
       //$data = $this->product_model->get_sub_category($category_id)->result();
       echo json_encode($data);

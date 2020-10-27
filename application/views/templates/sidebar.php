@@ -154,6 +154,7 @@
                       <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Set</h6>
                         <a class="collapse-item" href=' . base_url('Komen_CRUD') . '>Komentar</a>
+                        <a class="collapse-item" href=' . base_url('Report_CRUD') . '>Rapor Kelas</a>
                       </div>
                     </div>
                   </li>

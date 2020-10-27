@@ -16,12 +16,18 @@
               <div class="form-group row">
                 <div class="col-sm mb-sm-0">
                   <select name="t" id="t" class="form-control">
-                    <option value="0">Pilih Tahun Ajaran</option>
-                    <?php foreach ($t_all as $m) : ?>
-                      <option value='<?= $m['t_id'] ?>'>
-                        <?= $m['t_nama']; ?>
-                      </option>
-                    <?php endforeach ?>
+                    <?php
+                    if($this->session->userdata('kr_jabatan_id')==7){
+                      echo '<option value="0">Pilih Tahun Ajaran</option>';
+                      foreach ($kelas_all as $m){
+                        echo '<option value='.$m['t_id'].'>'.$m['t_nama'].'</option>';
+                      }
+                    }else{
+                    echo '<option value="0">Pilih Tahun Ajaran</option>';
+                      foreach ($t_all as $m){
+                        echo '<option value='.$m['t_id'].'>'.$m['t_nama'].'</option>';
+                      }
+                    }?>
                   </select>
                 </div>
               </div>
