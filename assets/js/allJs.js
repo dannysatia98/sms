@@ -840,6 +840,97 @@ $(document).ready(function () {
   }).change();
 
   /////////////////////////////
+  ///////Cover Print//////////
+  /////////////////////////////
+  $('#t').change(function () {
+    var id = $(this).val();
+
+    $('#kelas_ajax').html("");
+    $('#siswa_ajax').html("");
+
+    $.ajax(
+      {
+        type: "post",
+        url: base_url + "Cover_Rap_CRUD/get_kelas",
+        data: {
+          'id': id,
+        },
+        async: true,
+        dataType: 'json',
+        success: function (data) {
+          //console.log(data);
+          if (data.length == 0) {
+            var html = '<div class="text-center mb-3 text-danger"><b>--Kelas tidak ada silahkan tambah kelas--</b></div>';
+          } else {
+            var html = '<select name="kelas_id" id="kelas_id" class="form-control mb-3 kelas_id">';
+            html += '<option value="0">Pilih Kelas</option>';
+            var i;
+            for (i = 0; i < data.length; i++) {
+              html += '<option value=' + data[i].kelas_id + '>' + data[i].kelas_nama + '</option>';
+            }
+            html += '</select>';
+          }
+
+          $('#kelas_ajax').html(html);
+          refreshEventKelas();
+        }
+      });
+  });
+
+  function refreshEventKelas() {
+    $('.kelas_id').change(function () {
+      var id = $(this).val();
+      //alert(id);
+      if (id == 0) {
+        $('#siswa_ajax').html("");
+      }
+
+      $.ajax(
+        {
+          type: "post",
+          url: base_url + "Cover_Rap_CRUD/get_siswa",
+          data: {
+            'id': id,
+          },
+          async: true,
+          dataType: 'json',
+          success: function (data) {
+            if (data.length == 0) {
+              var html = '<div class="text-center mb-3 text-danger"><b>--Siswa tidak ada, silahkan tambahkan siswa--</b></div>';
+            } else {
+              var i;
+              html = "";
+
+              html += '<hr><div class="form-group d-flex justify-content-center"><label class="checkbox-inline mr-2"><input class="checkAll" type="checkbox"> <b><u>CHECK ALL</u></b></label></div><hr>';
+
+
+              for (i = 0; i < data.length; i++) {
+                html += '<div class="checkbox ml-2">';
+                html += '<label><input type="checkbox" name="siswa_check[]" class="sisC" value="' + data[i].d_s_id + '"> ' + data[i].sis_nama_depan + ' ' + data[i].sis_nama_bel + '</label>';
+                html += '</div>';
+              }
+
+              html += '<button type="submit" class="btn btn-primary btn-user btn-block">';
+              html += 'Proses';
+              html += '</button>';
+
+            }
+
+            $('#siswa_ajax').html(html);
+            refreshCheck();
+
+          }
+        });
+    });
+  }
+
+  function refreshCheck() {
+    $(".checkAll").click(function () {
+      $('input.sisC:checkbox').not(this).prop('checked', this.checked);
+    });
+  }
+
+  /////////////////////////////
   /////////////////////////////
   ////////SSP EDIT STUDENT//////
 
