@@ -44,6 +44,7 @@
         <th>I</th>
         <th>A</th>
         <th>Rank</th>
+        <th>Status Kurang</th>
       </tr>
     </thead>
     <tbody>
@@ -66,8 +67,8 @@
       $statusK=0;
       ?>
       <tr>
-        <td rowspan="11" style="vertical-align: middle;"><?= $s['sis_no_induk'] ?></td>
-        <td rowspan="11" style="vertical-align: middle;"><?= $s['sis_nama_depan'].' '.$s['sis_nama_bel'] ?></td>
+        <td rowspan="10" style="vertical-align: middle;"><?= $s['sis_no_induk'] ?></td>
+        <td rowspan="10" style="vertical-align: middle;"><?= $s['sis_nama_depan'].' '.$s['sis_nama_bel'] ?></td>
         <td rowspan="4">1</td>
         <!-- SEMESTER 1 -->
         <td>S. Sosial</td>
@@ -96,6 +97,8 @@
         <td rowspan="4"></td>
         <!-- RANKING semester 1-->
         <td rowspan="4" class="murid1ke<?= $muridke ?>"></td>
+        <!-- total status kurang -->
+        <td rowspan="10" class="sttskurang<?= $muridke?>"></td>
       </tr>
       <tr>
         <td>S. Spiritual</td>
@@ -194,6 +197,9 @@
         <td rowspan="4"></td>
         <!-- RANKING semester 2-->
         <td rowspan="4" class="murid2ke<?= $muridke ?>"></td>
+        
+      
+        
       </tr>
       <tr>
         <td>S. Sosial</td>
@@ -335,8 +341,11 @@
           }else{
 
           }
+
           $totalKet += $rataKet;
         ?>
+        <input type="hidden" class="stts" value="<?php if($statusP>=$statusK){ echo $statusP.' K';}
+                  else{ echo $statusK.' K';}?>">
         <td><?= $rataKet ?></td>
         <?php endforeach; ?>
         <!-- rata-rata keterampilan-->
@@ -344,13 +353,7 @@
         <td>
           <?= round($totalKet/count($mapel_all)) ?>
         </td>
-      </tr>
-      <!-- Status Kurang -->
-      <tr>
-        <td colspan="2">Status Kurang</td>
-        <!-- total status kurang -->
-        <td><?php if($statusP>=$statusK){ echo $statusP.' K';}
-                  else{ echo $statusK.' K';}?></td>
+        
       </tr>
       <?php $muridke++; endforeach; ?>
     </tbody>
@@ -397,6 +400,19 @@
       var rank2 = nilai_arr2.indexOf($(this).val());
       $('.murid2ke'+j).html(rank2+1);
       j+=1;
+    });
+
+    // STATUS KURANG
+    var hitung_arr = [];
+    $(".stts").each(function() {
+      hitung_arr.push($(this).val());
+    });
+
+    var k=0;
+    $(".stts").each(function() {
+      var hitung = hitung_arr.indexOf($(this).val());
+      $('.sttskurang'+k).html(hitung+1);
+      k+=1;
     });
 
   });

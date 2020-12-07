@@ -61,7 +61,7 @@
               <div style='font-family: "Times New Roman", Times, serif; font-size:16px; margin-bottom: 26px; margin-top: 24px; text-align:center;'><b>RAPOR<br>SEKOLAH MENENGAH ATAS<br>(SMA)</b></div>
               <br><br><br><br>
               <div style='font-family: "Times New Roman", Times, serif; font-size:15px; margin-top: 15px; margin-left: 150px; text-align:left;'>Nama Sekolah&emsp;&emsp;&emsp;&emsp;&nbsp;: SMA KATOLIK FRATERAN<br></div>
-              <div style='font-family: "Times New Roman", Times, serif; font-size:15px; margin-top: 15px; margin-left: 150px; text-align:left;'>NPSN &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp;:<br></div>
+              <div style='font-family: "Times New Roman", Times, serif; font-size:15px; margin-top: 15px; margin-left: 150px; text-align:left;'>NPSN &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp;: 20532131<br></div>
               <div style='font-family: "Times New Roman", Times, serif; font-size:15px; margin-top: 15px; margin-left: 150px; text-align:left;'>NIS/NSS/NDS&emsp;&emsp;&emsp;&emsp;: <?=$obj[0]->nisn;?><br></div>
               <div style='font-family: "Times New Roman", Times, serif; font-size:15px; margin-top: 15px; margin-left: 150px; text-align:left;'>Alamat Sekolah &emsp;&emsp;&emsp;&nbsp;&nbsp;: Jl. Kepanjen No. 8 RT 03 RW 08<br></div>
               <div style='font-family: "Times New Roman", Times, serif; font-size:15px; margin-top: 15px; margin-left: 150px; text-align:left;'>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&ensp;Kode Pos: 60175 Telp. 031 3524901<br></div>
@@ -112,7 +112,7 @@
                   </tr>
                 </tbody>
               </table>
-              <div style='font-family: "Times New Roman", Times, serif; font-size:15px; margin-left: 320px; text-align:left;'>Surabaya, <?php echo date('d F Y', strtotime($obj[0]->tgl_diterima));?></div>
+              <div style='font-family: "Times New Roman", Times, serif; font-size:15px; margin-left: 320px; text-align:left;'>Surabaya, 13 Juli 2020<!-- <?php echo date('d F Y', strtotime($obj[0]->tgl_diterima));?> --></div>
               <div style='font-family: "Times New Roman", Times, serif; font-size:15px; margin-top: 15px; margin-left: 320px; text-align:left;'>Kepala Sekolah,</div>
               <br><br>
               <div style='font-family: "Times New Roman", Times, serif; font-size:15px; margin-top: 15px; margin-left: 320px; text-align:left;'><u>Fr. M.Adriano, BHK,S.Pd.</u></div>
