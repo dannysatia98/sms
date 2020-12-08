@@ -595,15 +595,17 @@ function returnRaportPengetahuan($d_s_id, $semester, $mapel_id){
 function hitungNA($NH,$ujmid,$ujfin){
   $pembagi = 2;
 
-  if($ujmid >=0){
+  if($ujmid >0 or $ujmid == -1){
     $pembagi++;
-  }else{
-    $ujmid = 0;
+    if($ujmid == -1){
+      $ujmid = 0;
+    }
   }
-  if($ujfin >=0){
+  if($ujfin >0 or $ujfin == -1){
     $pembagi++;
-  }else{
-    $ujfin = 0;
+    if($ujfin == -1){
+      $ujfin = 0;
+    }
   }
   $NA = (2*$NH+$ujmid+$ujfin)/$pembagi;
   return $NA;

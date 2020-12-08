@@ -149,8 +149,12 @@
                           }
                         }
                         //UTS Pengetahuan
-                        if(!empty($m['uj_mid1_kog']))
+                        if(!empty($m['uj_mid1_kog']) or $m['uj_mid1_kog'] == -1){
+                          if ($m['uj_mid1_kog']==-1){
+                            $m['uj_mid1_kog'] = 0;
+                          }
                           echo"<td style='padding: 0px 0px 0px 5px; margin: 0px; text-align:center;'>".$m['uj_mid1_kog']."</td>";
+                        }
                         else{
                           echo"<td style='padding: 0px 0px 0px 5px; margin: 0px; text-align:center;'>-</td>";
                         }
@@ -165,8 +169,12 @@
                           }
                         }
                         //UTS Keterampilan
-                        if(!empty($m['uj_mid1_psi']))
+                        if(!empty($m['uj_mid1_psi']) or $m['uj_mid1_psi'] == -1){
+                          if ($m['uj_mid1_psi']==-1){
+                            $m['uj_mid1_psi'] = 0;
+                          }
                           echo"<td style='padding: 0px 0px 0px 5px; margin: 0px; text-align:center;'>".$m['uj_mid1_psi']."</td>";
+                        }
                         else{
                           echo"<td style='padding: 0px 0px 0px 5px; margin: 0px; text-align:center;'>-</td>";
                         }

@@ -63,6 +63,7 @@
       $total_ket2=0;
       $totalPeng=0;
       $totalKet=0;
+      $hasilstts=0;
       $statusP=0;
       $statusK=0;
       ?>
@@ -343,11 +344,14 @@
           }
 
           $totalKet += $rataKet;
+          
         ?>
-        <input type="hidden" class="stts" value="<?php if($statusP>=$statusK){ echo $statusP.' K';}
-                  else{ echo $statusK.' K';}?>">
+        
         <td><?= $rataKet ?></td>
-        <?php endforeach; ?>
+        <?php endforeach;
+        if($statusP>=$statusK){ $hasilstts = $statusP;}
+                  else{ $hasilstts = $statusK;} ?>
+        <input type="hidden" class="stts" value="<?=$hasilstts;?>">
         <!-- rata-rata keterampilan-->
         <td>Rata2</td>
         <td>
@@ -408,10 +412,11 @@
       hitung_arr.push($(this).val());
     });
 
+    hitung_arr.sort(sortNumber);
     var k=0;
     $(".stts").each(function() {
       var hitung = hitung_arr.indexOf($(this).val());
-      $('.sttskurang'+k).html(hitung+1);
+      $('.sttskurang'+k).html(hitung+' K');
       k+=1;
     });
 

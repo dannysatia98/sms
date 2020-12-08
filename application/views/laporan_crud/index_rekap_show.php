@@ -137,8 +137,10 @@
               <td>
                 <?php
                   if(isset($uj['uj_mid1_kog'])){
-                    if($uj['uj_mid1_kog']==-1){
+                    if($uj['uj_mid1_kog']==0){
                       echo '-';
+                    }else if($uj['uj_mid1_kog']==-1){
+                      echo '0';
                     }else{
                       echo $uj['uj_mid1_kog'];
                     }
@@ -152,8 +154,10 @@
               <td>
                 <?php
                   if(isset($uj['uj_fin1_kog'])){
-                    if($uj['uj_fin1_kog']==-1){
+                    if($uj['uj_fin1_kog']==0){
                       echo '-';
+                    }else if($uj['uj_fin1_kog']==-1){
+                      echo '0';
                     }else{
                       echo $uj['uj_fin1_kog'];
                     }
@@ -167,10 +171,10 @@
               <td>
                 <?php
                   if($NH){
-                    if(round(hitungNA($NH['NH'],$uj['uj_mid1_kog'],$uj['uj_fin1_kog'])) < $kkm){
+                    if(round(hitungNA($NH['NH'],isset($uj['uj_mid1_kog']),isset($uj['uj_fin1_kog']))) < $kkm){
                       $tidak_tuntas++;
                     }
-                    echo round(hitungNA($NH['NH'],$uj['uj_mid1_kog'],$uj['uj_fin1_kog']));
+                    echo round(hitungNA($NH['NH'],isset($uj['uj_mid1_kog']),isset($uj['uj_fin1_kog'])));
                   }else{
                     $tidak_tuntas++;
                     echo "-";
@@ -258,8 +262,10 @@
               <td>
                 <?php
                   if(isset($uj['uj_mid1_psi'])){
-                    if($uj['uj_mid1_psi']==-1){
+                    if($uj['uj_mid1_psi']==0){
                       echo '-';
+                    }else if($uj['uj_mid1_psi']==-1){
+                      echo '0';
                     }else{
                       echo $uj['uj_mid1_psi'];
                     }
@@ -273,8 +279,10 @@
               <td>
                 <?php
                   if(isset($uj['uj_fin1_psi'])){
-                    if($uj['uj_fin1_psi']==-1){
+                    if($uj['uj_fin1_psi']==0){
                       echo '-';
+                    }else if($uj['uj_fin1_psi']==-1){
+                      echo '0';
                     }else{
                       echo $uj['uj_fin1_psi'];
                     }
@@ -288,10 +296,10 @@
               <td>
                 <?php
                   if($NH_ket){
-                    if(round(hitungNA($NH_ket['NA_ket'],$uj['uj_mid1_psi'],$uj['uj_fin1_psi'])) < $kkm){
+                    if(round(hitungNA($NH_ket['NA_ket'],isset($uj['uj_mid1_psi']),isset($uj['uj_fin1_psi']))) < $kkm){
                       $tidak_tuntas_ket++;
                     }
-                    echo round(hitungNA($NH_ket['NA_ket'],$uj['uj_mid1_psi'],$uj['uj_fin1_psi']));
+                    echo round(hitungNA($NH_ket['NA_ket'],isset($uj['uj_mid1_psi']),isset($uj['uj_fin1_psi'])));
                   }else{
                     $tidak_tuntas_ket++;
                     echo "-";
@@ -309,8 +317,10 @@
               <td>
                 <?php
                   if(isset($uj['uj_mid2_kog'])){
-                    if($uj['uj_mid2_kog']==-1){
+                    if($uj['uj_mid2_kog']==0){
                       echo '-';
+                    }else if($uj['uj_mid2_kog']==-1){
+                      echo '0';
                     }else{
                       echo $uj['uj_mid2_kog'];
                     }
@@ -324,8 +334,10 @@
               <td>
                 <?php
                   if(isset($uj['uj_fin2_kog'])){
-                    if($uj['uj_fin2_kog']==-1){
+                    if($uj['uj_fin2_kog']==0){
                       echo '-';
+                    }else if($uj['uj_fin2_kog']==-1){
+                      echo '0';
                     }else{
                       echo $uj['uj_fin2_kog'];
                     }
@@ -339,10 +351,10 @@
               <td>
                 <?php
                   if($NH){
-                    if(round(hitungNA($NH['NH'],$uj['uj_mid2_kog'],$uj['uj_fin2_kog'])) < $kkm){
+                    if(round(hitungNA($NH['NH'],isset($uj['uj_mid2_kog']),isset($uj['uj_fin2_kog']))) < $kkm){
                       $tidak_tuntas++;
                     }
-                    echo round(hitungNA($NH['NH'],$uj['uj_mid2_kog'],$uj['uj_fin2_kog']));
+                    echo round(hitungNA($NH['NH'],isset($uj['uj_mid2_kog']),isset($uj['uj_fin2_kog'])));
                   }else{
                     $tidak_tuntas++;
                     echo "-";
@@ -430,8 +442,10 @@
               <td>
                 <?php
                   if(isset($uj['uj_mid2_psi']))
-                    if($uj['uj_mid2_psi']==-1){
+                    if($uj['uj_mid2_psi']==0){
                       echo '-';
+                    }else if($uj['uj_mid2_psi']==-1){
+                      echo '0';
                     }else{
                       echo $uj['uj_mid2_psi'];
                     }
@@ -443,8 +457,10 @@
               <td>
                 <?php
                   if(isset($uj['uj_fin2_psi']))
-                    if($uj['uj_fin2_psi']==-1){
+                    if($uj['uj_fin2_psi']==0){
                       echo '-';
+                    }else if($uj['uj_fin2_psi']==-1){
+                      echo '0';
                     }else{
                       echo $uj['uj_fin2_psi'];
                     }
@@ -456,10 +472,10 @@
               <td>
                 <?php
                   if($NH_ket){
-                    if(round(hitungNA($NH_ket['NA_ket'],$uj['uj_mid2_psi'],$uj['uj_fin2_psi'])) < $kkm){
+                    if(round(hitungNA($NH_ket['NA_ket'],isset($uj['uj_mid2_psi']),isset($uj['uj_fin2_psi']))) < $kkm){
                       $tidak_tuntas_ket++;
                     }
-                    echo round(hitungNA($NH_ket['NA_ket'],$uj['uj_mid2_psi'],$uj['uj_fin2_psi']));
+                    echo round(hitungNA($NH_ket['NA_ket'],isset($uj['uj_mid2_psi']),isset($uj['uj_fin2_psi'])));
                   }else{
                     $tidak_tuntas_ket++;
                     echo "-";
